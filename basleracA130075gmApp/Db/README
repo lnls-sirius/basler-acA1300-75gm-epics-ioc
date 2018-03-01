@@ -1,0 +1,1 @@
+The file "Basler_acA1300_75gm.template" was automatically generated, based on the camera xml file, by the "makeDbAndEdl.py" script, which is provided by the aravisGigE module. Information about obtaining the cameras' xml file and auto-generating templates is provided in the README.md file in the aravisGigE repository (https://github.com/areaDetector/aravisGigE).

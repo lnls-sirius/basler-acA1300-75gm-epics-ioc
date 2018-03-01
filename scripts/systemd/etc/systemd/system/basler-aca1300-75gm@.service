@@ -1,0 +1,22 @@
+[Unit]
+Description=Basler acA1300-75gm IOC %p%I
+After=rc-local.service
+Wants=rc-local.service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Source environment
+EnvironmentFile=/etc/sysconfig/basler-aca1300-75gm-epics-ioc
+EnvironmentFile=/etc/sysconfig/basler-aca1300-75gm-epics-ioc-mapping
+# Execute pre with root
+PermissionsStartOnly=true
+Environment=BASLER_INSTANCE=%i
+ExecStartPre=/bin/mkdir -p /var/log/procServ/%p%i
+ExecStartPre=/bin/mkdir -p /var/run/procServ/%p%i
+WorkingDirectory=/opt/epics/startup/ioc/basler-acA1300-75gm-epics-ioc/iocBoot/iocBasleracA130075gm
+# Run procServ with IOC
+ExecStart="/usr/local/bin/runBasleracA130075gm.sh"
+
+[Install]
+WantedBy=multi-user.target

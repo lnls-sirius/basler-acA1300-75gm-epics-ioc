@@ -1,0 +1,183 @@
+######################################################################
+#
+#            BASLER acA1300-75gm High Level PV Database
+#
+# Desc: These PVs provide an abstraction layer for the low level
+# aravisGigE auto-generated PVs. 
+
+
+######################################################################
+# BASIC CONTROL
+#
+# Desc: Basic camera control functions, e.g., enable/disable,
+# trigger selection.
+
+# Enable camera acquisition
+record(bo, "$(P)$(R)Enbl-Sel"){
+  field(DESC, "Enable camera acquisition")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+  field(OUT, "$(P)$(R)cam1:Acquire PP")
+}
+
+# Camera acquisition enable status
+record(bi, "$(P)$(R)Enbl-Sts"){
+  field(DESC, "Enable camera acquisition Sts")
+  field(ZNAM, "OFF")
+  field(ONAM, "ON")
+  field(INP, "$(P)$(R)cam1:Acquire_RBV CPP")
+}
+
+# Acquisition mode selection
+record(bo, "$(P)$(R)AcqMode-Sel"){
+  field(DESC, "Camera acquisition mode")
+  field(ZNAM, "AUTO")
+  field(ONAM, "TRIG")
+  # POSTPONE SETTING OF ACQUISITION MODE
+  field(FLNK, "$(P)$(R)AcqModeCalc")
+}
+
+# Select required operations before changing
+# the Acquisition Mode (Trigger Mode in low level)
+record(calc, "$(P)$(R)AcqModeCalc"){
+  field(DESC, "Prepare acq mode settings")
+  field(INPA, "$(P)$(R)AcqMode-Sel.VAL")
+  field(CALC, "VAL=0?9:14")                     # AcqMode = 0? => Bits = 1001 / AcqMode = 1? => Bits = 1110
+  field(FLNK, "$(P)$(R)AcqModeSeq")
+}
+
+# Execute the required operations 
+record(seq, "$(P)$(R)AcqModeSeq"){
+  field(DESC, "Apply acq mode settings")
+  field(SELM, "Mask")
+  field(SELL, "$(P)$(R)AcqModeCalc.VAL")   # Expected: Bits = 1001 / Bits = 1110
+  field(DO1, "0")                              # FALSE
+  field(DO2, "0")                              # "TIMED"
+  field(DO3, "1")                              # TRUE 
+  field(DOL4, "$(P)$(R)AcqMode-Sel.VAL")       # Desired ACQUISITION MODE
+  field(LNK1, "$(P)$(R)ExposureMode-Sel.DISP") # Enable dbPutFields
+  field(LNK2, "$(P)$(R)ExposureMode-Sel.VAL")  # Set exposure mode to "TIMED"
+  field(LNK3, "$(P)$(R)ExposureMode-Sel.DISP") # Disable dbPutFields
+  field(LNK4, "$(P)$(R)cam1:TriggerMode PP")   # Turn trigger mode on/off
+}
+
+# Acquisition mode status
+record(bi, "$(P)$(R)AcqMode-Sts"){
+  field(DESC, "Camera acquisition mode Sts")
+  field(ZNAM, "AUTO")
+  field(ONAM, "TRIG")
+  field(INP, "$(P)$(R)cam1:TriggerMode_RBV CPP")
+}
+
+# Acquisition frequency setpoint
+record(ao, "$(P)$(R)AcqFreq-SP"){
+  field(DESC, "Acquisition frequency setpoint")
+  field(EGU, "seconds")
+  field(DRVH, "10")                           # Can be increased if required
+  field(DRVL, "0.02")                         # Empirical value (starts losing data)
+  field(PREC, "6")
+  field(VAL, "0.1")
+  field(OUT, "$(P)$(R)cam1:AcquirePeriod PP")
+}
+
+# Acquisition frequency readback value
+record(ai, "$(P)$(R)AcqFreq-RB"){
+  field(DESC, "Acquisition frequency RB")
+  field(EGU, "seconds")
+  field(INP, "$(P)$(R)cam1:AcquirePeriod_RBV CPP")
+}
+
+# Exposure control mode selection
+record(bo, "$(P)$(R)ExposureMode-Sel"){
+  field(DESC, "Exposure control mode")
+  field(ZNAM, "TIMED")
+  field(ONAM, "TRIGWIDTH")
+  field(OUT, "$(P)$(R)cam1:ExposureMode PP")
+}
+
+# Exposure control mode status
+record(bi, "$(P)$(R)ExposureMode-Sts"){
+  field(DESC, "Exposure control mode Sts")
+  field(ZNAM, "TIMED")
+  field(ONAM, "TRIGWIDTH")
+  field(INP, "$(P)$(R)cam1:ExposureMode_RBV CPP")
+}
+
+# Exposure time setpoint
+record(longout, "$(P)$(R)ExposureTime-SP"){
+  field(DESC, "Exposure time setpoint")
+  field(EGU, "us")
+  field(DRVH, "1000000")
+  field(DRVL, "1")
+  field(VAL, "5000")
+  field(PINI, "YES")
+  field(OUT, "$(P)$(R)cam1:ExposureTimeAbs PP")
+}
+
+# Exposure time readback value
+record(longin, "$(P)$(R)ExposureTime-RB"){
+  field(DESC, "Exposure time RB")
+  field(EGU, "us")
+  field(INP, "$(P)$(R)cam1:ExposureTimeAbs_RBV CPP")
+}
+
+######################################################################
+# CAMERA DATA
+#
+# Desc: Data related functions, e.g., reading the output
+# data array.
+
+record(waveform, "$(P)$(R)Data-Mon"){
+  field(DESC, "Camera Data Array")
+  field(APST, "Always")                         # Always post archive monitors
+  field(MPST, "Always")                         # Always post value monitors
+  field(NELM, "3932160")                        # 1280 x 1024 x 3 (Max camera data array size for RGB)
+  field(FTVL, "SHORT")
+  field(INP, "$(P)$(R)image1:ArrayData CPP")
+}
+
+######################################################################
+# INITIALIZATION
+#
+# Desc: Camera initialization. Enable basic functions,
+# process high level records.
+
+# Initialization Step 1
+record(sseq, "$(P)$(R)InitSeq1"){
+  field(DESC, "Initialization sequence 1")
+  field(SELM, "All")
+# ------- Run at initialization -------
+  field(PINI, "YES")
+# ------- Initialization values -------
+  field(STR1, "Enable")
+  field(STR2, "Enable")
+  field(STR3, "Enable")
+  field(STR4, "Continuous")
+  field(DO5, "1")
+# ------- PVs to initialize -------
+  field(LNK1, "$(P)$(R)cam1:ArrayCallbacks PP")                    # Enable array callbacks for the camera
+  field(LNK2, "$(P)$(R)image1:EnableCallbacks PP")                 # Enable callbacks for the image plugin
+  field(LNK3, "$(P)$(R)image1:ArrayCallbacks PP")                  # Enable array callbacks for the image plugin                  
+  field(LNK4, "$(P)$(R)cam1:ImageMode PP")                         # Set the image mode to 'Continuous'
+  field(LNK5, "$(P)$(R)AcqMode.PROC PP")                           # Process the acquisition mode high level PV
+# ------- Wait for callback from destination record to proceed -------
+  field(WAIT1, "Wait")                                             # Wait for completion to proceed
+  field(WAIT2, "Wait")                                             # Wait for completion to proceed
+  field(WAIT3, "Wait")                                             # Wait for completion to proceed
+  field(WAIT4, "Wait")                                             # Wait for completion to proceed
+  field(WAIT5, "Wait")                                             # Wait for completion to proceed
+# ------- Delay intervals used for initialization -------
+  field(DLY4, "1.0")                                               # Wait for 1 second before setting the image mode
+  field(DLY5, "1.0")                                               # Wait for 1 second before setting the acquisition mode
+}
+
+# Wait for callbacks to be enabled to set Camera Enable Parameter
+record(calcout, "$(P)$(R)InitCalc1"){
+  field(DESC, "Initialization calc 1")
+  field(INPA, "$(P)$(R)cam1:ArrayCallbacks_RBV CPP")
+  field(INPB, "$(P)$(R)image1:EnableCallbacks_RBV CPP")
+  field(INPC, "$(P)$(R)image1:ArrayCallbacks_RBV CPP")
+  field(CALC, "(A=1&&B=1&&C=1)?1:0")
+  field(OUT, "$(P)$(R)Enbl-Sel.PROC PP")                          # Set low level PV using high level autosaved value
+}
+

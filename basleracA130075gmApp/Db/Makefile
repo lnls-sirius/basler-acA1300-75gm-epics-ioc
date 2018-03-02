@@ -12,6 +12,7 @@ include $(TOP)/configure/CONFIG
 # templates like this
 #
 DB += $(patsubst ../%, %, $(wildcard ../*.template))
+DB += $(patsubst ../%, %, $(wildcard ../*.db))
 
 include $(TOP)/configure/RULES
 #----------------------------------------

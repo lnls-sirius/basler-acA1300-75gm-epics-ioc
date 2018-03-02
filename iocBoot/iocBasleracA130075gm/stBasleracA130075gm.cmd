@@ -30,6 +30,8 @@ asynSetTraceMask("$(PORT)",0,0x21)
 dbLoadRecords("$(ARAVISGIGE)/db/aravisCamera.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 # Auto-generated template from camera xml file
 dbLoadRecords("$(TOP)/db/Basler_acA1300_75gm.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+# Sirius-naming-convention compliant PVs
+dbLoadRecords("$(TOP)/db/BaslerSiriusStandard.db","P=$(P),R=$(R)")
 
 # Create a standard arrays plugin
 NDStdArraysConfigure("Image1", 5, 0, "$(PORT)", 0, 0)
@@ -48,6 +50,6 @@ set_requestfile_path("$(ADPILATUS)/prosilicaApp/Db")
 iocInit()
 
 # save things every thirty seconds
-create_monitor_set("auto_settings_basler_acA1300_75gm.req", 30,"P=$(PREFIX)")
+create_monitor_set("auto_settings_basler_acA1300_75gm.req", 30,"P=$(P)$(R), R=")
 # The following line is necessary because of the save file name used in save_restore.cmd
 set_savefile_name("auto_settings_basler_acA1300_75gm.req", "auto_settings_${P}${R}.sav")

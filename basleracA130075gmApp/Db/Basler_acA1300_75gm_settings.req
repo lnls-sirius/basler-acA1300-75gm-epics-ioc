@@ -2,8 +2,8 @@
 $(P)$(R)Enbl-Sel
 # Acquisition Mode
 $(P)$(R)AcqMode-Sel
-# Acquisition Frequency
-$(P)$(R)AcqFreq-SP
+# Acquisition Period
+$(P)$(R)AcqPeriod-SP
 # Exposure Control Mode
 $(P)$(R)ExposureMode-Sel
 # Exposure Time

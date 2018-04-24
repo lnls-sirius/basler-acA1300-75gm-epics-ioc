@@ -72,7 +72,7 @@ record(bi, "$(P)$(R)AcqMode-Sts"){
 
 # Acquisition frequency setpoint
 record(ao, "$(P)$(R)AcqPeriod-SP"){
-  field(DESC, "Acquisition frequency setpoint")
+  field(DESC, "Acquisition period setpoint")
   field(EGU, "seconds")
   field(DRVH, "10")                           # Can be increased if required
   field(DRVL, "0.0124")                       # 81 fps at normal sensor readout
@@ -83,7 +83,7 @@ record(ao, "$(P)$(R)AcqPeriod-SP"){
 
 # Acquisition frequency readback value
 record(ai, "$(P)$(R)AcqPeriod-RB"){
-  field(DESC, "Acquisition frequency RB")
+  field(DESC, "Acquisition period RB")
   field(EGU, "seconds")
   field(INP, "$(P)$(R)cam1:AcquirePeriod_RBV CPP")
 }
@@ -644,6 +644,32 @@ record(calcout, "$(P)$(R)InitCalc1"){
   field(INPB, "$(P)$(R)image1:EnableCallbacks_RBV CPP")
   field(INPC, "$(P)$(R)image1:ArrayCallbacks_RBV CPP")
   field(CALC, "(A=1&&B=1&&C=1)?1:0")
-  field(OUT, "$(P)$(R)Enbl-Sel.PROC PP")                          # Set low level PV using high level autosaved value
+  field(OUT, "$(P)$(R)Enbl-Sel.PROC PP")                           # Set low level PV using high level autosaved value
 }
 
+# Statistics initialization
+
+record(seq, "$(P)$(R)InitStats"){
+  field(DESC, "Initialize statistics")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(DO1, "1")
+  field(LNK1, "$(P)$(R)ComputeCentroid PP")                        # Compute centroid = yes
+}
+
+######################################################################
+# STATISTICS
+#
+# Desc: Aliases for statistics records.
+
+# Centroid
+
+alias(  "$(P)$(R)ComputeCentroid",                "$(P)$(R)ComputeCentroid-Sel")  # Compute centroid (set)
+alias(  "$(P)$(R)ComputeCentroid_RBV",            "$(P)$(R)ComputeCentroid-Sts")  # Compute centroid (read)
+alias(  "$(P)$(R)CentroidThreshold",              "$(P)$(R)CentroidThreshold-SP") # Centroid threshold (set)
+alias(  "$(P)$(R)CentroidThreshold_RBV",          "$(P)$(R)CentroidThreshold-RB") # Centroid threshold (read)
+alias(  "$(P)$(R)CentroidX_RBV",                  "$(P)$(R)CentroidX-Mon")        # Centroid X monitor
+alias(  "$(P)$(R)CentroidY_RBV",                  "$(P)$(R)CentroidY-Mon")        # Centroid Y monitor
+alias(  "$(P)$(R)SigmaX_RBV",                     "$(P)$(R)SigmaX-Mon")           # Sigma X monitor
+alias(  "$(P)$(R)SigmaY_RBV",                     "$(P)$(R)SigmaY-Mon")           # Sigma Y monitor
+alias(  "$(P)$(R)SigmaXY_RBV",                    "$(P)$(R)SigmaXY-Mon")          # Sigma XY monitor

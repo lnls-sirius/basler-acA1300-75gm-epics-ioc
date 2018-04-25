@@ -1,5 +1,7 @@
 < envPaths
 
+epicsEnvSet("TOP", "../..")
+
 # Set the maximum Channel Access array size
 errlogInit(20000)
 

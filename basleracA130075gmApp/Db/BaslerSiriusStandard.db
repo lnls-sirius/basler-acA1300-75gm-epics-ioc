@@ -81,6 +81,15 @@ record(ao, "$(P)$(R)AcqPeriod-SP"){
   field(OUT, "$(P)$(R)cam1:AcquirePeriod PP")
 }
 
+# Update acquisition period min limit allowed
+record(calcout, "$(P)$(R)AcqLimCalc"){
+  field(DESC, "Update min acq period allowed")
+  field(INPA, "$(P)$(R)cam1:ReadoutTimeAbs_RBV CPP")
+  field(INPB, "$(P)$(R)cam1:ExposureTimeAbs_RBV CPP")
+  field(CALC, "(A+B)/1000000")
+  field(OUT, "$(P)$(R)AcqPeriod-SP.DRVL")
+}
+
 # Acquisition frequency readback value
 record(ai, "$(P)$(R)AcqPeriod-RB"){
   field(DESC, "Acquisition period RB")
@@ -113,6 +122,15 @@ record(longout, "$(P)$(R)ExposureTime-SP"){
   field(VAL, "5000")
   field(PINI, "YES")
   field(OUT, "$(P)$(R)cam1:ExposureTimeAbs PP")
+}
+
+# Update max exposure time allowed
+record(calcout, "$(P)$(R)ExposureLimCalc"){
+  field(DESC, "Update max exposure time allowed")
+  field(INPA, "$(P)$(R)cam1:ReadoutTimeAbs_RBV CPP")
+  field(INPB, "$(P)$(R)cam1:AcquirePeriod_RBV CPP")
+  field(CALC, "(B*1000000-A)")
+  field(OUT, "$(P)$(R)ExposureTime-SP.DRVH")
 }
 
 # Exposure time readback value
@@ -282,6 +300,7 @@ record(ai, "$(P)$(R)Temp-Mon"){
 # Readout time absolute
 record(longin, "$(P)$(R)ReadoutTime-Mon"){
   field(DESC, "Readout time duration")
+  field(EGU, "us")
   field(INP, "$(P)$(R)cam1:ReadoutTimeAbs_RBV CPP")
 }
 

@@ -712,6 +712,54 @@ record(seq, "$(P)$(R)InitStats"){
 }
 
 ######################################################################
+# DEVICE INFORMATION PARAMETERS
+#
+# Desc: General device information.
+
+# Vendor
+
+record(stringin, "$(P)$(R)DeviceVendorName-Cte"){
+  field(DESC, "Device vendor name")
+  field(INP, "$(P)$(R)cam1:DeviceVendorName_RBV CPP")
+}
+
+# Model
+record(stringin, "$(P)$(R)DeviceModelName-Cte"){
+  field(DESC, "Device model name")
+  field(INP, "$(P)$(R)cam1:DeviceModelName_RBV CPP")
+}
+
+# Camera Version
+record(stringin, "$(P)$(R)DeviceVersion-Cte"){
+  field(DESC, "Device version")
+  field(INP, "$(P)$(R)cam1:DeviceVersion_RBV CPP")
+}
+
+# Firmware version
+record(stringin, "$(P)$(R)DeviceFirmwareVersion-Cte"){
+  field(DESC, "Device firmware version")
+  field(INP, "$(P)$(R)cam1:DeviceFirmwareVe_RBV CPP")
+}
+
+# Device ID
+record(stringin, "$(P)$(R)DeviceID-Cte"){
+  field(DESC, "Device ID")
+  field(INP, "$(P)$(R)cam1:DeviceID_RBV CPP")
+}
+
+# Sensor Width
+record(stringin, "$(P)$(R)SensorWidth-Cte"){
+  field(DESC, "Sensor width")
+  field(INP, "$(P)$(R)cam1:SensorWidth_RBV CPP")
+}
+
+# Sensor Height
+record(stringin, "$(P)$(R)SensorHeight-Cte"){
+  field(DESC, "Sensor height")
+  field(INP, "$(P)$(R)cam1:SensorHeight_RBV CPP")
+}
+
+######################################################################
 # STATISTICS
 #
 # Desc: Aliases for statistics records.

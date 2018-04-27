@@ -303,6 +303,7 @@ record(longin, "$(P)$(R)PayloadSize-Mon"){
 record(longout, "$(P)$(R)PacketSize-SP"){
   field(DESC, "Packet size")
   field(EGU, "bytes")
+  field(DRVL, "100")
   field(OUT, "$(P)$(R)cam1:GevSCPSPacketSiz PP")
 }
 
@@ -316,6 +317,8 @@ record(longin, "$(P)$(R)PacketSize-RB"){
 record(longout, "$(P)$(R)InterPacketDelay-SP"){
   field(DESC, "Inter packet delay")
   field(EGU, "8 ns")
+  field(DRVH, "1000")
+  field(DRVL, "0")
   field(OUT, "$(P)$(R)cam1:GevSCPD PP")
 }
 
@@ -329,6 +332,8 @@ record(longin, "$(P)$(R)InterPacketDelay-RB"){
 record(longout, "$(P)$(R)TransmDelay-SP"){
   field(DESC, "Frame transmission start delay")
   field(EGU, "8 ns")
+  field(DRVH, "100000")
+  field(DRVL, "0")
   field(OUT, "$(P)$(R)cam1:GevSCFTD PP")
 }
 
@@ -349,6 +354,8 @@ record(longin, "$(P)$(R)BwAssigned-Mon"){
 record(longout, "$(P)$(R)BwReserve-SP"){
   field(DESC, "Bandwidth reserve for transm control")
   field(EGU, "%")
+  field(DRVH, "100")
+  field(DRVL, "0")
   field(OUT, "$(P)$(R)cam1:GevSCBWR PP")
 }
 
@@ -364,6 +371,8 @@ record(longin, "$(P)$(R)BwReserve-RB"){
 # such as EMI bursts.
 record(longout, "$(P)$(R)BwReserveAccum-SP"){
   field(DESC, "Bandwidth reserve accumulation")
+  field(DRVH, "50")
+  field(DRVL, "0")
   field(OUT, "$(P)$(R)cam1:GevSCBWRA PP")
 }
 
@@ -403,6 +412,8 @@ record(longin, "$(P)$(R)CurrentThroughput-Mon"){
 # AOI offset x
 record(longout, "$(P)$(R)AOIOffsetX-SP"){
   field(DESC, "AOI start column")
+  field(DRVH, "1279")
+  field(DRVL, "0")
   field(FLNK, "$(P)$(R)AOIOffsetXCalc")
 }
 
@@ -411,7 +422,7 @@ record(calcout, "$(P)$(R)AOIOffsetXCalc"){
   field(INPA, "$(P)$(R)AOIOffsetX-SP")
   field(INPB, "1280")
   field(INPC, "$(P)$(R)AOIWidth-RB")
-  field(CALC, "D:=A-(A%16);E:=B-C;D<E?D:E")           # Only steps of 16 are allowed
+  field(CALC, "D:=A-(A%16);E:=B-C;D<E?D:E")           # Only steps of 16 are allowed. Limit to available area.
   field(OUT, "$(P)$(R)cam1:OffsetX PP")
 }
 
@@ -423,6 +434,17 @@ record(longin, "$(P)$(R)AOIOffsetX-RB"){
 # AOI offset y
 record(longout, "$(P)$(R)AOIOffsetY-SP"){
   field(DESC, "AOI start row")
+  field(DRVH, "1023")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)AOIOffsetYCalc")
+}
+
+record(calcout, "$(P)$(R)AOIOffsetYCalc"){
+  field(DESC, "Adjust offset y to allowed value")
+  field(INPA, "$(P)$(R)AOIOffsetY-SP")
+  field(INPB, "1024")
+  field(INPC, "$(P)$(R)AOIHeight-RB")
+  field(CALC, "D:=B-C;A<D?A:D")                        # Limit value to available area
   field(OUT, "$(P)$(R)cam1:OffsetY PP")
 }
 
@@ -434,6 +456,8 @@ record(longin, "$(P)$(R)AOIOffsetY-RB"){
 # AOI width
 record(longout, "$(P)$(R)AOIWidth-SP"){
   field(DESC, "AOI width")
+  field(DRVH, "1280")
+  field(DRVL, "1")
   field(FLNK, "$(P)$(R)AOIWidthCalc")
 }
 
@@ -442,7 +466,7 @@ record(calcout, "$(P)$(R)AOIWidthCalc"){
   field(INPA, "$(P)$(R)AOIWidth-SP")
   field(INPB, "1280")
   field(INPC, "$(P)$(R)AOIOffsetX-RB")
-  field(CALC, "D:=A-(A%16);E:=B-C;D<E?D:E")            # Only steps of 16 are allowed
+  field(CALC, "D:=A-(A%16);E:=B-C;D<E?D:E")            # Only steps of 16 are allowed. Limit to available area.
   field(OUT, "$(P)$(R)cam1:Width PP")
 }
 
@@ -454,6 +478,17 @@ record(longin, "$(P)$(R)AOIWidth-RB"){
 # AOI height
 record(longout, "$(P)$(R)AOIHeight-SP"){
   field(DESC, "AOI height")
+  field(DRVH, "1024")
+  field(DRVL, "1")
+  field(FLNK, "$(P)$(R)AOIHeightCalc")
+}
+
+record(calcout, "$(P)$(R)AOIHeightCalc"){
+  field(DESC, "Adjust hight to allowed value")
+  field(INPA, "$(P)$(R)AOIHeight-SP")
+  field(INPB, "1024")
+  field(INPC, "$(P)$(R)AOIOffsetY-RB")
+  field(CALC, "D:=B-C;A<D?A:D")                        # Limit value to available area.
   field(OUT, "$(P)$(R)cam1:Height PP")
 }
 

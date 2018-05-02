@@ -8,3 +8,9 @@ $(P)$(R)AcqPeriod-SP
 $(P)$(R)ExposureMode-Sel
 # Exposure Time
 $(P)$(R)ExposureTime-SP
+# Gain
+$(P)$(R)Gain-SP
+# Black Level
+$(P)$(R)BlackLevel-SP
+# Debouncer Period
+$(P)$(R)DebouncerPeriod-SP

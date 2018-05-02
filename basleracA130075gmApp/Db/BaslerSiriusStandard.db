@@ -201,6 +201,36 @@ record(longin, "$(P)$(R)BlackLevel-RB"){
   field(INP, "$(P)$(R)BlackLevelCalcRB")
 }
 
+# Input Trigger Debouncer
+
+record(longout, "$(P)$(R)DebouncerPeriod-SP"){
+  field(DESC, "Debouncer period for trigger input")
+  field(EGU, "us")
+  field(DRVH, "20000")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)DebouncerPeriodSeq")
+}
+
+record(sseq, "$(P)$(R)DebouncerPeriodSeq"){
+  field(DESC, "Sequence to set debouncer period")
+  field(PINI, "YES")
+  field(SELM, "All")
+  field(STR1, "Line1")
+  field(LNK1, "$(P)$(R)cam1:LineSelector PP")         # Set line = Line 1, before setting debouncer
+  field(WAIT1, "Wait")
+  field(DLY1, "0.5")
+  field(DOL2, "$(P)$(R)DebouncerPeriod-SP")
+  field(LNK2, "$(P)$(R)cam1:LineDebouncerTim PP")
+  field(WAIT2, "Wait")
+  field(DLY2, "0.5")
+}
+
+record(longin, "$(P)$(R)DebouncerPeriod-RB"){
+  field(DESC, "Debouncer period for trigger input RB")
+  field(EGU, "us")
+  field(INP, "$(P)$(R)cam1:LineDebouncerTim_RBV CPP")
+}
+
 ######################################################################
 # CAMERA DATA
 #

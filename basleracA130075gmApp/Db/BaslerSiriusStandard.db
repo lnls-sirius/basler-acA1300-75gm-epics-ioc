@@ -733,12 +733,21 @@ record(calcout, "$(P)$(R)InitCalc1"){
 
 # Statistics initialization
 
-record(seq, "$(P)$(R)InitStats"){
+record(sseq, "$(P)$(R)InitStats"){
   field(DESC, "Initialize statistics")
   field(SELM, "All")
   field(PINI, "YES")
-  field(DO1, "1")
-  field(LNK1, "$(P)$(R)ComputeCentroid PP")                        # Compute centroid = yes
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)Stats1:EnableCallbacks PP")
+  field(WAIT1, "Wait")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)Stats1:ArrayCallbacks PP")
+  field(WAIT2, "Wait")
+  field(DLY2, "1.0")
+  field(STR3, "Yes")
+  field(LNK3, "$(P)$(R)Stats1:ComputeCentroid PP")                 # Compute centroid = yes
+  field(WAIT3, "Wait")
+  field(DLY3, "1.0")
 }
 
 ######################################################################
@@ -796,12 +805,12 @@ record(stringin, "$(P)$(R)SensorHeight-Cte"){
 
 # Centroid
 
-alias(  "$(P)$(R)ComputeCentroid",                "$(P)$(R)ComputeCentroid-Sel")  # Compute centroid (set)
-alias(  "$(P)$(R)ComputeCentroid_RBV",            "$(P)$(R)ComputeCentroid-Sts")  # Compute centroid (read)
-alias(  "$(P)$(R)CentroidThreshold",              "$(P)$(R)CentroidThreshold-SP") # Centroid threshold (set)
-alias(  "$(P)$(R)CentroidThreshold_RBV",          "$(P)$(R)CentroidThreshold-RB") # Centroid threshold (read)
-alias(  "$(P)$(R)CentroidX_RBV",                  "$(P)$(R)CentroidX-Mon")        # Centroid X monitor
-alias(  "$(P)$(R)CentroidY_RBV",                  "$(P)$(R)CentroidY-Mon")        # Centroid Y monitor
-alias(  "$(P)$(R)SigmaX_RBV",                     "$(P)$(R)SigmaX-Mon")           # Sigma X monitor
-alias(  "$(P)$(R)SigmaY_RBV",                     "$(P)$(R)SigmaY-Mon")           # Sigma Y monitor
-alias(  "$(P)$(R)SigmaXY_RBV",                    "$(P)$(R)SigmaXY-Mon")          # Sigma XY monitor
+alias(  "$(P)$(R)Stats1:ComputeCentroid",                "$(P)$(R)ComputeCentroid-Sel")  # Compute centroid (set)
+alias(  "$(P)$(R)Stats1:ComputeCentroid_RBV",            "$(P)$(R)ComputeCentroid-Sts")  # Compute centroid (read)
+alias(  "$(P)$(R)Stats1:CentroidThreshold",              "$(P)$(R)CentroidThreshold-SP") # Centroid threshold (set)
+alias(  "$(P)$(R)Stats1:CentroidThreshold_RBV",          "$(P)$(R)CentroidThreshold-RB") # Centroid threshold (read)
+alias(  "$(P)$(R)Stats1:CentroidX_RBV",                  "$(P)$(R)CentroidX-Mon")        # Centroid X monitor
+alias(  "$(P)$(R)Stats1:CentroidY_RBV",                  "$(P)$(R)CentroidY-Mon")        # Centroid Y monitor
+alias(  "$(P)$(R)Stats1:SigmaX_RBV",                     "$(P)$(R)SigmaX-Mon")           # Sigma X monitor
+alias(  "$(P)$(R)Stats1:SigmaY_RBV",                     "$(P)$(R)SigmaY-Mon")           # Sigma Y monitor
+alias(  "$(P)$(R)Stats1:SigmaXY_RBV",                    "$(P)$(R)SigmaXY-Mon")          # Sigma XY monitor

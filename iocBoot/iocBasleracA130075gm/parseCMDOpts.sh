@@ -11,14 +11,16 @@ usage () {
     echo "  -P                  Configure value of \$(P) macro" >&2
     echo "  -R                  Configure value of \$(R) macro" >&2
     echo "  -s                  Configure device serial number" >&2
+    echo "  -A                  Configure alias prefix for high level PVs" >&2
 }
 
-while getopts ":t:P:R:s:" opt; do
+while getopts ":t:P:R:s:A:" opt; do
   case $opt in
     t) DEVICE_TELNET_PORT="$OPTARG" ;;
     P) P="$OPTARG" ;;
     R) R="$OPTARG" ;;
     s) SERIAL_NUMBER="$OPTARG" ;;
+    A) NEW_PREFIX="$OPTARG";;
     \?)
       echo "Invalid option: -$OPTARG" >&2
       usage $0

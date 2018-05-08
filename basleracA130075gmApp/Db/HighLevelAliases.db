@@ -1,0 +1,47 @@
+######################################################################
+# HIGH LEVEL ALIASES
+#
+# Desc: Aliases used to increase the abstraction level of the
+#       camera PVs. The new names should be used by machine operators.
+#       A new PV prefix is passed to the PVs using NEW_PREFIX macro.
+
+alias( "$(P)$(R)Enbl-Sel",               "$(NEW_PREFIX)CamEnbl-Sel")
+alias( "$(P)$(R)Enbl-Sts",               "$(NEW_PREFIX)CamEnbl-Sts")
+alias( "$(P)$(R)AcqMode-Sel",            "$(NEW_PREFIX)CamAcqMode-Sel")
+alias( "$(P)$(R)AcqMode-Sts",            "$(NEW_PREFIX)CamAcqMode-Sts")
+alias( "$(P)$(R)AcqPeriod-SP",           "$(NEW_PREFIX)CamAcqPeriod-SP")
+alias( "$(P)$(R)AcqPeriod-RB",           "$(NEW_PREFIX)CamAcqPeriod-RB")
+alias( "$(P)$(R)ExposureMode-Sel",       "$(NEW_PREFIX)CamExposureMode-Sel")
+alias( "$(P)$(R)ExposureMode-Sts",       "$(NEW_PREFIX)CamExposureMode-Sts")
+alias( "$(P)$(R)ExposureTime-SP",        "$(NEW_PREFIX)CamExposureTime-SP")
+alias( "$(P)$(R)ExposureTime-RB",        "$(NEW_PREFIX)CamExposureTime-RB")
+alias( "$(P)$(R)Gain-SP",                "$(NEW_PREFIX)CamGain-SP")
+alias( "$(P)$(R)Gain-RB",                "$(NEW_PREFIX)CamGain-RB")
+alias( "$(P)$(R)BlackLevel-SP",          "$(NEW_PREFIX)CamBlackLevel-SP")
+alias( "$(P)$(R)BlackLevel-RB",          "$(NEW_PREFIX)CamBlackLevel-RB")
+alias( "$(P)$(R)Data-Mon",               "$(NEW_PREFIX)ImgData-Mon")
+alias( "$(P)$(R)LastErr-Mon",            "$(NEW_PREFIX)CamLastErr-Mon")
+alias( "$(P)$(R)ClearLastErr-Cmd",       "$(NEW_PREFIX)CamClearLastErr-Cmd")
+alias( "$(P)$(R)TempState-Mon",          "$(NEW_PREFIX)CamTempState-Mon")
+alias( "$(P)$(R)Temp-Mon",               "$(NEW_PREFIX)CamTemp-Mon")
+alias( "$(P)$(R)AOIOffsetX-SP",          "$(NEW_PREFIX)ImgROIOffsetX-SP")
+alias( "$(P)$(R)AOIOffsetX-RB",          "$(NEW_PREFIX)ImgROIOffsetX-RB")
+alias( "$(P)$(R)AOIOffsetY-SP",          "$(NEW_PREFIX)ImgROIOffsetY-SP")
+alias( "$(P)$(R)AOIOffsetY-RB",          "$(NEW_PREFIX)ImgROIOffsetY-RB")
+alias( "$(P)$(R)AOIWidth-SP",            "$(NEW_PREFIX)ImgROIWidth-SP")
+alias( "$(P)$(R)AOIWidth-RB",            "$(NEW_PREFIX)ImgROIWidth-RB")
+alias( "$(P)$(R)AOIHeight-SP",           "$(NEW_PREFIX)ImgROIHeight-SP")
+alias( "$(P)$(R)AOIHeight-RB",           "$(NEW_PREFIX)ImgROIHeight-RB")
+alias( "$(P)$(R)AOIAutoCenterX-Sel",     "$(NEW_PREFIX)ImgROIAutoCenterX-Sel")
+alias( "$(P)$(R)AOIAutoCenterX-Sts",     "$(NEW_PREFIX)ImgROIAutoCenterX-Sts")
+alias( "$(P)$(R)AOIAutoCenterY-Sel",     "$(NEW_PREFIX)ImgROIAutoCenterY-Sel")
+alias( "$(P)$(R)AOIAutoCenterY-Sts",     "$(NEW_PREFIX)ImgROIAutoCenterY-Sts")
+alias( "$(P)$(R)AutoGain-Cmd",           "$(NEW_PREFIX)CamAutoGain-Cmd")
+alias( "$(P)$(R)SensorWidth-Cte",        "$(NEW_PREFIX)ImgMaxWidth-Cte")
+alias( "$(P)$(R)SensorHeight-Cte",       "$(NEW_PREFIX)ImgMaxHeight-Cte")
+alias( "$(P)$(R)Stats1:CentroidX_RBV",   "$(NEW_PREFIX)CenterXNDStats-Mon")
+alias( "$(P)$(R)Stats1:CentroidY_RBV",   "$(NEW_PREFIX)CenterYNDStats-Mon")
+alias( "$(P)$(R)Stats1:SigmaX_RBV",      "$(NEW_PREFIX)SigmaXNDStats-Mon")
+alias( "$(P)$(R)Stats1:SigmaY_RBV",      "$(NEW_PREFIX)SigmaYNDStats-Mon")
+alias( "$(P)$(R)Stats1:SigmaXY_RBV",     "$(NEW_PREFIX)SigmaXYNDStats-Mon")
+

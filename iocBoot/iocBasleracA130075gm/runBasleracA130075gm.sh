@@ -24,6 +24,12 @@ if [ -z "$EPICS_CA_MAX_ARRAY_BYTES" ]; then
     export EPICS_CA_MAX_ARRAY_BYTES="8000000"
 fi
 
+if [ -z "$NEW_PREFIX" ]; then
+    ST_CMD="stBasleracA130075gm.cmd"
+else
+    ST_CMD="stExtraAliases.cmd"
+fi
+
 cd "$IOC_BOOT_DIR"
 
-P="$P" R="$R" SERIAL_NUMBER="$SERIAL_NUMBER" "$IOC_BIN" stBasleracA130075gm.cmd
+P="$P" R="$R" SERIAL_NUMBER="$SERIAL_NUMBER" NEW_PREFIX="$NEW_PREFIX"  "$IOC_BIN" "$ST_CMD"

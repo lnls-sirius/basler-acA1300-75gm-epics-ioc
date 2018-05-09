@@ -2,9 +2,15 @@
 $(P)$(R)Enbl-Sel
 # Acquisition Mode
 $(P)$(R)AcqMode-Sel
-# Acquisition Frequency
-$(P)$(R)AcqFreq-SP
+# Acquisition Period
+$(P)$(R)AcqPeriod-SP
 # Exposure Control Mode
 $(P)$(R)ExposureMode-Sel
 # Exposure Time
 $(P)$(R)ExposureTime-SP
+# Gain
+$(P)$(R)Gain-SP
+# Black Level
+$(P)$(R)BlackLevel-SP
+# Debouncer Period
+$(P)$(R)DebouncerPeriod-SP

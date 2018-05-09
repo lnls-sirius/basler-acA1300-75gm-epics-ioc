@@ -44,6 +44,9 @@ dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=I
 # Sirius-naming-convention compliant PVs
 dbLoadRecords("$(TOP)/db/BaslerSiriusStandard.db","P=$(P),R=$(R)")
 
+# Load aliases to map low-level PVs to high-level
+dbLoadRecords("$(TOP)/db/HighLevelAliases.db","P=$(P),R=$(R), NEW_PREFIX=$(NEW_PREFIX)")
+
 set_requestfile_path("$(ADPILATUS)/prosilicaApp/Db")
 
 #asynSetTraceMask("$(PORT)",0,255)

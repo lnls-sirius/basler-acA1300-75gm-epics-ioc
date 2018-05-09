@@ -4,7 +4,8 @@
 #
 # Desc: These PVs provide an abstraction layer for the low level
 # aravisGigE auto-generated PVs. 
-
+#
+######################################################################
 
 ######################################################################
 # BASIC CONTROL
@@ -42,7 +43,7 @@ record(bo, "$(P)$(R)AcqMode-Sel"){
 record(calc, "$(P)$(R)AcqModeCalc"){
   field(DESC, "Prepare acq mode settings")
   field(INPA, "$(P)$(R)AcqMode-Sel.VAL")
-  field(CALC, "VAL=0?9:14")                     # AcqMode = 0? => Bits = 1001 / AcqMode = 1? => Bits = 1110
+  field(CALC, "VAL=0?14:9")                     # AcqMode = 0? => Bits = 1110 / AcqMode = 1? => Bits = 1001
   field(FLNK, "$(P)$(R)AcqModeSeq")
 }
 
@@ -70,19 +71,28 @@ record(bi, "$(P)$(R)AcqMode-Sts"){
 }
 
 # Acquisition frequency setpoint
-record(ao, "$(P)$(R)AcqFreq-SP"){
-  field(DESC, "Acquisition frequency setpoint")
+record(ao, "$(P)$(R)AcqPeriod-SP"){
+  field(DESC, "Acquisition period setpoint")
   field(EGU, "seconds")
   field(DRVH, "10")                           # Can be increased if required
-  field(DRVL, "0.02")                         # Empirical value (starts losing data)
+  field(DRVL, "0.0124")                       # 81 fps at normal sensor readout
   field(PREC, "6")
-  field(VAL, "0.1")
+  field(VAL, "0.03")
   field(OUT, "$(P)$(R)cam1:AcquirePeriod PP")
 }
 
+# Update acquisition period min limit allowed
+record(calcout, "$(P)$(R)AcqLimCalc"){
+  field(DESC, "Update min acq period allowed")
+  field(INPA, "$(P)$(R)cam1:ReadoutTimeAbs_RBV CPP")
+  field(INPB, "$(P)$(R)cam1:ExposureTimeAbs_RBV CPP")
+  field(CALC, "(A+B)/1000000")
+  field(OUT, "$(P)$(R)AcqPeriod-SP.DRVL")
+}
+
 # Acquisition frequency readback value
-record(ai, "$(P)$(R)AcqFreq-RB"){
-  field(DESC, "Acquisition frequency RB")
+record(ai, "$(P)$(R)AcqPeriod-RB"){
+  field(DESC, "Acquisition period RB")
   field(EGU, "seconds")
   field(INP, "$(P)$(R)cam1:AcquirePeriod_RBV CPP")
 }
@@ -114,11 +124,111 @@ record(longout, "$(P)$(R)ExposureTime-SP"){
   field(OUT, "$(P)$(R)cam1:ExposureTimeAbs PP")
 }
 
+# Update max exposure time allowed
+record(calcout, "$(P)$(R)ExposureLimCalc"){
+  field(DESC, "Update max exposure time allowed")
+  field(INPA, "$(P)$(R)cam1:ReadoutTimeAbs_RBV CPP")
+  field(INPB, "$(P)$(R)cam1:AcquirePeriod_RBV CPP")
+  field(CALC, "(B*1000000-A)")
+  field(OUT, "$(P)$(R)ExposureTime-SP.DRVH")
+}
+
 # Exposure time readback value
 record(longin, "$(P)$(R)ExposureTime-RB"){
   field(DESC, "Exposure time RB")
   field(EGU, "us")
   field(INP, "$(P)$(R)cam1:ExposureTimeAbs_RBV CPP")
+}
+
+# Gain control
+record(ao, "$(P)$(R)Gain-SP"){
+  field(DESC, "Camera gain")
+  field(PREC, "6")
+  field(EGU, "dB")
+  field(DRVH, "20")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)GainCalc")
+}
+
+record(calcout, "$(P)$(R)GainCalc"){
+  field(DESC, "Gain raw calculation")
+  field(INPA, "$(P)$(R)Gain-SP")
+  field(CALC, "ceil((10^(A/20))*138)")
+  field(OUT, "$(P)$(R)cam1:GainRaw PP")
+}
+
+record(calc, "$(P)$(R)GainCalcRB"){
+  field(DESC, "Gain readback conversion to dB")
+  field(INPA, "$(P)$(R)cam1:GainRaw_RBV CPP")
+  field(CALC, "20*(log(A/138))")
+  field(FLNK, "$(P)$(R)Gain-RB")
+}
+
+record(ai, "$(P)$(R)Gain-RB"){
+  field(DESC, "Camera gain RB")
+  field(PREC, "6")
+  field(EGU, "dB")
+  field(INP, "$(P)$(R)GainCalcRB")
+}
+
+# Black Level
+
+record(longout, "$(P)$(R)BlackLevel-SP"){
+  field(DESC, "Black level")
+  field(EGU, "gray value")
+  field(DRVH, "64")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)BlackLevelCalc")
+}
+
+record(calcout, "$(P)$(R)BlackLevelCalc"){
+  field(DESC, "Black level raw calc")
+  field(INPA, "$(P)$(R)BlackLevel-SP")
+  field(CALC, "A=64?255:A*4")
+  field(OUT, "$(P)$(R)cam1:BlackLevelRaw PP")
+}
+
+record(calc, "$(P)$(R)BlackLevelCalcRB"){
+  field(DESC, "Black level readback calc")
+  field(INPA, "$(P)$(R)cam1:BlackLevelRaw_RBV CPP")
+  field(CALC, "floor(A/4)")
+  field(FLNK, "$(P)$(R)BlackLevel-RB")
+}
+
+record(longin, "$(P)$(R)BlackLevel-RB"){
+  field(DESC, "Black level RB")
+  field(EGU, "gray value")
+  field(INP, "$(P)$(R)BlackLevelCalcRB")
+}
+
+# Input Trigger Debouncer
+
+record(longout, "$(P)$(R)DebouncerPeriod-SP"){
+  field(DESC, "Debouncer period for trigger input")
+  field(EGU, "us")
+  field(DRVH, "20000")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)DebouncerPeriodSeq")
+}
+
+record(sseq, "$(P)$(R)DebouncerPeriodSeq"){
+  field(DESC, "Sequence to set debouncer period")
+  field(PINI, "YES")
+  field(SELM, "All")
+  field(STR1, "Line1")
+  field(LNK1, "$(P)$(R)cam1:LineSelector PP")         # Set line = Line 1, before setting debouncer
+  field(WAIT1, "Wait")
+  field(DLY1, "0.5")
+  field(DOL2, "$(P)$(R)DebouncerPeriod-SP")
+  field(LNK2, "$(P)$(R)cam1:LineDebouncerTim PP")
+  field(WAIT2, "Wait")
+  field(DLY2, "0.5")
+}
+
+record(longin, "$(P)$(R)DebouncerPeriod-RB"){
+  field(DESC, "Debouncer period for trigger input RB")
+  field(EGU, "us")
+  field(INP, "$(P)$(R)cam1:LineDebouncerTim_RBV CPP")
 }
 
 ######################################################################
@@ -134,6 +244,446 @@ record(waveform, "$(P)$(R)Data-Mon"){
   field(NELM, "3932160")                        # 1280 x 1024 x 3 (Max camera data array size for RGB)
   field(FTVL, "SHORT")
   field(INP, "$(P)$(R)image1:ArrayData CPP")
+}
+
+######################################################################
+# ERROR CODES
+#
+# Desc: Error monitoring.
+
+# Last Error
+
+record(mbbi, "$(P)$(R)LastErr-Mon"){
+  field(DESC, "Last error received")
+  field(ZRST, "NoError")
+  field(ZRVL, "0")
+  field(ONST, "Overtrigger")
+  field(ONVL, "1")
+  field(TWST, "Userset")
+  field(TWVL, "2")
+  field(THST, "InvalidParameter")
+  field(THVL, "3")
+  field(FRST, "OverTemperature")
+  field(FRVL, "4")
+  field(FVST, "PowerFailure")
+  field(FVVL, "5")
+  field(SXST, "InsufficientTrig")
+  field(SXVL, "6")
+  field(SVST, "UserDefPixFailur")
+  field(SVVL, "7")
+  field(INP, "$(P)$(R)cam1:LastError_RBV CPP")
+}
+
+# Clear last error
+
+record(bo, "$(P)$(R)ClearLastErr-Cmd"){
+  field(DESC, "Clear the last error")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+  field(HIGH, "0.5")
+  field(FLNK, "$(P)$(R)ValidClearLastErr")
+}
+
+record(calcout, "$(P)$(R)ValidClearLastErr"){
+  field(DESC, "Validate clear last error cmd")
+  field(INPA, "$(P)$(R)ClearLastErr-Cmd")
+  field(CALC, "A")
+  field(OOPT, "When Non-zero")
+  field(OUT, "$(P)$(R)cam1:ClearLastError PP")
+}
+
+######################################################################
+# TEMPERATURE
+#
+# Desc: Camera temperature parameters.
+
+# Temperature state
+
+record(mbbi, "$(P)$(R)TempState-Mon"){
+  field(DESC, "Temperature state")
+  field(ZRST, "Ok")
+  field(ZRVL, "0")
+  field(ONST, "Critical")
+  field(ONVL, "1")
+  field(TWST, "Error")
+  field(TWVL, "3")
+  field(ZRSV, "NO_ALARM")
+  field(ONSV, "MINOR")
+  field(TWSV, "MAJOR")
+  field(INP, "$(P)$(R)cam1:TemperatureState_RBV CPP")
+}
+
+# Temperature reading
+
+record(ai, "$(P)$(R)Temp-Mon"){
+  field(DESC, "Camera temperature")
+  field(EGU, "degrees")
+  field(PREC, "3")
+  field(INP, "$(P)$(R)TemperatureAbs_RBV CPP")
+}
+
+######################################################################
+# NETWORKING AND READOUT
+#
+# Desc: Camera network and readout related configurations.
+
+# Readout time absolute
+record(longin, "$(P)$(R)ReadoutTime-Mon"){
+  field(DESC, "Readout time duration")
+  field(EGU, "us")
+  field(INP, "$(P)$(R)cam1:ReadoutTimeAbs_RBV CPP")
+}
+
+# Resulting frame rate
+record(ai, "$(P)$(R)ResultFrameRate-Mon"){
+  field(DESC, "Resulting frame rate")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)cam1:ResultingFrameRa_RBV CPP")
+}
+
+# Payload size
+record(longin, "$(P)$(R)PayloadSize-Mon"){
+  field(DESC, "Total payload size")
+  field(EGU, "bytes")
+  field(INP, "$(P)$(R)cam1:PayloadSize_RBV CPP")
+}
+
+# Packet size
+record(longout, "$(P)$(R)PacketSize-SP"){
+  field(DESC, "Packet size")
+  field(EGU, "bytes")
+  field(DRVL, "100")
+  field(OUT, "$(P)$(R)cam1:GevSCPSPacketSiz PP")
+}
+
+record(longin, "$(P)$(R)PacketSize-RB"){
+  field(DESC, "Packet size RB")
+  field(EGU, "bytes")
+  field(INP, "$(P)$(R)cam1:GevSCPSPacketSiz_RBV CPP")
+}
+
+# Inter-Packet Delay
+record(longout, "$(P)$(R)InterPacketDelay-SP"){
+  field(DESC, "Inter packet delay")
+  field(EGU, "8 ns")
+  field(DRVH, "1000")
+  field(DRVL, "0")
+  field(OUT, "$(P)$(R)cam1:GevSCPD PP")
+}
+
+record(longin, "$(P)$(R)InterPacketDelay-RB"){
+  field(DESC, "Inter packet delay RB")
+  field(EGU, "8 ns")
+  field(INP, "$(P)$(R)cam1:GevSCPD_RBV CPP")
+}
+
+# Frame Transmission Delay
+record(longout, "$(P)$(R)TransmDelay-SP"){
+  field(DESC, "Frame transmission start delay")
+  field(EGU, "8 ns")
+  field(DRVH, "100000")
+  field(DRVL, "0")
+  field(OUT, "$(P)$(R)cam1:GevSCFTD PP")
+}
+
+record(longin, "$(P)$(R)TransmDelay-RB"){
+  field(DESC, "Frame transmission start delay RB")
+  field(EGU, "8 ns")
+  field(INP, "$(P)$(R)cam1:GevSCFTD_RBV CPP")
+}
+
+# Bandwidth Assigned
+record(longin, "$(P)$(R)BwAssigned-Mon"){
+  field(DESC, "Required bandwidth")
+  field(EGU, "bytes")
+  field(INP, "$(P)$(R)cam1:GevSCBWA_RBV CPP")
+}
+
+# Bandwidth Reserver (% of assigned BW)
+record(longout, "$(P)$(R)BwReserve-SP"){
+  field(DESC, "Bandwidth reserve for transm control")
+  field(EGU, "%")
+  field(DRVH, "100")
+  field(DRVL, "0")
+  field(OUT, "$(P)$(R)cam1:GevSCBWR PP")
+}
+
+record(longin, "$(P)$(R)BwReserve-RB"){
+  field(DESC, "Bandwidth reserve for transm control RB")
+  field(EGU, "%")
+  field(INP, "$(P)$(R)cam1:GevSCBWR_RBV CPP")
+}
+
+# Bandwidth Reserve Accumulation
+# This is value, multiplied by the BW reserve,
+# yields the extra BW available for unusual events
+# such as EMI bursts.
+record(longout, "$(P)$(R)BwReserveAccum-SP"){
+  field(DESC, "Bandwidth reserve accumulation")
+  field(DRVH, "50")
+  field(DRVL, "0")
+  field(OUT, "$(P)$(R)cam1:GevSCBWRA PP")
+}
+
+record(longin, "$(P)$(R)BwReserveAccum-RB"){
+  field(DESC, "Bandwidth reserve accumulation RB")
+  field(INP, "$(P)$(R)cam1:GevSCBWRA_RBV CPP")
+}
+
+# Frame Max Jitter
+# Max time that the next frame transm could be
+# delayed due to a burst of resends.
+record(longin, "$(P)$(R)FrameMaxJitter-Mon"){
+  field(DESC, "Max frame delay due to burst of resends")
+  field(EGU, "8 ns")
+  field(INP, "$(P)$(R)cam1:GevSCFJM_RBV CPP")
+}
+
+# Device Max Throughput
+record(longin, "$(P)$(R)MaxThroughput-Mon"){
+  field(DESC, "Max amount of data the cam can generate")
+  field(EGU, "bytes/s")
+  field(INP, "$(P)$(R)cam1:GevSCDMT_RBV CPP")
+}
+
+# Device Current Throughput
+record(longin, "$(P)$(R)CurrentThroughput-Mon"){
+  field(DESC, "Actual amount of data the cam generates")
+  field(EGU, "bytes/s")
+  field(INP, "$(P)$(R)cam1:GevSCDCT_RBV CPP")
+}
+
+######################################################################
+# AREA OF INTEREST
+#
+# Desc: Records for area of interest adjustment.
+
+# AOI offset x
+record(longout, "$(P)$(R)AOIOffsetX-SP"){
+  field(DESC, "AOI start column")
+  field(DRVH, "1279")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)AOIOffsetXCalc")
+}
+
+record(calcout, "$(P)$(R)AOIOffsetXCalc"){
+  field(DESC, "Adjust offset x to allowed steps")
+  field(INPA, "$(P)$(R)AOIOffsetX-SP")
+  field(INPB, "1280")
+  field(INPC, "$(P)$(R)AOIWidth-RB")
+  field(CALC, "D:=A-(A%16);E:=B-C;D<E?D:E")           # Only steps of 16 are allowed. Limit to available area.
+  field(OUT, "$(P)$(R)cam1:OffsetX PP")
+}
+
+record(longin, "$(P)$(R)AOIOffsetX-RB"){
+  field(DESC, "AOI start column RB")
+  field(INP, "$(P)$(R)cam1:OffsetX_RBV CPP")
+}
+
+# AOI offset y
+record(longout, "$(P)$(R)AOIOffsetY-SP"){
+  field(DESC, "AOI start row")
+  field(DRVH, "1023")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)AOIOffsetYCalc")
+}
+
+record(calcout, "$(P)$(R)AOIOffsetYCalc"){
+  field(DESC, "Adjust offset y to allowed value")
+  field(INPA, "$(P)$(R)AOIOffsetY-SP")
+  field(INPB, "1024")
+  field(INPC, "$(P)$(R)AOIHeight-RB")
+  field(CALC, "D:=B-C;A<D?A:D")                        # Limit value to available area
+  field(OUT, "$(P)$(R)cam1:OffsetY PP")
+}
+
+record(longin, "$(P)$(R)AOIOffsetY-RB"){
+  field(DESC, "AOI start row RB")
+  field(INP, "$(P)$(R)cam1:OffsetY_RBV CPP")
+}
+
+# AOI width
+record(longout, "$(P)$(R)AOIWidth-SP"){
+  field(DESC, "AOI width")
+  field(DRVH, "1280")
+  field(DRVL, "1")
+  field(FLNK, "$(P)$(R)AOIWidthCalc")
+}
+
+record(calcout, "$(P)$(R)AOIWidthCalc"){
+  field(DESC, "Adjust width to allowed steps")
+  field(INPA, "$(P)$(R)AOIWidth-SP")
+  field(INPB, "1280")
+  field(INPC, "$(P)$(R)AOIOffsetX-RB")
+  field(CALC, "D:=A-(A%16);E:=B-C;D<E?D:E")            # Only steps of 16 are allowed. Limit to available area.
+  field(OUT, "$(P)$(R)cam1:Width PP")
+}
+
+record(longin, "$(P)$(R)AOIWidth-RB"){
+  field(DESC, "AOI width RB")
+  field(INP, "$(P)$(R)cam1:Width_RBV CPP")
+}
+
+# AOI height
+record(longout, "$(P)$(R)AOIHeight-SP"){
+  field(DESC, "AOI height")
+  field(DRVH, "1024")
+  field(DRVL, "1")
+  field(FLNK, "$(P)$(R)AOIHeightCalc")
+}
+
+record(calcout, "$(P)$(R)AOIHeightCalc"){
+  field(DESC, "Adjust hight to allowed value")
+  field(INPA, "$(P)$(R)AOIHeight-SP")
+  field(INPB, "1024")
+  field(INPC, "$(P)$(R)AOIOffsetY-RB")
+  field(CALC, "D:=B-C;A<D?A:D")                        # Limit value to available area.
+  field(OUT, "$(P)$(R)cam1:Height PP")
+}
+
+record(longin, "$(P)$(R)AOIHeight-RB"){
+  field(DESC, "AOI height RB")
+  field(INP, "$(P)$(R)cam1:Height_RBV CPP")
+}
+
+# Center AOI X automatically
+record(bo, "$(P)$(R)AOIAutoCenterX-Sel"){
+  field(DESC, "Auto center AOI along the x axis")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(OUT, "$(P)$(R)cam1:CenterX PP")
+}
+
+record(bi, "$(P)$(R)AOIAutoCenterX-Sts"){
+  field(DESC, "Status of x axis AOI auto centering")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(INP, "$(P)$(R)cam1:CenterX_RBV CPP")
+}
+
+# Center AOI Y automatically
+record(bo, "$(P)$(R)AOIAutoCenterY-Sel"){
+  field(DESC, "Auto center AOI along the y axis")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(OUT, "$(P)$(R)cam1:CenterY PP")
+}
+
+record(bi, "$(P)$(R)AOIAutoCenterY-Sts"){
+  field(DESC, "Status of y axis AOI auto centering")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(INP, "$(P)$(R)cam1:CenterY_RBV CPP")
+}
+
+# Prevent attempts to change AOI size 'on-the-fly'
+record(calc, "$(P)$(R)AOIProtectCalc"){
+  field(DESC, "Cannot change AOI size while acquiring")
+  field(INPA, "$(P)$(R)Enbl-Sts CPP")
+  field(CALC, "A=0?3:12")
+  field(FLNK, "$(P)$(R)AOIProtectSeq")
+}
+
+record(seq, "$(P)$(R)AOIProtectSeq"){
+  field(DESC, "Enable/disable some AOI changes")
+  field(SELM, "Mask")
+  field(SELL, "$(P)$(R)AOIProtectCalc")
+  field(DO1, "1")                                     # Enable AOI width record
+  field(DO2, "1")                                     # Enable AOI height record
+  field(DO3, "0")                                     # Disable AOI width record
+  field(DO4, "0")                                     # Disable AOI height record
+  field(LNK1, "$(P)$(R)AOIWidth-SP.DISV")
+  field(LNK2, "$(P)$(R)AOIHeight-SP.DISV")
+  field(LNK3, "$(P)$(R)AOIWidth-SP.DISV")
+  field(LNK4, "$(P)$(R)AOIHeight-SP.DISV")
+}
+
+######################################################################
+# AUTO FUNCTION
+#
+# Desc: Records related to auto functions.
+
+# Auto adjust the gain value
+
+record(bo, "$(P)$(R)AutoGain-Cmd"){
+  field(DESC, "Auto adjust gain")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+  field(HIGH, "0.5")
+  field(FLNK, "$(P)$(R)ValidateAutoGain")
+}
+
+record(calcout, "$(P)$(R)ValidateAutoGain"){
+  field(DESC, "Validate auto adjust gain cmd")
+  field(INPA, "$(P)$(R)AutoGain-Cmd")
+  field(CALC, "A=1?1:0")
+  field(OOPT, "When Non-zero")
+  field(OUT, "$(P)$(R)cam1:GainAuto PP")
+}
+
+# Auto Function initialization
+
+record(sseq, "$(P)$(R)InitAutoFunctionAOIs1"){
+  field(DESC, "Init auto function config 1")
+  field(PINI, "YES")
+  field(SELM, "All")
+# ----- select AOI 1
+  field(STR1, "AOI1")
+  field(LNK1, "$(P)$(R)cam1:AutoFunctionAOIS PP")
+  field(WAIT1, "Wait")
+  field(DLY1, "1")
+# ----- assign intensity auto func to AOI 1
+  field(STR2, "Yes")
+  field(LNK2, "$(P)$(R)cam1:AutoFunctionAOIU PP")
+  field(WAIT2, "Wait")
+  field(DLY2, "1")
+# ----- set auto function AOI 1 offset x
+  field(DO3, "0")
+  field(LNK3, "$(P)$(R)cam1:AutoFunctionAOIO PP")
+  field(WAIT3, "Wait")
+  field(DLY3, "1")
+# ----- set auto function AOI 1 offset y
+  field(DO4, "0")
+  field(LNK4, "$(P)$(R)cam1:AutoFunctionAOI0 PP")
+  field(WAIT4, "Wait")
+  field(DLY4, "1")
+# ----- set auto function AOI 1 width
+  field(DO5, "1280")
+  field(LNK5, "$(P)$(R)cam1:AutoFunctionAOIW PP")
+  field(WAIT5, "Wait")
+  field(DLY5, "1")
+# ----- set auto function AOI 1 height
+  field(DO6, "1024")
+  field(LNK6, "$(P)$(R)cam1:AutoFunctionAOIH PP")
+  field(WAIT6, "Wait")
+  field(DLY6, "1")
+# ----- select AOI 2
+  field(STR7, "AOI2")
+  field(LNK7, "$(P)$(R)cam1:AutoFunctionAOIS PP")
+  field(WAIT7, "Wait")
+  field(DLY7, "1")
+# ----- disable intensity auto func for AOI 2
+  field(STR8, "No")
+  field(LNK8, "$(P)$(R)cam1:AutoFunctionAOIU PP")
+  field(WAIT8, "Wait")
+  field(DLY8, "1")
+# ----- set gain auto target value
+  field(DO9, "128")
+  field(LNK9, "$(P)$(R)cam1:AutoTargetValue PP")
+  field(WAIT9, "Wait")
+# ----- set auto gain lower raw limit
+  field(DOA, "136")
+  field(LNKA, "$(P)$(R)cam1:AutoGainRawLower PP")
+  field(WAITA, "Wait")
+  field(FLNK, "$(P)$(R)InitAutoFunctionAOIs2")
+}
+
+record(sseq, "$(P)$(R)InitAutoFunctionAOIs2"){
+  field(DESC, "Init auto function config 2")
+  field(SELM, "All")
+# ----- set auto gain upper raw limit
+  field(DO1, "542")
+  field(LNK1, "$(P)$(R)cam1:AutoGainRawUpper PP")
 }
 
 ######################################################################
@@ -178,6 +728,89 @@ record(calcout, "$(P)$(R)InitCalc1"){
   field(INPB, "$(P)$(R)image1:EnableCallbacks_RBV CPP")
   field(INPC, "$(P)$(R)image1:ArrayCallbacks_RBV CPP")
   field(CALC, "(A=1&&B=1&&C=1)?1:0")
-  field(OUT, "$(P)$(R)Enbl-Sel.PROC PP")                          # Set low level PV using high level autosaved value
+  field(OUT, "$(P)$(R)Enbl-Sel.PROC PP")                           # Set low level PV using high level autosaved value
 }
 
+# Statistics initialization
+
+record(sseq, "$(P)$(R)InitStats"){
+  field(DESC, "Initialize statistics")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)Stats1:EnableCallbacks PP")
+  field(WAIT1, "Wait")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)Stats1:ArrayCallbacks PP")
+  field(WAIT2, "Wait")
+  field(DLY2, "1.0")
+  field(STR3, "Yes")
+  field(LNK3, "$(P)$(R)Stats1:ComputeCentroid PP")                 # Compute centroid = yes
+  field(WAIT3, "Wait")
+  field(DLY3, "1.0")
+}
+
+######################################################################
+# DEVICE INFORMATION PARAMETERS
+#
+# Desc: General device information.
+
+# Vendor
+
+record(stringin, "$(P)$(R)DeviceVendorName-Cte"){
+  field(DESC, "Device vendor name")
+  field(INP, "$(P)$(R)cam1:DeviceVendorName_RBV CPP")
+}
+
+# Model
+record(stringin, "$(P)$(R)DeviceModelName-Cte"){
+  field(DESC, "Device model name")
+  field(INP, "$(P)$(R)cam1:DeviceModelName_RBV CPP")
+}
+
+# Camera Version
+record(stringin, "$(P)$(R)DeviceVersion-Cte"){
+  field(DESC, "Device version")
+  field(INP, "$(P)$(R)cam1:DeviceVersion_RBV CPP")
+}
+
+# Firmware version
+record(stringin, "$(P)$(R)DeviceFirmwareVersion-Cte"){
+  field(DESC, "Device firmware version")
+  field(INP, "$(P)$(R)cam1:DeviceFirmwareVe_RBV CPP")
+}
+
+# Device ID
+record(stringin, "$(P)$(R)DeviceID-Cte"){
+  field(DESC, "Device ID")
+  field(INP, "$(P)$(R)cam1:DeviceID_RBV CPP")
+}
+
+# Sensor Width
+record(stringin, "$(P)$(R)SensorWidth-Cte"){
+  field(DESC, "Sensor width")
+  field(INP, "$(P)$(R)cam1:SensorWidth_RBV CPP")
+}
+
+# Sensor Height
+record(stringin, "$(P)$(R)SensorHeight-Cte"){
+  field(DESC, "Sensor height")
+  field(INP, "$(P)$(R)cam1:SensorHeight_RBV CPP")
+}
+
+######################################################################
+# STATISTICS
+#
+# Desc: Aliases for statistics records.
+
+# Centroid
+
+alias(  "$(P)$(R)Stats1:ComputeCentroid",                "$(P)$(R)ComputeCentroid-Sel")  # Compute centroid (set)
+alias(  "$(P)$(R)Stats1:ComputeCentroid_RBV",            "$(P)$(R)ComputeCentroid-Sts")  # Compute centroid (read)
+alias(  "$(P)$(R)Stats1:CentroidThreshold",              "$(P)$(R)CentroidThreshold-SP") # Centroid threshold (set)
+alias(  "$(P)$(R)Stats1:CentroidThreshold_RBV",          "$(P)$(R)CentroidThreshold-RB") # Centroid threshold (read)
+alias(  "$(P)$(R)Stats1:CentroidX_RBV",                  "$(P)$(R)CentroidX-Mon")        # Centroid X monitor
+alias(  "$(P)$(R)Stats1:CentroidY_RBV",                  "$(P)$(R)CentroidY-Mon")        # Centroid Y monitor
+alias(  "$(P)$(R)Stats1:SigmaX_RBV",                     "$(P)$(R)SigmaX-Mon")           # Sigma X monitor
+alias(  "$(P)$(R)Stats1:SigmaY_RBV",                     "$(P)$(R)SigmaY-Mon")           # Sigma Y monitor
+alias(  "$(P)$(R)Stats1:SigmaXY_RBV",                    "$(P)$(R)SigmaXY-Mon")          # Sigma XY monitor

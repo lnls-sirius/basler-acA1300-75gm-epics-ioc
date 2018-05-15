@@ -6,10 +6,10 @@ ARAVISGIGE=/opt/epics/aravisGigE
 # include aravisGigE module variables
 -include $(ARAVISGIGE)/configure/RELEASE.local
 
-CALC=$(SUPPORT)/calc-3-4-2-1
-BUSY=$(SUPPORT)/busy-1-6-1
-SSCAN=$(SUPPORT)/sscan-2-10-1
-AUTOSAVE=$(SUPPORT)/autosave-5-6-1
+CALC=$(SUPPORT)/calc-R3-7
+BUSY=$(SUPPORT)/busy-R1-7
+SSCAN=$(SUPPORT)/sscan-R2-11-1
+AUTOSAVE=$(SUPPORT)/autosave-R5-9
 
 HDF5_LIB     = /usr/lib/x86_64-linux-gnu/hdf5/serial
 HDF5_INCLUDE = -I/usr/include/hdf5/serial

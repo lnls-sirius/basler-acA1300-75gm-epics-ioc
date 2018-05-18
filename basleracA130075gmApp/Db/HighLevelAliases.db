@@ -44,4 +44,4 @@ alias( "$(P)$(R)Stats1:CentroidY_RBV",   "$(NEW_PREFIX)CenterYNDStats-Mon")
 alias( "$(P)$(R)Stats1:SigmaX_RBV",      "$(NEW_PREFIX)SigmaXNDStats-Mon")
 alias( "$(P)$(R)Stats1:SigmaY_RBV",      "$(NEW_PREFIX)SigmaYNDStats-Mon")
 alias( "$(P)$(R)Stats1:SigmaXY_RBV",     "$(NEW_PREFIX)SigmaXYNDStats-Mon")
-
+alias( "$(P)$(R)Stats1:Orientation_RBV", "$(NEW_PREFIX)ThetaNDStats-Mon")

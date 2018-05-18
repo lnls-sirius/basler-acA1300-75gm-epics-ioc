@@ -814,3 +814,4 @@ alias(  "$(P)$(R)Stats1:CentroidY_RBV",                  "$(P)$(R)CentroidY-Mon"
 alias(  "$(P)$(R)Stats1:SigmaX_RBV",                     "$(P)$(R)SigmaX-Mon")           # Sigma X monitor
 alias(  "$(P)$(R)Stats1:SigmaY_RBV",                     "$(P)$(R)SigmaY-Mon")           # Sigma Y monitor
 alias(  "$(P)$(R)Stats1:SigmaXY_RBV",                    "$(P)$(R)SigmaXY-Mon")          # Sigma XY monitor
+alias(  "$(P)$(R)Stats1:Orientation_RBV",                "$(P)$(R)Theta-Mon")            # Orientation (theta) monitor

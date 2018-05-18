@@ -321,7 +321,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>$(P)Stats1:CentroidX_RBV</pv_name>
+    <pv_name>$(P)Stats1:CentroidX-Mon</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5798,7 +5798,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>$(P)Stats1:CentroidY_RBV</pv_name>
+    <pv_name>$(P)Stats1:CentroidY-Mon</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5850,7 +5850,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>$(P)Stats1:SigmaX_RBV</pv_name>
+    <pv_name>$(P)Stats1:SigmaX-Mon</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5943,7 +5943,7 @@ $(pv_value)</tooltip>
     <name>Text Update_34</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>$(P)Stats1:SigmaY_RBV</pv_name>
+    <pv_name>$(P)Stats1:SigmaY-Mon</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5995,7 +5995,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>$(P)Stats1:Orientation_RBV</pv_name>
+    <pv_name>$(P)Stats1:Theta-Mon</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

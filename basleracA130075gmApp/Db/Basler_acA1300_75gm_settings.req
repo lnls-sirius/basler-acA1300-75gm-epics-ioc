@@ -1,3 +1,5 @@
+## This file specifies which PVs of the corresponding database should be saved
+
 # Enable
 $(P)$(R)Enbl-Sel
 # Acquisition Mode
@@ -14,3 +16,27 @@ $(P)$(R)Gain-SP
 $(P)$(R)BlackLevel-SP
 # Debouncer Period
 $(P)$(R)DebouncerPeriod-SP
+# Image Data Type
+$(P)$(R)DataType-Sel
+# Packet Size
+$(P)$(R)PacketSize-SP
+# Inter-Packet Delay
+$(P)$(R)InterPacketDelay-SP
+# Transmission Delay
+$(P)$(R)TransmDelay-SP
+# Bandwidth Reserve
+$(P)$(R)BwReserve-SP
+# Bandwidth Reserve Accumulation
+$(P)$(R)BwReserveAccum-SP
+# Area Of Interest Offset X
+$(P)$(R)AOIOffsetX-SP
+# Area Of Interest Offset Y
+$(P)$(R)AOIOffsetY-SP
+# Area Of Interest Width
+$(P)$(R)AOIWidth-SP
+# Area Of Interest Height
+$(P)$(R)AOIHeight-SP
+# Area Of Interest Auto Center X
+$(P)$(R)AOIAutoCenterX-Sel
+# Area Of Interest Auto Center X
+$(P)$(R)AOIAutoCenterY-Sel

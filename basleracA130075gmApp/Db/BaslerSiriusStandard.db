@@ -231,6 +231,35 @@ record(longin, "$(P)$(R)DebouncerPeriod-RB"){
   field(INP, "$(P)$(R)cam1:LineDebouncerTim_RBV CPP")
 }
 
+# Image Data Type
+
+record(bo, "$(P)$(R)DataType-Sel"){
+  field(DESC, "Image data type")
+  field(ZNAM, "8 bits")
+  field(ONAM, "12 bits")
+  field(FLNK, "$(P)$(R)DataTypeCalc")
+}
+
+record(scalcout, "$(P)$(R)DataTypeCalc"){
+  field(DESC, "Data type conversion")
+  field(INPA, "$(P)$(R)DataType-Sel")
+  field(CALC, "A=0?'UInt8':'UInt16'")
+  field(OUT, "$(P)$(R)cam1:DataType PP")
+}
+
+record(scalcout, "$(P)$(R)DataTypeReadCalc"){
+  field(DESC, "Read data type calc")
+  field(INAA, "$(P)$(R)cam1:DataType_RBV CPP")
+  field(CALC, "AA='UInt8'?'8 bits':'12 bits'")
+  field(OUT, "$(P)$(R)DataType-Sts PP")
+}
+
+record(bi, "$(P)$(R)DataType-Sts"){
+  field(DESC, "Image data type status")
+  field(ZNAM, "8 bits")
+  field(ONAM, "12 bits")
+}
+
 ######################################################################
 # CAMERA DATA
 #
@@ -242,7 +271,7 @@ record(waveform, "$(P)$(R)Data-Mon"){
   field(APST, "Always")                         # Always post archive monitors
   field(MPST, "Always")                         # Always post value monitors
   field(NELM, "3932160")                        # 1280 x 1024 x 3 (Max camera data array size for RGB)
-  field(FTVL, "SHORT")
+  field(FTVL, "USHORT")
   field(INP, "$(P)$(R)image1:ArrayData CPP")
 }
 

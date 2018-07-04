@@ -348,7 +348,7 @@ record(ai, "$(P)$(R)Temp-Mon"){
   field(DESC, "Camera temperature")
   field(EGU, "degrees")
   field(PREC, "3")
-  field(INP, "$(P)$(R)TemperatureAbs_RBV CPP")
+  field(INP, "$(P)$(R)cam1:TemperatureAbs_RBV CPP")
 }
 
 ######################################################################

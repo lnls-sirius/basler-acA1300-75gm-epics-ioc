@@ -94,6 +94,7 @@ record(calcout, "$(P)$(R)AcqLimCalc"){
 record(ai, "$(P)$(R)AcqPeriod-RB"){
   field(DESC, "Acquisition period RB")
   field(EGU, "seconds")
+  field(PREC, "6")
   field(INP, "$(P)$(R)cam1:AcquirePeriod_RBV CPP")
 }
 

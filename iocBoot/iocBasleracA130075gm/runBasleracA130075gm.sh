@@ -21,7 +21,7 @@ if [ -z "$SERIAL_NUMBER" ]; then
 fi
 
 if [ -z "$EPICS_CA_MAX_ARRAY_BYTES" ]; then
-    export EPICS_CA_MAX_ARRAY_BYTES="8000000"
+    export EPICS_CA_MAX_ARRAY_BYTES="20000000"
 fi
 
 if [ -z "$NEW_PREFIX" ]; then

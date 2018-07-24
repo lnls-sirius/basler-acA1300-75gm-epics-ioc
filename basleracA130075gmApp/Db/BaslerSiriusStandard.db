@@ -261,6 +261,14 @@ record(bi, "$(P)$(R)DataType-Sts"){
   field(ONAM, "12 bits")
 }
 
+record(bi, "$(P)$(R)Connection-Mon"){
+  field(DESC, "Connection status")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+  field(VAL, "0")
+  field(INP, "$(P)$(R)Cam1CHKCONN CPP")
+}
+
 ######################################################################
 # CAMERA DATA
 #

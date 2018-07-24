@@ -29,25 +29,20 @@ aravisCameraConfig("$(PORT)", "Basler-$(SERIAL_NUMBER)")
 asynSetTraceMask("$(PORT)",0,0x21)
 
 # Template needed by IOC from aravisGigE
-dbLoadRecords("$(ARAVISGIGE)/db/aravisCamera.template", "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ARAVISGIGE)/db/aravisCamera.template", "P=$(PREFIX),R=Cam1,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 # Auto-generated template from camera xml file
-dbLoadRecords("$(TOP)/db/Basler_acA1300_75gm.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(TOP)/db/Basler_acA1300_75gm.template","P=$(PREFIX),R=Cam1,PORT=$(PORT),ADDR=0,TIMEOUT=1")
 
 # Create a standard arrays plugin
 NDStdArraysConfigure("Image1", "$(QSIZE)", 0, "$(PORT)", 0, 0, 0, 0)
 # Allow for cameras up to 1280x1024x3 for RGB
-dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),TYPE=Int16,FTVL=SHORT,NELEMENTS=3932160")
+dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=Image1,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),TYPE=Int16,FTVL=SHORT,NELEMENTS=3932160")
 
-# Load all other plugins using commonPlugins.cmd
-< $(ADCORE)/iocBoot/EXAMPLE_commonPlugins.cmd
+# Load plugins
+< stPlugins.cmd
 
 # Sirius-naming-convention compliant PVs
 dbLoadRecords("$(TOP)/db/BaslerSiriusStandard.db","P=$(P),R=$(R)")
-
-set_requestfile_path("$(ADPILATUS)/prosilicaApp/Db")
-
-#asynSetTraceMask("$(PORT)",0,255)
-#asynSetTraceMask("$(PORT)",0,3)
 
 < save_restore.cmd
 

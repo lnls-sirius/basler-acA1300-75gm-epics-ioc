@@ -19,6 +19,12 @@ PROD_LIBS += aravisCamera
 PROD_LIBS += aravis-0.4
 PROD_SYS_LIBS += giomm-2.4
 
+# Add NDPluginDimFei
+ifdef DIMFEI
+  $(PROD_NAME)_DBD += NDPluginDimFei.dbd
+  PROD_LIBS += NDPluginDimFei
+endif
+
 include $(ADCORE)/ADApp/commonDriverMakefile
 
 #=============================

@@ -36,6 +36,10 @@ dbLoadRecords("NDOverlayN.template","P=$(PREFIX),R=Over1N2,NAME=ROI2,   SHAPE=1,
 dbLoadRecords("NDOverlayN.template","P=$(PREFIX),R=Over1N3,NAME=Cursor1,SHAPE=1,O=Over1,XPOS=junk,                  YPOS=junk,                  XSIZE=junk,                   YSIZE=junk,                   PORT=OVER1,ADDR=2,TIMEOUT=1")
 dbLoadRecords("NDOverlayN.template","P=$(PREFIX),R=Over1N4,NAME=Cursor2,SHAPE=1,O=Over1,XPOS=junk,                  YPOS=junk,                  XSIZE=junk,                   YSIZE=junk,                   PORT=OVER1,ADDR=3,TIMEOUT=1")
 
+# Create 1 DimFei plugin
+NDDimFeiConfigure("DIMFEI1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
+dbLoadRecords("$(DIMFEI)/db/NDDimFei.template", "P=$(PREFIX), R=DimFei1, PORT=DIMFEI1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
+
 set_requestfile_path("$(TOP)", "basleracA130075gmApp/Db")
 set_requestfile_path("$(ADCORE)/ADApp/Db")
 set_requestfile_path("$(ADCORE)/iocBoot")

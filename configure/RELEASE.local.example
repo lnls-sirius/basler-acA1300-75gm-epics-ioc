@@ -6,6 +6,9 @@ ARAVISGIGE=/opt/epics/aravisGigE
 # include aravisGigE module variables
 -include $(ARAVISGIGE)/configure/RELEASE.local
 
+# NDPluginDimFei module path
+DIMFEI=/opt/epics/NDPluginDimFei
+
 CALC=$(SUPPORT)/calc-R3-7
 BUSY=$(SUPPORT)/busy-R1-7
 SSCAN=$(SUPPORT)/sscan-R2-11-1

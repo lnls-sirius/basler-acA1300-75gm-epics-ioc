@@ -261,12 +261,53 @@ record(bi, "$(P)$(R)DataType-Sts"){
   field(ONAM, "12 bits")
 }
 
+# Connection Status
+
 record(bi, "$(P)$(R)Connection-Mon"){
   field(DESC, "Connection status")
   field(ZNAM, "Off")
   field(ONAM, "On")
   field(VAL, "0")
   field(INP, "$(P)$(R)Cam1CHKCONN CPP")
+}
+
+######################################################################
+# AUTOCONNECT
+#
+# Desc: Reconnect to device and download parameters.
+
+# Auto reconnect
+
+record(calcout, "$(P)$(R)AutoReconnect"){
+  field(DESC, "Auto reconnect to device")
+  field(SCAN, "10 second")
+  field(INPA, "$(P)$(R)Connection-Mon")
+  field(CALC, "A=0")
+  field(OOPT, "When Non-zero")
+  field(OUT, "$(P)$(R)Cam1RESET PP")
+  field(DISA, "1")  # record starts disabled
+}
+
+# Auto set PVs
+
+record(calcout, "$(P)$(R)AutoDownload"){
+  field(DESC, "Restore PV values after reconnect")
+  field(INPA, "$(P)$(R)Connection-Mon CPP")
+  field(CALC, "A")
+  field(OOPT, "Transition To Non-zero")
+  field(OUT, "$(P)$(R)InitAfterReconnect.PROC PP")
+  field(DISA, "1")  # record starts disabled
+}
+
+# Reconfigure camera after reconnection
+
+record(seq, "$(P)$(R)InitAfterReconnect"){
+  field(DESC, "Init PVs after reconnection")
+  field(SELM, "All")
+  field(DO1, "1")
+  field(LNK1, "$(P)$(R)InitCamSeq1.PROC PP")  # Reprocess PVs
+  field(DO2, "1")
+  field(LNK2, "$(P)$(R)InitAutoFunctionAOIs1.PROC PP")  # Reconfigure auto function AOIs
 }
 
 ######################################################################
@@ -391,6 +432,7 @@ record(longout, "$(P)$(R)PacketSize-SP"){
   field(DESC, "Packet size")
   field(EGU, "bytes")
   field(DRVL, "100")
+  field(VAL, "1500") # default is required for reconnection download to be consistent
   field(OUT, "$(P)$(R)Cam1GevSCPSPacketSiz PP")
 }
 
@@ -406,6 +448,7 @@ record(longout, "$(P)$(R)InterPacketDelay-SP"){
   field(EGU, "8 ns")
   field(DRVH, "1000")
   field(DRVL, "0")
+  field(VAL, "0") # default is required for reconnection download to be consistent
   field(OUT, "$(P)$(R)Cam1GevSCPD PP")
 }
 
@@ -421,6 +464,7 @@ record(longout, "$(P)$(R)TransmDelay-SP"){
   field(EGU, "8 ns")
   field(DRVH, "100000")
   field(DRVL, "0")
+  field(VAL, "0") # default is required for reconnection download to be consistent
   field(OUT, "$(P)$(R)Cam1GevSCFTD PP")
 }
 
@@ -443,6 +487,7 @@ record(longout, "$(P)$(R)BwReserve-SP"){
   field(EGU, "%")
   field(DRVH, "100")
   field(DRVL, "0")
+  field(VAL, "10") # default is required for reconnection download to be consistent
   field(OUT, "$(P)$(R)Cam1GevSCBWR PP")
 }
 
@@ -453,13 +498,14 @@ record(longin, "$(P)$(R)BwReserve-RB"){
 }
 
 # Bandwidth Reserve Accumulation
-# This is value, multiplied by the BW reserve,
+# This value multiplied by the BW reserve
 # yields the extra BW available for unusual events
 # such as EMI bursts.
 record(longout, "$(P)$(R)BwReserveAccum-SP"){
   field(DESC, "Bandwidth reserve accumulation")
   field(DRVH, "50")
-  field(DRVL, "0")
+  field(DRVL, "1")
+  field(VAL, "1") # default is required for reconnection download to be consistent
   field(OUT, "$(P)$(R)Cam1GevSCBWRA PP")
 }
 
@@ -501,6 +547,7 @@ record(longout, "$(P)$(R)AOIOffsetX-SP"){
   field(DESC, "AOI start column")
   field(DRVH, "1279")
   field(DRVL, "0")
+  field(VAL, "0") # default is required for reconnection download to be consistent
   field(FLNK, "$(P)$(R)AOIOffsetXCalc")
 }
 
@@ -523,6 +570,7 @@ record(longout, "$(P)$(R)AOIOffsetY-SP"){
   field(DESC, "AOI start row")
   field(DRVH, "1023")
   field(DRVL, "0")
+  field(VAL, "0") # default is required for reconnection download to be consistent
   field(FLNK, "$(P)$(R)AOIOffsetYCalc")
 }
 
@@ -545,6 +593,7 @@ record(longout, "$(P)$(R)AOIWidth-SP"){
   field(DESC, "AOI width")
   field(DRVH, "1280")
   field(DRVL, "1")
+  field(VAL, "1280") # default is required for reconnection download to be consistent
   field(FLNK, "$(P)$(R)AOIWidthCalc")
 }
 
@@ -567,6 +616,7 @@ record(longout, "$(P)$(R)AOIHeight-SP"){
   field(DESC, "AOI height")
   field(DRVH, "1024")
   field(DRVL, "1")
+  field(VAL, "1024") # default is required for reconnection download to be consistent
   field(FLNK, "$(P)$(R)AOIHeightCalc")
 }
 
@@ -741,32 +791,83 @@ record(sseq, "$(P)$(R)InitSeq1"){
   field(STR2, "Enable")
   field(STR3, "Enable")
   field(STR4, "Continuous")
-  field(DO5, "1")
 # ------- PVs to initialize -------
   field(LNK1, "$(P)$(R)Cam1ArrayCallbacks PP")                    # Enable array callbacks for the camera
   field(LNK2, "$(P)$(R)Image1EnableCallbacks PP")                 # Enable callbacks for the image plugin
   field(LNK3, "$(P)$(R)Image1ArrayCallbacks PP")                  # Enable array callbacks for the image plugin                  
   field(LNK4, "$(P)$(R)Cam1ImageMode PP")                         # Set the image mode to 'Continuous'
-  field(LNK5, "$(P)$(R)AcqMode-Sel.PROC PP")                       # Process the acquisition mode high level PV
 # ------- Wait for callback from destination record to proceed -------
   field(WAIT1, "Wait")                                             # Wait for completion to proceed
   field(WAIT2, "Wait")                                             # Wait for completion to proceed
   field(WAIT3, "Wait")                                             # Wait for completion to proceed
   field(WAIT4, "Wait")                                             # Wait for completion to proceed
-  field(WAIT5, "Wait")                                             # Wait for completion to proceed
 # ------- Delay intervals used for initialization -------
   field(DLY4, "1.0")                                               # Wait for 1 second before setting the image mode
-  field(DLY5, "1.0")                                               # Wait for 1 second before setting the acquisition mode
+  field(FLNK, "$(P)$(R)InitCamSeq1")
 }
 
-# Wait for callbacks to be enabled to set Camera Enable Parameter
-record(calcout, "$(P)$(R)InitCalc1"){
-  field(DESC, "Initialization calc 1")
-  field(INPA, "$(P)$(R)Cam1ArrayCallbacks_RBV CPP")
-  field(INPB, "$(P)$(R)Image1EnableCallbacks_RBV CPP")
-  field(INPC, "$(P)$(R)Image1ArrayCallbacks_RBV CPP")
-  field(CALC, "(A=1&&B=1&&C=1)?1:0")
-  field(OUT, "$(P)$(R)Enbl-Sel.PROC PP")                           # Set low level PV using high level autosaved value
+# Camera general initialization
+record(sseq, "$(P)$(R)InitCamSeq1"){
+  field(DESC, "Camera initialization sequence 1")
+  field(SELM, "All")
+  field(DO1, "1")
+  field(LNK1, "$(P)$(R)AcqMode-Sel.PROC PP")        # Acquisition Mode
+  field(DLY2, "1")                                  # Delay 1 sec
+  field(LNK2, "$(P)$(R)AcqPeriod-SP.PROC PP")       # Acquisition Period
+  field(DO3, "1")
+  field(LNK3, "$(P)$(R)ExposureMode-Sel.PROC PP")   # Exposure Mode
+  field(DO4, "1")
+  field(DLY4, "1")                                  # Delay 1 sec
+  field(LNK4, "$(P)$(R)ExposureTime-SP.PROC PP")    # Exposure Time
+  field(DO5, "1")
+  field(LNK5, "$(P)$(R)Gain-SP.PROC PP")            # Gain
+  field(DO6, "1")
+  field(LNK6, "$(P)$(R)BlackLevel-SP.PROC PP")      # Black Level
+  field(DO7, "1")
+  field(LNK7, "$(P)$(R)DebouncerPeriod-SP.PROC PP") # Debouncer Period
+  field(DO8, "1")
+  field(LNK8, "$(P)$(R)DataType-Sel.PROC PP")       # Data type
+  field(DO9, "1")
+  field(LNK9, "$(P)$(R)AOIAutoCenterY-Sel.PROC PP") # AOI auto center Y
+  field(DOA, "1")
+  field(LNKA, "$(P)$(R)AOIAutoCenterX-Sel.PROC PP") # AOI auto center X
+  field(FLNK, "$(P)$(R)InitCamSeq2")
+}
+
+record(sseq, "$(P)$(R)InitCamSeq2"){
+  field(DESC, "Camera initialization sequence 2")
+  field(SELM, "All")
+  field(DO1, "1")
+  field(LNK1, "$(P)$(R)PacketSize-SP.PROC PP")      # Packet size
+  field(DO2, "1")
+  field(LNK2, "$(P)$(R)InterPacketDelay-SP.PROC PP") # Inter-packet delay
+  field(DO3, "1")
+  field(LNK3, "$(P)$(R)TransmDelay-SP.PROC PP")     # Transmission delay
+  field(DO4, "1")
+  field(LNK4, "$(P)$(R)BwReserve-SP.PROC PP")       # Bandwidth reserver
+  field(DO5, "1")
+  field(LNK5, "$(P)$(R)BwReserveAccum-SP.PROC PP")  # Bandwidth accumulation
+  field(DO6, "1")
+  field(LNK6, "$(P)$(R)AOIWidth-SP.PROC PP")        # AOI width
+  field(DO7, "1")
+  field(LNK7, "$(P)$(R)AOIHeight-SP.PROC PP")       # AOI height
+  field(DO8, "1")
+  field(LNK8, "$(P)$(R)AOIOffsetX-SP.PROC PP")      # AOI offset X
+  field(DO9, "1")
+  field(LNK9, "$(P)$(R)AOIOffsetY-SP.PROC PP")      # AOI offset Y
+  field(DOA, "1")
+  field(DLYA, "1")                                  # delay 1 sec
+  field(LNKA, "$(P)$(R)Enbl-Sel.PROC PP")           # Enable Acquisition
+  field(FLNK, "$(P)$(R)InitCamSeq3")
+}
+
+record(sseq, "$(P)$(R)InitCamSeq3"){
+  field(DESC, "Camera initialization sequence 3")
+  field(SELM, "All")
+  field(DO1, "0")
+  field(LNK1, "$(P)$(R)AutoReconnect.DISA")         # Enable reconnect record
+  field(DO2, "0")
+  field(LNK2, "$(P)$(R)AutoDownload.DISA")          # Enable auto download record
 }
 
 # Statistics initialization
@@ -858,17 +959,24 @@ record(stringin, "$(P)$(R)SensorHeight-Cte"){
 ######################################################################
 # STATISTICS
 #
-# Desc: Aliases for statistics records.
+# Desc: Aliases for centroid statistics records.
 
-# Centroid
+# NDStats
 
-alias(  "$(P)$(R)Stats1ComputeCentroid",                "$(P)$(R)ComputeCentroid-Sel")  # Compute centroid (set)
-alias(  "$(P)$(R)Stats1ComputeCentroid_RBV",            "$(P)$(R)ComputeCentroid-Sts")  # Compute centroid (read)
-alias(  "$(P)$(R)Stats1CentroidThreshold",              "$(P)$(R)CentroidThreshold-SP") # Centroid threshold (set)
-alias(  "$(P)$(R)Stats1CentroidThreshold_RBV",          "$(P)$(R)CentroidThreshold-RB") # Centroid threshold (read)
-alias(  "$(P)$(R)Stats1CentroidX_RBV",                  "$(P)$(R)CentroidX-Mon")        # Centroid X monitor
-alias(  "$(P)$(R)Stats1CentroidY_RBV",                  "$(P)$(R)CentroidY-Mon")        # Centroid Y monitor
-alias(  "$(P)$(R)Stats1SigmaX_RBV",                     "$(P)$(R)SigmaX-Mon")           # Sigma X monitor
-alias(  "$(P)$(R)Stats1SigmaY_RBV",                     "$(P)$(R)SigmaY-Mon")           # Sigma Y monitor
-alias(  "$(P)$(R)Stats1SigmaXY_RBV",                    "$(P)$(R)SigmaXY-Mon")          # Sigma XY monitor
-alias(  "$(P)$(R)Stats1Orientation_RBV",                "$(P)$(R)Theta-Mon")            # Orientation (theta) monitor
+alias(  "$(P)$(R)Stats1CentroidThreshold",         "$(P)$(R)CentroidThresholdNDStats-SP") # NDStats centroid threshold (set)
+alias(  "$(P)$(R)Stats1CentroidThreshold_RBV",     "$(P)$(R)CentroidThresholdNDStats-RB") # NDStats centroid threshold (read)
+alias(  "$(P)$(R)Stats1CentroidX_RBV",             "$(P)$(R)CenterXNDStats-Mon") # NDStats centroid X monitor
+alias(  "$(P)$(R)Stats1CentroidY_RBV",             "$(P)$(R)CenterYNDStats-Mon") # NDStats centroid Y monitor
+alias(  "$(P)$(R)Stats1SigmaX_RBV",                "$(P)$(R)SigmaXNDStats-Mon")  # NDStats sigma X monitor
+alias(  "$(P)$(R)Stats1SigmaY_RBV",                "$(P)$(R)SigmaYNDStats-Mon")  # NDStats sigma Y monitor
+alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStats-Mon") # NDStats sigma XY monitor
+alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStats-Mon")   # NDStats orientation (theta) monitor
+
+# DimFei
+
+alias( "$(P)$(R)DimFei1CentroidX_RBV",             "$(P)$(R)CenterXDimFei-Mon") # DimFei centroid X monitor
+alias( "$(P)$(R)DimFei1CentroidY_RBV",             "$(P)$(R)CenterYDimFei-Mon") # DimFei centroid Y monitor
+alias( "$(P)$(R)DimFei1SigmaX_RBV",                "$(P)$(R)SigmaXDimFei-Mon")  # DimFei sigma X monitor
+alias( "$(P)$(R)DimFei1SigmaY_RBV",                "$(P)$(R)SigmaYDimFei-Mon")  # DimFei sigma Y monitor
+alias( "$(P)$(R)DimFei1Orientation_RBV",           "$(P)$(R)ThetaDimFei-Mon")   # DimFei orientation (theta) monitor
+

@@ -52,6 +52,6 @@ dbLoadRecords("$(TOP)/db/HighLevelAliases.db","P=$(P),R=$(R), NEW_PREFIX=$(NEW_P
 iocInit()
 
 # save things every thirty seconds
-create_monitor_set("auto_settings_basler_acA1300_75gm.req", 30,"P=$(P)$(R), R=")
+create_monitor_set("auto_settings_basler_acA1300_75gm.req", 5,"P=$(P)$(R), R=")
 # The following line is necessary because of the save file name used in save_restore.cmd
 set_savefile_name("auto_settings_basler_acA1300_75gm.req", "auto_settings_${P}${R}.sav")

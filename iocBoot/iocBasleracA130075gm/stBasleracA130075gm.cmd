@@ -13,7 +13,7 @@ epicsEnvSet("PREFIX", "$(P)$(R)")
 # The port name for the detector
 epicsEnvSet("PORT",   "ARV1")
 # The queue size for all plugins
-epicsEnvSet("QSIZE",  "20")
+epicsEnvSet("QSIZE",  "1")
 # The maximim image width; used for row profiles in the NDPluginStats plugin
 epicsEnvSet("XSIZE",  "1280")
 # The maximim image height; used for column profiles in the NDPluginStats plugin

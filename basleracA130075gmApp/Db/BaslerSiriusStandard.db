@@ -77,7 +77,8 @@ record(ao, "$(P)$(R)AcqPeriod-SP"){
   field(DRVH, "10")                           # Can be increased if required
   field(DRVL, "0.0124")                       # 81 fps at normal sensor readout
   field(PREC, "6")
-  field(VAL, "0.03")
+  field(VAL, "0.2")
+  field(LSV, "MINOR")
   field(OUT, "$(P)$(R)Cam1AcquirePeriod PP")
 }
 
@@ -96,6 +97,31 @@ record(ai, "$(P)$(R)AcqPeriod-RB"){
   field(EGU, "seconds")
   field(PREC, "6")
   field(INP, "$(P)$(R)Cam1AcquirePeriod_RBV CPP")
+}
+
+# Set low alarm limit
+record(ao, "$(P)$(R)AcqPeriodLowLim-SP"){
+  field(DESC, "Acq period low alarm limit")
+  field(PINI, "YES")
+  field(EGU, "seconds")
+  field(PREC, "6")
+  field(VAL, "0.083")                         # 12 Hz is the default alarm limit
+  field(FLNK, "$(P)$(R)AcqPeriodLowLimSeq")
+}
+
+record(seq, "$(P)$(R)AcqPeriodLowLimSeq"){
+  field(DESC, "Acq period low alarm limit seq")
+  field(SELM, "All")
+  field(DOL1, "$(P)$(R)AcqPeriodLowLim-SP")
+  field(LNK1, "$(P)$(R)AcqPeriod-SP.LOW")
+  field(DOL2, "$(P)$(R)AcqPeriodLowLim-SP")
+  field(LNK2, "$(P)$(R)AcqPeriodLowLim-RB PP")
+}
+
+record(ai, "$(P)$(R)AcqPeriodLowLim-RB"){
+  field(DESC, "Acq period low alarm limit RB")
+  field(PREC, "6")
+  field(EGU, "seconds")
 }
 
 # Exposure control mode selection

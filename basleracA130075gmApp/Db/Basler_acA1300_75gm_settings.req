@@ -6,6 +6,8 @@ $(P)$(R)Enbl-Sel
 $(P)$(R)AcqMode-Sel
 # Acquisition Period
 $(P)$(R)AcqPeriod-SP
+# Acquisition Period Low Alarm Limit
+$(P)$(R)AcqPeriodLowLim-SP
 # Exposure Control Mode
 $(P)$(R)ExposureMode-Sel
 # Exposure Time

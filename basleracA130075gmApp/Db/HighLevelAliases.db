@@ -51,3 +51,28 @@ alias( "$(P)$(R)DimFei1CentroidY_RBV",   "$(NEW_PREFIX)CenterYDimFei-Mon")
 alias( "$(P)$(R)DimFei1SigmaX_RBV",      "$(NEW_PREFIX)SigmaXDimFei-Mon")
 alias( "$(P)$(R)DimFei1SigmaY_RBV",      "$(NEW_PREFIX)SigmaYDimFei-Mon")
 alias( "$(P)$(R)DimFei1Orientation_RBV", "$(NEW_PREFIX)ThetaDimFei-Mon")
+
+# NDROI for profile calculation
+
+alias( "$(P)$(R)ROI1EnableCallbacks",     "$(NEW_PREFIX)ProfileEnbl-Sel")
+alias( "$(P)$(R)ROI1EnableCallbacks_RBV", "$(NEW_PREFIX)ProfileEnbl-Sts")
+alias( "$(P)$(R)ROI1MinX",                "$(NEW_PREFIX)ProfileROIOffsetX-SP")
+alias( "$(P)$(R)ROI1MinX_RBV",            "$(NEW_PREFIX)ProfileROIOffsetX-RB")
+alias( "$(P)$(R)ROI1MinY",                "$(NEW_PREFIX)ProfileROIOffsetY-SP")
+alias( "$(P)$(R)ROI1MinY_RBV",            "$(NEW_PREFIX)ProfileROIOffsetY-RB")
+alias( "$(P)$(R)ROI1SizeX",               "$(NEW_PREFIX)ProfileROIWidth-SP")
+alias( "$(P)$(R)ROI1SizeX_RBV",           "$(NEW_PREFIX)ProfileROIWidth-RB")
+alias( "$(P)$(R)ROI1SizeY",               "$(NEW_PREFIX)ProfileROIHeight-SP")
+alias( "$(P)$(R)ROI1SizeY_RBV",           "$(NEW_PREFIX)ProfileROIHeight-RB")
+
+# Profile stats for ROI (NDStats2)
+
+alias( "$(P)$(R)Stats2CursorX",                    "$(NEW_PREFIX)ProfileCursorX-SP")
+alias( "$(P)$(R)Stats2CursorX_RBV",                "$(NEW_PREFIX)ProfileCursorX-RB")
+alias( "$(P)$(R)Stats2CursorY",                    "$(NEW_PREFIX)ProfileCursorY-SP")
+alias( "$(P)$(R)Stats2CursorY_RBV",                "$(NEW_PREFIX)ProfileCursorY-RB")
+alias( "$(P)$(R)Stats2ProfileCursorX_RBV",         "$(NEW_PREFIX)ProfileH-Mon")
+alias( "$(P)$(R)Stats2ProfileCursorY_RBV",         "$(NEW_PREFIX)ProfileV-Mon")
+alias( "$(P)$(R)Stats2ProfileAverageX_RBV",        "$(NEW_PREFIX)ProfileHAvg-Mon")
+alias( "$(P)$(R)Stats2ProfileAverageY_RBV",        "$(NEW_PREFIX)ProfileVAvg-Mon")
+

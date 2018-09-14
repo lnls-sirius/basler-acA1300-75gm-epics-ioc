@@ -910,7 +910,7 @@ record(sseq, "$(P)$(R)InitStats"){
   field(WAIT2, "Wait")
   field(DLY2, "1.0")
   field(STR3, "Yes")
-  field(LNK3, "$(P)$(R)Stats1ComputeCentroid PP")                 # Compute centroid = yes
+  field(LNK3, "$(P)$(R)Stats1ComputeCentroid PP")          # Compute centroid = yes
   field(WAIT3, "Wait")
   field(DLY3, "1.0")
 }
@@ -929,9 +929,59 @@ record(sseq, "$(P)$(R)InitDimFei"){
   field(WAIT2, "Wait")
   field(DLY2, "1.0")
   field(STR3, "Yes")
-  field(LNK3, "$(P)$(R)DimFei1ComputeStatistics PP")              # Compute statistics = yes
+  field(LNK3, "$(P)$(R)DimFei1ComputeStatistics PP")       # Compute statistics = yes
   field(WAIT3, "Wait")
   field(DLY3, "1.0")
+}
+
+# ROI initialization
+
+record(sseq, "$(P)$(R)InitSoftROI"){
+  field(DESC, "Initialize ROI plugin")
+  field(SELM, "All")
+  field(PINI, "YES")
+#  field(STR1, "Enable")
+#  field(LNK1, "$(P)$(R)ROI1EnableCallbacks PP")          # Soft ROI enable is controlled by a PV
+#  field(WAIT1, "Wait")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)ROI1ArrayCallbacks PP")
+  field(WAIT2, "Wait")
+  field(DLY2, "1.0")
+  field(STR3, "Disable")
+  field(LNK3, "$(P)$(R)ROI1EnableZ PP")                   # Disable ROI Z axis
+  field(WAIT3, "Wait")
+  field(DLY3, "1.0")
+  field(STR4, "Enable")
+  field(LNK4, "$(P)$(R)ROI1EnableX PP")                   # Enable ROI X axis
+  field(WAIT4, "Wait")
+  field(DLY4, "1.0")
+  field(STR5, "Enable")
+  field(LNK5, "$(P)$(R)ROI1EnableY PP")                   # Enable ROI Y axis
+  field(WAIT5, "Wait")
+  field(DLY5, "1.0")
+}
+
+# Stats 2 initialization
+
+record(sseq, "$(P)$(R)InitROIStats"){
+  field(DESC, "Initialize ROI statistics")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)Stats2EnableCallbacks PP")
+  field(WAIT1, "Wait")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)Stats2ArrayCallbacks PP")
+  field(WAIT2, "Wait")
+  field(DLY2, "1.0")
+  field(STR3, "Yes")
+  field(LNK3, "$(P)$(R)Stats2ComputeCentroid PP")          # Compute centroid = yes (necessary for avg profile)
+  field(WAIT3, "Wait")
+  field(DLY3, "1.0")
+  field(STR4, "Yes")
+  field(LNK4, "$(P)$(R)Stats2ComputeProfiles PP")          # Compute profiles = yes
+  field(WAIT4, "Wait")
+  field(DLY4, "1.0")
 }
 
 ######################################################################
@@ -987,7 +1037,7 @@ record(stringin, "$(P)$(R)SensorHeight-Cte"){
 #
 # Desc: Aliases for centroid statistics records.
 
-# NDStats
+# NDStats (centroid)
 
 alias(  "$(P)$(R)Stats1CentroidThreshold",         "$(P)$(R)CentroidThresholdNDStats-SP") # NDStats centroid threshold (set)
 alias(  "$(P)$(R)Stats1CentroidThreshold_RBV",     "$(P)$(R)CentroidThresholdNDStats-RB") # NDStats centroid threshold (read)
@@ -998,7 +1048,7 @@ alias(  "$(P)$(R)Stats1SigmaY_RBV",                "$(P)$(R)SigmaYNDStats-Mon") 
 alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStats-Mon") # NDStats sigma XY monitor
 alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStats-Mon")   # NDStats orientation (theta) monitor
 
-# DimFei
+# DimFei (centroid)
 
 alias( "$(P)$(R)DimFei1CentroidX_RBV",             "$(P)$(R)CenterXDimFei-Mon") # DimFei centroid X monitor
 alias( "$(P)$(R)DimFei1CentroidY_RBV",             "$(P)$(R)CenterYDimFei-Mon") # DimFei centroid Y monitor
@@ -1006,3 +1056,26 @@ alias( "$(P)$(R)DimFei1SigmaX_RBV",                "$(P)$(R)SigmaXDimFei-Mon")  
 alias( "$(P)$(R)DimFei1SigmaY_RBV",                "$(P)$(R)SigmaYDimFei-Mon")  # DimFei sigma Y monitor
 alias( "$(P)$(R)DimFei1Orientation_RBV",           "$(P)$(R)ThetaDimFei-Mon")   # DimFei orientation (theta) monitor
 
+# ROI (used by stats 2)
+
+alias( "$(P)$(R)ROI1EnableCallbacks",              "$(P)$(R)ProfileEnbl-Sel")      # ROI for profile stats enable (set)
+alias( "$(P)$(R)ROI1EnableCallbacks_RBV",          "$(P)$(R)ProfileEnbl-Sts")      # ROI for profile stats enable (read)
+alias( "$(P)$(R)ROI1MinX",                         "$(P)$(R)ProfileROIOffsetX-SP") # ROI offset in the X axis (set)
+alias( "$(P)$(R)ROI1MinX_RBV",                     "$(P)$(R)ProfileROIOffsetX-RB") # ROI offset in the X axis (read)
+alias( "$(P)$(R)ROI1MinY",                         "$(P)$(R)ProfileROIOffsetY-SP") # ROI offset in the Y axis (set)
+alias( "$(P)$(R)ROI1MinY_RBV",                     "$(P)$(R)ProfileROIOffsetY-RB") # ROI offset in the Y axis (read)
+alias( "$(P)$(R)ROI1SizeX",                        "$(P)$(R)ProfileROIWidth-SP")   # ROI size in the X axis (set)
+alias( "$(P)$(R)ROI1SizeX_RBV",                    "$(P)$(R)ProfileROIWidth-RB")   # ROI size in the X axis (read)
+alias( "$(P)$(R)ROI1SizeY",                        "$(P)$(R)ProfileROIHeight-SP")  # ROI size in the Y axis (set)
+alias( "$(P)$(R)ROI1SizeY_RBV",                    "$(P)$(R)ProfileROIHeight-RB")  # ROI size in the Y axis (read) 
+
+# Profile stats for ROI (NDStats2)
+
+alias( "$(P)$(R)Stats2CursorX",                    "$(P)$(R)ProfileCursorX-SP") # Cursor X for profile computation (set)
+alias( "$(P)$(R)Stats2CursorX_RBV",                "$(P)$(R)ProfileCursorX-RB") # Cursor X for profile computation (read)
+alias( "$(P)$(R)Stats2CursorY",                    "$(P)$(R)ProfileCursorY-SP") # Cursor Y for profile computation (set)
+alias( "$(P)$(R)Stats2CursorY_RBV",                "$(P)$(R)ProfileCursorY-RB") # Cursor Y for profile computation (read)
+alias( "$(P)$(R)Stats2ProfileCursorX_RBV",         "$(P)$(R)ProfileH-Mon")      # Horizontal profile at cursor Y (monitor)
+alias( "$(P)$(R)Stats2ProfileCursorY_RBV",         "$(P)$(R)ProfileV-Mon")      # Vertical profile at cursor X (monitor)
+alias( "$(P)$(R)Stats2ProfileAverageX_RBV",        "$(P)$(R)ProfileHAvg-Mon")   # Average horizontal profile (monitor)
+alias( "$(P)$(R)Stats2ProfileAverageY_RBV",        "$(P)$(R)ProfileVAvg-Mon")   # Average vertical profile (monitor)

@@ -11,13 +11,17 @@
 # $(CBUFFS)      The maximum number of frames buffered in the NDPluginCircularBuff plugin
 # $(MAX_THREADS) The maximum number of threads for plugins which can run in multiple threads. Defaults to 5.
 
+# Create 1 transform plugin
+NDTransformConfigure("TRANSF1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
+dbLoadRecords("$(ADCORE)/db/NDTransform.template", "P=$(PREFIX), R=Transf1, PORT=TRANSF1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
+
 # Create 2 ROI plugins
-NDROIConfigure("ROI1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
-dbLoadRecords("NDROI.template",       "P=$(PREFIX),R=ROI1,  PORT=ROI1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT)")
+NDROIConfigure("ROI1", $(QSIZE), 0, "TRANSF1", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
+dbLoadRecords("NDROI.template",       "P=$(PREFIX),R=ROI1,  PORT=ROI1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=TRANSF1")
 
 # Create 2 statistics plugins
-NDStatsConfigure("STATS1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
-dbLoadRecords("NDStats.template",     "P=$(PREFIX),R=Stats1,  PORT=STATS1,ADDR=0,TIMEOUT=1,HIST_SIZE=256,XSIZE=$(XSIZE),YSIZE=$(YSIZE),NCHANS=$(NCHANS),NDARRAY_PORT=$(PORT)")
+NDStatsConfigure("STATS1", $(QSIZE), 0, "TRANSF1", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
+dbLoadRecords("NDStats.template",     "P=$(PREFIX),R=Stats1,  PORT=STATS1,ADDR=0,TIMEOUT=1,HIST_SIZE=256,XSIZE=$(XSIZE),YSIZE=$(YSIZE),NCHANS=$(NCHANS),NDARRAY_PORT=TRANSF1")
 NDTimeSeriesConfigure("STATS1_TS", $(QSIZE), 0, "STATS1", 1, 23)
 dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=Stats1TS, PORT=STATS1_TS,ADDR=0,TIMEOUT=1,NDARRAY_PORT=STATS1,NDARRAY_ADDR=1,NCHANS=$(NCHANS),ENABLED=1")
 
@@ -27,6 +31,6 @@ NDTimeSeriesConfigure("STATS2_TS", $(QSIZE), 0, "STATS2", 1, 23)
 dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=Stats2TS, PORT=STATS2_TS,ADDR=0,TIMEOUT=1,NDARRAY_PORT=STATS2,NDARRAY_ADDR=1,NCHANS=$(NCHANS),ENABLED=1")
 
 # Create 1 DimFei plugin
-NDDimFeiConfigure("DIMFEI1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
-dbLoadRecords("$(DIMFEI)/db/NDDimFei.template", "P=$(PREFIX), R=DimFei1, PORT=DIMFEI1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
+NDDimFeiConfigure("DIMFEI1", $(QSIZE), 0, "TRANSF1", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
+dbLoadRecords("$(DIMFEI)/db/NDDimFei.template", "P=$(PREFIX), R=DimFei1, PORT=DIMFEI1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=TRANSF1")
 

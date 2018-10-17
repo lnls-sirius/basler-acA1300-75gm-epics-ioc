@@ -76,3 +76,8 @@ alias( "$(P)$(R)Stats2ProfileCursorY_RBV",         "$(NEW_PREFIX)ProfileV-Mon")
 alias( "$(P)$(R)Stats2ProfileAverageX_RBV",        "$(NEW_PREFIX)ProfileHAvg-Mon")
 alias( "$(P)$(R)Stats2ProfileAverageY_RBV",        "$(NEW_PREFIX)ProfileVAvg-Mon")
 
+# Transform plugin
+
+alias( "$(P)$(R)Transf1Type",            "$(NEW_PREFIX)TransformType-Sel")
+alias( "$(P)$(R)Transf1Type",            "$(NEW_PREFIX)TransformType-Sts")
+

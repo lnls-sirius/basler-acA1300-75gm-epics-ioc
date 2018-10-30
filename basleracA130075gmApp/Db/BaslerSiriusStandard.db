@@ -339,17 +339,9 @@ record(seq, "$(P)$(R)InitAfterReconnect"){
 ######################################################################
 # CAMERA DATA
 #
-# Desc: Data related functions, e.g., reading the output
-# data array.
+# Desc: Camera data array alias.
 
-record(waveform, "$(P)$(R)Data-Mon"){
-  field(DESC, "Camera Data Array")
-  field(APST, "Always")                         # Always post archive monitors
-  field(MPST, "Always")                         # Always post value monitors
-  field(NELM, "3932160")                        # 1280 x 1024 x 3 (Max camera data array size for RGB)
-  field(FTVL, "USHORT")
-  field(INP, "$(P)$(R)Image1ArrayData CPP")
-}
+alias("$(P)$(R)Image1ArrayData", "$(P)$(R)Data-Mon")
 
 ######################################################################
 # ERROR CODES

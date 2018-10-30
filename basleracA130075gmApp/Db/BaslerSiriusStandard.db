@@ -105,6 +105,8 @@ record(ao, "$(P)$(R)AcqPeriodLowLim-SP"){
   field(PINI, "YES")
   field(EGU, "seconds")
   field(PREC, "6")
+  field(DRVH, "10")                           # Same as the AcqPeriod-SP high limit
+  field(DRVL, "0.0124")                       # Same as the AcqPeriod-SP low limit
   field(VAL, "0.083")                         # 12 Hz is the default alarm limit
   field(FLNK, "$(P)$(R)AcqPeriodLowLimSeq")
 }
@@ -449,6 +451,7 @@ record(longin, "$(P)$(R)PayloadSize-Mon"){
 record(longout, "$(P)$(R)PacketSize-SP"){
   field(DESC, "Packet size")
   field(EGU, "bytes")
+  field(DRVH, "9000") # maximum jumbo frame size
   field(DRVL, "100")
   field(VAL, "1500") # default is required for reconnection download to be consistent
   field(OUT, "$(P)$(R)Cam1GevSCPSPacketSiz PP")

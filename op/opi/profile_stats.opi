@@ -1249,15 +1249,19 @@ $(pv_value)</tooltip>
       <name>Intensity Graph</name>
       <pixel_info_pv_name></pixel_info_pv_name>
       <pixel_info_pv_value />
-      <pv_name>$(P)$(R)ImgData-Mon</pv_name>
+      <pv_name>$(P)$(R)Data-Mon</pv_name>
       <pv_value />
       <rgb_mode>false</rgb_mode>
+      <roi_0_h_pv_value />
       <roi_0_height_pv>$(P)$(R)ProfileROIHeight-SP</roi_0_height_pv>
       <roi_0_title>ROI 0</roi_0_title>
       <roi_0_visible>true</roi_0_visible>
+      <roi_0_w_pv_value />
       <roi_0_width_pv>$(P)$(R)ProfileROIWidth-SP</roi_0_width_pv>
       <roi_0_x_pv>$(P)$(R)ProfileROIOffsetX-SP</roi_0_x_pv>
+      <roi_0_x_pv_value />
       <roi_0_y_pv>$(P)$(R)ProfileROIOffsetY-SP</roi_0_y_pv>
+      <roi_0_y_pv_value />
       <roi_color>
         <color red="0" green="255" blue="255" />
       </roi_color>

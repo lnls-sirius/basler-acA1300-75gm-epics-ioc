@@ -1044,26 +1044,165 @@ record(stringin, "$(P)$(R)SensorHeight-Cte"){
 #
 # Desc: Aliases for centroid statistics records.
 
-# NDStats (centroid)
+# Centroid stats scale and offset conversion parameters
+
+record(ao, "$(P)$(R)ImgScaleFactor-SP"){
+  field(DESC, "Scale factor for centroid stats")
+  field(PINI, "YES")
+  field(PREC, "6")
+  field(DRVH, "1000000")
+  field(DRVL, "0")
+  field(VAL, "1")
+  field(FLNK, "$(P)$(R)ImgScaleFactor-RB")  
+}
+
+record(ai, "$(P)$(R)ImgScaleFactor-RB"){
+  field(DESC, "Scale factor for centroid stats RB")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)ImgScaleFactor-SP")  
+}
+
+record(ao, "$(P)$(R)ImgCenterOffsetX-SP"){
+  field(DESC, "X axis offset for centroid stats")
+  field(PINI, "YES")
+  field(PREC, "6")
+  field(DRVH, "1000000")
+  field(DRVL, "-1000000")
+  field(VAL, "0")
+  field(FLNK, "$(P)$(R)ImgCenterOffsetX-RB")  
+}
+
+record(ai, "$(P)$(R)ImgCenterOffsetX-RB"){
+  field(DESC, "X axis offset for centroid stats RB")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)ImgCenterOffsetX-SP")  
+}
+
+record(ao, "$(P)$(R)ImgCenterOffsetY-SP"){
+  field(DESC, "Y axis offset for centroid stats")
+  field(PINI, "YES")
+  field(PREC, "6")
+  field(DRVH, "1000000")
+  field(DRVL, "-1000000")
+  field(VAL, "0")
+  field(FLNK, "$(P)$(R)ImgCenterOffsetY-RB")  
+}
+
+record(ai, "$(P)$(R)ImgCenterOffsetY-RB"){
+  field(DESC, "Y axis offset for centroid stats RB")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)ImgCenterOffsetY-SP")  
+}
+
+## NDStats (centroid)
 
 alias(  "$(P)$(R)Stats1CentroidThreshold",         "$(P)$(R)CentroidThresholdNDStats-SP") # NDStats centroid threshold (set)
 alias(  "$(P)$(R)Stats1CentroidThreshold_RBV",     "$(P)$(R)CentroidThresholdNDStats-RB") # NDStats centroid threshold (read)
-alias(  "$(P)$(R)Stats1CentroidX_RBV",             "$(P)$(R)CenterXNDStats-Mon") # NDStats centroid X monitor
-alias(  "$(P)$(R)Stats1CentroidY_RBV",             "$(P)$(R)CenterYNDStats-Mon") # NDStats centroid Y monitor
-alias(  "$(P)$(R)Stats1SigmaX_RBV",                "$(P)$(R)SigmaXNDStats-Mon")  # NDStats sigma X monitor
-alias(  "$(P)$(R)Stats1SigmaY_RBV",                "$(P)$(R)SigmaYNDStats-Mon")  # NDStats sigma Y monitor
-alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStats-Mon") # NDStats sigma XY monitor
-alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStats-Mon")   # NDStats orientation (theta) monitor
+alias(  "$(P)$(R)Stats1CentroidX_RBV",             "$(P)$(R)CenterXNDStatsRaw-Mon") # NDStats centroid X monitor
+alias(  "$(P)$(R)Stats1CentroidY_RBV",             "$(P)$(R)CenterYNDStatsRaw-Mon") # NDStats centroid Y monitor
+alias(  "$(P)$(R)Stats1SigmaX_RBV",                "$(P)$(R)SigmaXNDStatsRaw-Mon")  # NDStats sigma X monitor
+alias(  "$(P)$(R)Stats1SigmaY_RBV",                "$(P)$(R)SigmaYNDStatsRaw-Mon")  # NDStats sigma Y monitor
+alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStatsRaw-Mon") # NDStats sigma XY monitor
+alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStats-Mon")      # NDStats orientation (theta) monitor
 
-# DimFei (centroid)
+# Scale and offset conversion of NDStats centroid stats
 
-alias( "$(P)$(R)DimFei1CentroidX_RBV",             "$(P)$(R)CenterXDimFei-Mon") # DimFei centroid X monitor
-alias( "$(P)$(R)DimFei1CentroidY_RBV",             "$(P)$(R)CenterYDimFei-Mon") # DimFei centroid Y monitor
-alias( "$(P)$(R)DimFei1SigmaX_RBV",                "$(P)$(R)SigmaXDimFei-Mon")  # DimFei sigma X monitor
-alias( "$(P)$(R)DimFei1SigmaY_RBV",                "$(P)$(R)SigmaYDimFei-Mon")  # DimFei sigma Y monitor
-alias( "$(P)$(R)DimFei1Orientation_RBV",           "$(P)$(R)ThetaDimFei-Mon")   # DimFei orientation (theta) monitor
+record(calc, "$(P)$(R)CenterXNDStats-Mon"){
+  field(DESC, "Converted NDStats center X")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)Stats1CentroidX_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPC, "$(P)$(R)ImgCenterOffsetX-RB")
+  field(CALC, "A*B + C")
+}
 
-# ROI (used by stats 2)
+record(calc, "$(P)$(R)CenterYNDStats-Mon"){
+  field(DESC, "Converted NDStats center Y")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)Stats1CentroidY_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPC, "$(P)$(R)ImgCenterOffsetY-RB")
+  field(CALC, "A*B + C")
+}
+
+record(calc, "$(P)$(R)SigmaXNDStats-Mon"){
+  field(DESC, "Converted NDStats sigma X")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)Stats1SigmaX_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(CALC, "A*B")
+}
+
+record(calc, "$(P)$(R)SigmaYNDStats-Mon"){
+  field(DESC, "Converted NDStats sigma Y")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)Stats1SigmaY_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(CALC, "A*B")
+}
+
+record(calc, "$(P)$(R)SigmaXYNDStats-Mon"){
+  field(DESC, "Converted NDStats sigma XY")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)Stats1SigmaXY_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(CALC, "A*B")
+}
+
+## DimFei (centroid)
+
+alias( "$(P)$(R)DimFei1CentroidX_RBV",             "$(P)$(R)CenterXDimFeiRaw-Mon") # DimFei centroid X monitor
+alias( "$(P)$(R)DimFei1CentroidY_RBV",             "$(P)$(R)CenterYDimFeiRaw-Mon") # DimFei centroid Y monitor
+alias( "$(P)$(R)DimFei1SigmaX_RBV",                "$(P)$(R)SigmaXDimFeiRaw-Mon")  # DimFei sigma X monitor
+alias( "$(P)$(R)DimFei1SigmaY_RBV",                "$(P)$(R)SigmaYDimFeiRaw-Mon")  # DimFei sigma Y monitor
+alias( "$(P)$(R)DimFei1Orientation_RBV",           "$(P)$(R)ThetaDimFei-Mon")      # DimFei orientation (theta) monitor
+
+# Scale and offset conversion of DimFei centroid stats
+
+record(calc, "$(P)$(R)CenterXDimFei-Mon"){
+  field(DESC, "Converted DimFei center X")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)DimFei1CentroidX_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPC, "$(P)$(R)ImgCenterOffsetX-RB")
+  field(CALC, "A*B + C")
+}
+
+record(calc, "$(P)$(R)CenterYDimFei-Mon"){
+  field(DESC, "Converted DimFei center Y")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)DimFei1CentroidY_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPC, "$(P)$(R)ImgCenterOffsetY-RB")
+  field(CALC, "A*B + C")
+}
+
+record(calc, "$(P)$(R)SigmaXDimFei-Mon"){
+  field(DESC, "Converted DimFei sigma X")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)DimFei1SigmaX_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(CALC, "A*B")
+}
+
+record(calc, "$(P)$(R)SigmaYDimFei-Mon"){
+  field(DESC, "Converted DimFei sigma Y")
+  field(PREC, "6")
+  field(EGU, "mm")
+  field(INPA, "$(P)$(R)DimFei1SigmaY_RBV CPP")
+  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(CALC, "A*B")
+}
+
+## ROI (used by stats 2)
 
 alias( "$(P)$(R)ROI1EnableCallbacks",              "$(P)$(R)ProfileEnbl-Sel")      # ROI for profile stats enable (set)
 alias( "$(P)$(R)ROI1EnableCallbacks_RBV",          "$(P)$(R)ProfileEnbl-Sts")      # ROI for profile stats enable (read)
@@ -1076,7 +1215,7 @@ alias( "$(P)$(R)ROI1SizeX_RBV",                    "$(P)$(R)ProfileROIWidth-RB")
 alias( "$(P)$(R)ROI1SizeY",                        "$(P)$(R)ProfileROIHeight-SP")  # ROI size in the Y axis (set)
 alias( "$(P)$(R)ROI1SizeY_RBV",                    "$(P)$(R)ProfileROIHeight-RB")  # ROI size in the Y axis (read) 
 
-# Profile stats for ROI (NDStats2)
+## Profile stats for ROI (NDStats2)
 
 alias( "$(P)$(R)Stats2CursorX",                    "$(P)$(R)ProfileCursorX-SP") # Cursor X for profile computation (set)
 alias( "$(P)$(R)Stats2CursorX_RBV",                "$(P)$(R)ProfileCursorX-RB") # Cursor X for profile computation (read)
@@ -1087,7 +1226,7 @@ alias( "$(P)$(R)Stats2ProfileCursorY_RBV",         "$(P)$(R)ProfileV-Mon")      
 alias( "$(P)$(R)Stats2ProfileAverageX_RBV",        "$(P)$(R)ProfileHAvg-Mon")   # Average horizontal profile (monitor)
 alias( "$(P)$(R)Stats2ProfileAverageY_RBV",        "$(P)$(R)ProfileVAvg-Mon")   # Average vertical profile (monitor)
 
-# Transform (mirror and rotate)
+## Transform (mirror and rotate)
 
 alias( "$(P)$(R)Transf1Type",                      "$(P)$(R)TransformType-Sel") # Image transformation type, e.g., Mirror (set)
 alias( "$(P)$(R)Transf1Type",                      "$(P)$(R)TransformType-Sts") # Image transformation type, e.g., Mirror (read)

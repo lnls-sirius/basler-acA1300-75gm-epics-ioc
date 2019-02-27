@@ -42,3 +42,11 @@ $(P)$(R)AOIHeight-SP
 $(P)$(R)AOIAutoCenterX-Sel
 # Area Of Interest Auto Center X
 $(P)$(R)AOIAutoCenterY-Sel
+# Transformation Type
+$(P)$(R)TransformType-Sel
+# Multiplier for Centroid Position Unit Convertion
+$(P)$(R)ImgScaleFactor-SP
+# Offset on X axis for Centroid Position Unit Convertion
+$(P)$(R)ImgCenterOffsetX-SP
+# Offset on Y axis for Centroid Position Unit Convertion
+$(P)$(R)ImgCenterOffsetY-SP

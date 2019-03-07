@@ -44,8 +44,10 @@ $(P)$(R)AOIAutoCenterX-Sel
 $(P)$(R)AOIAutoCenterY-Sel
 # Transformation Type
 $(P)$(R)TransformType-Sel
-# Multiplier for Centroid Position Unit Convertion
-$(P)$(R)ImgScaleFactor-SP
+# Multiplier for Centroid X Position Unit Convertion
+$(P)$(R)ImgScaleFactorX-SP
+# Multiplier for Centroid Y Position Unit Convertion
+$(P)$(R)ImgScaleFactorY-SP
 # Offset on X axis for Centroid Position Unit Convertion
 $(P)$(R)ImgCenterOffsetX-SP
 # Offset on Y axis for Centroid Position Unit Convertion

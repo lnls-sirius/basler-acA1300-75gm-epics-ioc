@@ -1046,51 +1046,67 @@ record(stringin, "$(P)$(R)SensorHeight-Cte"){
 
 # Centroid stats scale and offset conversion parameters
 
-record(ao, "$(P)$(R)ImgScaleFactor-SP"){
-  field(DESC, "Scale factor for centroid stats")
+record(ao, "$(P)$(R)ImgScaleFactorX-SP"){
+  field(DESC, "X axis scale for centroid stats")
   field(PINI, "YES")
   field(PREC, "6")
   field(DRVH, "1000000")
-  field(DRVL, "0")
+  field(DRVL, "-1000000")
   field(VAL, "1")
-  field(FLNK, "$(P)$(R)ImgScaleFactor-RB")  
+  field(FLNK, "$(P)$(R)ImgScaleFactorX-RB")  
 }
 
-record(ai, "$(P)$(R)ImgScaleFactor-RB"){
-  field(DESC, "Scale factor for centroid stats RB")
+record(ai, "$(P)$(R)ImgScaleFactorX-RB"){
+  field(DESC, "X axis scale for centroid RB")
   field(PREC, "6")
-  field(INP, "$(P)$(R)ImgScaleFactor-SP")  
+  field(INP, "$(P)$(R)ImgScaleFactorX-SP")  
+}
+
+record(ao, "$(P)$(R)ImgScaleFactorY-SP"){
+  field(DESC, "Y axis scale for centroid stats")
+  field(PINI, "YES")
+  field(PREC, "6")
+  field(DRVH, "1000000")
+  field(DRVL, "-1000000")
+  field(VAL, "1")
+  field(FLNK, "$(P)$(R)ImgScaleFactorY-RB")  
+}
+
+record(ai, "$(P)$(R)ImgScaleFactorY-RB"){
+  field(DESC, "Y axis scale for centroid RB")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)ImgScaleFactorY-SP")  
 }
 
 record(ao, "$(P)$(R)ImgCenterOffsetX-SP"){
   field(DESC, "X axis offset for centroid stats")
   field(PINI, "YES")
-  field(PREC, "6")
+  field(PREC, "0")
   field(DRVH, "1000000")
-  field(DRVL, "-1000000")
+  field(DRVL, "0")
   field(VAL, "0")
   field(FLNK, "$(P)$(R)ImgCenterOffsetX-RB")  
 }
 
 record(ai, "$(P)$(R)ImgCenterOffsetX-RB"){
   field(DESC, "X axis offset for centroid stats RB")
-  field(PREC, "6")
+  field(PREC, "0")
   field(INP, "$(P)$(R)ImgCenterOffsetX-SP")  
 }
 
 record(ao, "$(P)$(R)ImgCenterOffsetY-SP"){
   field(DESC, "Y axis offset for centroid stats")
   field(PINI, "YES")
-  field(PREC, "6")
+  field(PREC, "0")
   field(DRVH, "1000000")
-  field(DRVL, "-1000000")
+  field(DRVL, "0")
   field(VAL, "0")
   field(FLNK, "$(P)$(R)ImgCenterOffsetY-RB")  
 }
 
 record(ai, "$(P)$(R)ImgCenterOffsetY-RB"){
   field(DESC, "Y axis offset for centroid stats RB")
-  field(PREC, "6")
+  field(PREC, "0")
   field(INP, "$(P)$(R)ImgCenterOffsetY-SP")  
 }
 
@@ -1112,9 +1128,9 @@ record(calc, "$(P)$(R)CenterXNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1CentroidX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
   field(INPC, "$(P)$(R)ImgCenterOffsetX-RB")
-  field(CALC, "A*B + C")
+  field(CALC, "(A-C) * B")
 }
 
 record(calc, "$(P)$(R)CenterYNDStats-Mon"){
@@ -1122,9 +1138,9 @@ record(calc, "$(P)$(R)CenterYNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1CentroidY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
   field(INPC, "$(P)$(R)ImgCenterOffsetY-RB")
-  field(CALC, "A*B + C")
+  field(CALC, "(A-C) * B")
 }
 
 record(calc, "$(P)$(R)SigmaXNDStats-Mon"){
@@ -1132,8 +1148,8 @@ record(calc, "$(P)$(R)SigmaXNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
-  field(CALC, "A*B")
+  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
+  field(CALC, "abs(A*B)")
 }
 
 record(calc, "$(P)$(R)SigmaYNDStats-Mon"){
@@ -1141,8 +1157,8 @@ record(calc, "$(P)$(R)SigmaYNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
-  field(CALC, "A*B")
+  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
+  field(CALC, "abs(A*B)")
 }
 
 record(calc, "$(P)$(R)SigmaXYNDStats-Mon"){
@@ -1150,8 +1166,8 @@ record(calc, "$(P)$(R)SigmaXYNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaXY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
-  field(CALC, "A*B")
+  field(INPB, "$(P)$(R)ImgScaleFactorX-RB") # Use factor for x axis, since both axis should have same value
+  field(CALC, "abs(A*B)")
 }
 
 ## DimFei (centroid)
@@ -1169,9 +1185,9 @@ record(calc, "$(P)$(R)CenterXDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1CentroidX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
   field(INPC, "$(P)$(R)ImgCenterOffsetX-RB")
-  field(CALC, "A*B + C")
+  field(CALC, "(A-C) * B")
 }
 
 record(calc, "$(P)$(R)CenterYDimFei-Mon"){
@@ -1179,9 +1195,9 @@ record(calc, "$(P)$(R)CenterYDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1CentroidY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
+  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
   field(INPC, "$(P)$(R)ImgCenterOffsetY-RB")
-  field(CALC, "A*B + C")
+  field(CALC, "(A-C) * B")
 }
 
 record(calc, "$(P)$(R)SigmaXDimFei-Mon"){
@@ -1189,8 +1205,8 @@ record(calc, "$(P)$(R)SigmaXDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1SigmaX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
-  field(CALC, "A*B")
+  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
+  field(CALC, "abs(A*B)")
 }
 
 record(calc, "$(P)$(R)SigmaYDimFei-Mon"){
@@ -1198,8 +1214,8 @@ record(calc, "$(P)$(R)SigmaYDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1SigmaY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactor-RB")
-  field(CALC, "A*B")
+  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
+  field(CALC, "abs(A*B)")
 }
 
 ## ROI (used by stats 2)

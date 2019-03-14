@@ -52,3 +52,19 @@ $(P)$(R)ImgScaleFactorY-SP
 $(P)$(R)ImgCenterOffsetX-SP
 # Offset on Y axis for Centroid Position Unit Convertion
 $(P)$(R)ImgCenterOffsetY-SP
+# Enable Background Subtraction
+$(P)$(R)EnblBGSubtraction-Sel
+# Enable Pixel Value Scaling and Offset
+$(P)$(R)EnblOffsetScale-Sel
+# Pixel Value Scale Factor
+$(P)$(R)PixelScale-SP
+# Pixel Value Offset
+$(P)$(R)PixelOffset-SP
+# Enable Low Pixel Value Clipping
+$(P)$(R)EnblLowClip-Sel
+# Low Clipping Value
+$(P)$(R)LowClip-SP
+# Enable High Pixel Value Clipping
+$(P)$(R)EnblHighClip-Sel
+# High Clipping Value
+$(P)$(R)HighClip-SP

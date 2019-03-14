@@ -894,7 +894,7 @@ record(sseq, "$(P)$(R)InitCamSeq3"){
 # Statistics initialization
 
 record(sseq, "$(P)$(R)InitStats"){
-  field(DESC, "Initialize statistics")
+  field(DESC, "Initialize statistics plugin")
   field(SELM, "All")
   field(PINI, "YES")
   field(STR1, "Enable")
@@ -913,7 +913,7 @@ record(sseq, "$(P)$(R)InitStats"){
 # DimFei initialization
 
 record(sseq, "$(P)$(R)InitDimFei"){
-  field(DESC, "Initialize DimFei")
+  field(DESC, "Initialize DimFei plugin")
   field(SELM, "All")
   field(PINI, "YES")
   field(STR1, "Enable")
@@ -932,7 +932,7 @@ record(sseq, "$(P)$(R)InitDimFei"){
 # Transform initialization
 
 record(sseq, "$(P)$(R)InitTransf"){
-  field(DESC, "Initialize Transform")
+  field(DESC, "Initialize Transform plugin")
   field(SELM, "All")
   field(PINI, "YES")
   field(STR1, "Enable")
@@ -989,6 +989,32 @@ record(sseq, "$(P)$(R)InitROIStats"){
   field(LNK4, "$(P)$(R)Stats2ComputeProfiles PP")          # Compute profiles = yes
   field(WAIT4, "Wait")
   field(DLY4, "1.0")
+}
+
+# Process initialization
+
+record(sseq, "$(P)$(R)InitProcess1"){
+  field(DESC, "Initialize Process plugin 1")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)Proc1EnableCallbacks PP")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)Proc1ArrayCallbacks PP")
+  field(DO3, "0")                               ###########
+  field(LNK3, "$(P)$(R)Proc1LowClip PP")        # Enable low clip for proc plugin 1.
+  field(STR4, "Enable")                         # This avoids background subtraction
+  field(LNK4, "$(P)$(R)Proc1EnableLowClip PP")  # to possibly generate negative pixel values.
+}                                               ###########
+
+record(sseq, "$(P)$(R)InitProcess2"){
+  field(DESC, "Initialize Process plugin 2")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)Proc2EnableCallbacks PP")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)Proc2ArrayCallbacks PP")
 }
 
 ######################################################################
@@ -1218,6 +1244,11 @@ record(calc, "$(P)$(R)SigmaYDimFei-Mon"){
   field(CALC, "abs(A*B)")
 }
 
+######################################################################
+# OTHER PLUGINS
+#
+# Desc: Plugins PV names aliasing.
+
 ## ROI (used by stats 2)
 
 alias( "$(P)$(R)ROI1EnableCallbacks",              "$(P)$(R)ProfileEnbl-Sel")      # ROI for profile stats enable (set)
@@ -1246,4 +1277,66 @@ alias( "$(P)$(R)Stats2ProfileAverageY_RBV",        "$(P)$(R)ProfileVAvg-Mon")   
 
 alias( "$(P)$(R)Transf1Type",                      "$(P)$(R)TransformType-Sel") # Image transformation type, e.g., Mirror (set)
 alias( "$(P)$(R)Transf1Type",                      "$(P)$(R)TransformType-Sts") # Image transformation type, e.g., Mirror (read)
+
+## Process 1 (background subtraction)
+
+# Background subtraction
+
+record(bo, "$(P)$(R)SaveBG-Cmd"){         # Save most recent image as background (cmd)
+  field(DESC, "Save last image as background")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+  field(HIGH, "0.5")
+  field(FLNK, "$(P)$(R)SaveBGCalc")
+}
+
+record(calcout, "$(P)$(R)SaveBGCalc"){
+  field(DESC, "Validate save bkgd command")
+  field(INPA, "$(P)$(R)SaveBG-Cmd")
+  field(CALC, "A")
+  field(OOPT, "When Non-zero")
+  field(OUT, "$(P)$(R)Proc1SaveBackground PP")
+}
+
+alias( "$(P)$(R)Proc1ValidBackground_RBV",         "$(P)$(R)ValidBG-Mon")           # Valid background flag (monitor)
+alias( "$(P)$(R)Proc1EnableBackground",            "$(P)$(R)EnblBGSubtraction-Sel") # Enable background subtraction (set)
+alias( "$(P)$(R)Proc1EnableBackground_RBV",        "$(P)$(R)EnblBGSubtraction-Sts") # Enable background subtraction (read)
+
+## Process 2 (scale and offset, clipping)
+
+# Pixel intensity offset and scale
+
+alias( "$(P)$(R)Proc2EnableOffsetScale",           "$(P)$(R)EnblOffsetScale-Sel") # Enable offset and scaling of pixels (set)
+alias( "$(P)$(R)Proc2EnableOffsetScale_RBV",       "$(P)$(R)EnblOffsetScale-Sts") # Enable offset and scaling of pixels (read)
+
+record(bo, "$(P)$(R)AutoOffsetScale-Cmd"){  # Auto adjust pixel intesity offset and scale cmd
+  field(DESC, "Auto adjust pixel value offset and scale")
+  field(ZNAM, "Off")
+  field(ONAM, "On")
+  field(HIGH, "0.5")
+  field(FLNK, "$(P)$(R)AutoOffsetScaleCalc")
+}
+
+record(calcout, "$(P)$(R)AutoOffsetScaleCalc"){
+  field(DESC, "Validate auto offset and scale")
+  field(INPA, "$(P)$(R)AutoOffsetScale-Cmd")
+  field(CALC, "A")
+  field(OUT, "$(P)$(R)Proc2AutoOffsetScale PP")
+}
+
+alias( "$(P)$(R)Proc2Scale",                       "$(P)$(R)PixelScale-SP")  # Pixel intensity scale factor (set)
+alias( "$(P)$(R)Proc2Scale_RBV",                   "$(P)$(R)PixelScale-RB")  # Pixel intensity scale factor (read)
+alias( "$(P)$(R)Proc2Offset",                      "$(P)$(R)PixelOffset-SP") # Pixel intensity offset (read)
+alias( "$(P)$(R)Proc2Offset_RBV",                  "$(P)$(R)PixelOffset-RB") # Pixel intensity offset (read)
+
+# Pixel intensity clipping
+
+alias( "$(P)$(R)Proc2EnableLowClip",               "$(P)$(R)EnblLowClip-Sel")  # Enable clipping to minimum value (set)
+alias( "$(P)$(R)Proc2EnableLowClip_RBV",           "$(P)$(R)EnblLowClip-Sts")  # Enable clipping to minimum value (read)
+alias( "$(P)$(R)Proc2LowClip",                     "$(P)$(R)LowClip-SP")       # Minimum allowed array value (set)
+alias( "$(P)$(R)Proc2LowClip_RBV",                 "$(P)$(R)LowClip-RB")       # Minimum allowed array value (read)
+alias( "$(P)$(R)Proc2EnableHighClip",              "$(P)$(R)EnblHighClip-Sel") # Enable clipping to maximum value (set)
+alias( "$(P)$(R)Proc2EnableHighClip_RBV",          "$(P)$(R)EnblHighClip-Sts") # Enable clipping to maximum value (read)
+alias( "$(P)$(R)Proc2HighClip",                    "$(P)$(R)HighClip-SP")      # Maximum allowed array value (set)
+alias( "$(P)$(R)Proc2HighClip_RBV",                "$(P)$(R)HighClip-RB")      # Maximum allowed array value (read)
 

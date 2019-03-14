@@ -11,7 +11,7 @@ basleracA130075gm_registerRecordDeviceDriver(pdbbase)
 # Prefix for all records
 epicsEnvSet("PREFIX", "$(P)$(R)")
 # The port name for the detector
-epicsEnvSet("PORT",   "ARV1")
+epicsEnvSet("PORT",   "CAMPORT")
 # The queue size for all plugins
 epicsEnvSet("QSIZE",  "1")
 # The maximim image width; used for row profiles in the NDPluginStats plugin
@@ -37,9 +37,9 @@ dbLoadRecords("$(TOP)/db/Basler_acA1300_75gm.template","P=$(PREFIX),R=Cam1,PORT=
 < stPlugins.cmd
 
 # Create a standard arrays plugin
-NDStdArraysConfigure("Image1", "$(QSIZE)", 0, "TRANSF1", 0, 0, 0, 0)
-# Allow for cameras up to 1280x1024x3 for RGB
-dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=Image1,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=TRANSF1,TYPE=Int16,FTVL=USHORT,NELEMENTS=3932160")
+NDStdArraysConfigure("Image1", "$(QSIZE)", 0, "PROC2", 0, 0, 0, 0)
+# Allow for cameras up to 1280x1024x1 for monochromatic
+dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=Image1,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=PROC2,TYPE=Int16,FTVL=USHORT,NELEMENTS=1310720")
 
 # Sirius-naming-convention compliant PVs
 dbLoadRecords("$(TOP)/db/BaslerSiriusStandard.db","P=$(P),R=$(R)")

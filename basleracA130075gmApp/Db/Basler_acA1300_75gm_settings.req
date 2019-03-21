@@ -48,10 +48,12 @@ $(P)$(R)TransformType-Sel
 $(P)$(R)ImgScaleFactorX-SP
 # Multiplier for Centroid Y Position Unit Convertion
 $(P)$(R)ImgScaleFactorY-SP
-# Offset on X axis for Centroid Position Unit Convertion
+# Offset of X axis for Centroid Position Unit Convertion
 $(P)$(R)ImgCenterOffsetX-SP
-# Offset on Y axis for Centroid Position Unit Convertion
+# Offset of Y axis for Centroid Position Unit Convertion
 $(P)$(R)ImgCenterOffsetY-SP
+# Offset of Theta for Centroid Position Unit Convertion
+$(P)$(R)ImgThetaOffset-SP
 # Enable Background Subtraction
 $(P)$(R)EnblBGSubtraction-Sel
 # Enable Pixel Value Scaling and Offset

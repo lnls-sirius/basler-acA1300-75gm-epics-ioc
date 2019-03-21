@@ -1136,6 +1136,22 @@ record(ai, "$(P)$(R)ImgCenterOffsetY-RB"){
   field(INP, "$(P)$(R)ImgCenterOffsetY-SP")  
 }
 
+record(ao, "$(P)$(R)ImgThetaOffset-SP"){
+  field(DESC, "Theta offset for centroid stats")
+  field(PINI, "YES")
+  field(PREC, "6")
+  field(DRVH, "90")
+  field(DRVL, "-90")
+  field(VAL, "0")
+  field(FLNK, "$(P)$(R)ImgThetaOffset-RB")  
+}
+
+record(ai, "$(P)$(R)ImgThetaOffset-RB"){
+  field(DESC, "Theta offset for centroid stats RB")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)ImgThetaOffset-SP")  
+}
+
 ## NDStats (centroid)
 
 alias(  "$(P)$(R)Stats1CentroidThreshold",         "$(P)$(R)CentroidThresholdNDStats-SP") # NDStats centroid threshold (set)
@@ -1145,7 +1161,7 @@ alias(  "$(P)$(R)Stats1CentroidY_RBV",             "$(P)$(R)CenterYNDStatsRaw-Mo
 alias(  "$(P)$(R)Stats1SigmaX_RBV",                "$(P)$(R)SigmaXNDStatsRaw-Mon")  # NDStats sigma X monitor
 alias(  "$(P)$(R)Stats1SigmaY_RBV",                "$(P)$(R)SigmaYNDStatsRaw-Mon")  # NDStats sigma Y monitor
 alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStatsRaw-Mon") # NDStats sigma XY monitor
-alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStats-Mon")      # NDStats orientation (theta) monitor
+alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStatsRaw-Mon")   # NDStats orientation (theta) monitor
 
 # Scale and offset conversion of NDStats centroid stats
 
@@ -1192,8 +1208,17 @@ record(calc, "$(P)$(R)SigmaXYNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaXY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorX-RB") # Use factor for x axis, since both axis should have same value
+  field(INPB, "$(P)$(R)ImgScaleFactorX-RB") # Use factor for x axis
   field(CALC, "abs(A*B)")
+}
+
+record(calc, "$(P)$(R)ThetaNDStats-Mon"){
+  field(DESC, "Converted NDStats theta")
+  field(PREC, "6")
+  field(EGU, "degrees")
+  field(INPA, "$(P)$(R)Stats1Orientation_RBV CPP")
+  field(INPB, "$(P)$(R)ImgThetaOffset-RB")
+  field(CALC, "A-B")
 }
 
 ## DimFei (centroid)
@@ -1202,7 +1227,7 @@ alias( "$(P)$(R)DimFei1CentroidX_RBV",             "$(P)$(R)CenterXDimFeiRaw-Mon
 alias( "$(P)$(R)DimFei1CentroidY_RBV",             "$(P)$(R)CenterYDimFeiRaw-Mon") # DimFei centroid Y monitor
 alias( "$(P)$(R)DimFei1SigmaX_RBV",                "$(P)$(R)SigmaXDimFeiRaw-Mon")  # DimFei sigma X monitor
 alias( "$(P)$(R)DimFei1SigmaY_RBV",                "$(P)$(R)SigmaYDimFeiRaw-Mon")  # DimFei sigma Y monitor
-alias( "$(P)$(R)DimFei1Orientation_RBV",           "$(P)$(R)ThetaDimFei-Mon")      # DimFei orientation (theta) monitor
+alias( "$(P)$(R)DimFei1Orientation_RBV",           "$(P)$(R)ThetaDimFeiRaw-Mon")      # DimFei orientation (theta) monitor
 
 # Scale and offset conversion of DimFei centroid stats
 
@@ -1242,6 +1267,15 @@ record(calc, "$(P)$(R)SigmaYDimFei-Mon"){
   field(INPA, "$(P)$(R)DimFei1SigmaY_RBV CPP")
   field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
   field(CALC, "abs(A*B)")
+}
+
+record(calc, "$(P)$(R)ThetaDimFei-Mon"){
+  field(DESC, "Converted DimFei theta")
+  field(PREC, "6")
+  field(EGU, "degrees")
+  field(INPA, "$(P)$(R)DimFei1Orientation_RBV CPP")
+  field(INPB, "$(P)$(R)ImgThetaOffset-RB")
+  field(CALC, "A-B")
 }
 
 ######################################################################

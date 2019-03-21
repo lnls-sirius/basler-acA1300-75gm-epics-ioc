@@ -300,6 +300,27 @@ record(bi, "$(P)$(R)Connection-Mon"){
 }
 
 ######################################################################
+# DEVICE DISCONNECT
+#
+# Desc: Disconnect from device, causing reconnection.
+
+record(bo, "$(P)$(R)Rst-Cmd"){
+  field(DESC, "Reset connection and device")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(HIGH, "0.5")
+  field(FLNK, "$(P)$(R)ValidRst")
+}
+
+record(calcout, "$(P)$(R)ValidRst"){
+  field(DESC, "Validate reset cmd")
+  field(INPA, "$(P)$(R)Rst-Cmd")
+  field(CALC, "A")
+  field(OOPT, "When Non-zero")
+  field(OUT, "$(P)$(R)Cam1DeviceReset PP") # AutoReconnect record then reconnects
+}
+
+######################################################################
 # AUTOCONNECT
 #
 # Desc: Reconnect to device and download parameters.

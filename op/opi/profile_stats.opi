@@ -1845,4 +1845,84 @@ $(trace_0_y_pv_value)</tooltip>
     <x>858</x>
     <y>426</y>
   </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Ubuntu" height="19" style="1" pixels="false">Header 1</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="229" green="229" blue="229" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label_47</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Instance</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>140</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-2675ac64:16981c7a392:-5e2e</wuid>
+    <x>858</x>
+    <y>40</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="191" green="191" blue="191" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Ubuntu" height="19" style="1" pixels="false">Header 1</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="229" green="229" blue="229" />
+    </foreground_color>
+    <height>39</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_48</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>$(P)$(R)</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>320</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-2675ac64:16981c7a392:-5dcc</wuid>
+    <x>1013</x>
+    <y>30</y>
+  </widget>
 </display>

@@ -308,7 +308,7 @@ record(bo, "$(P)$(R)Rst-Cmd"){
   field(DESC, "Reset connection and device")
   field(ZNAM, "No")
   field(ONAM, "Yes")
-  field(HIGH, "0.5")
+  field(HIGH, "6")
   field(FLNK, "$(P)$(R)ValidRst")
 }
 

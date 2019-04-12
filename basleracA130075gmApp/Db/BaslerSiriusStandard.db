@@ -1093,84 +1093,116 @@ record(stringin, "$(P)$(R)SensorHeight-Cte"){
 
 # Centroid stats scale and offset conversion parameters
 
-record(ao, "$(P)$(R)ImgScaleFactorX-SP"){
+record(ao, "$(P)$(R)ScaleFactorX-SP"){
   field(DESC, "X axis scale for centroid stats")
   field(PINI, "YES")
   field(PREC, "6")
   field(DRVH, "1000000")
   field(DRVL, "-1000000")
   field(VAL, "1")
-  field(FLNK, "$(P)$(R)ImgScaleFactorX-RB")  
+  field(FLNK, "$(P)$(R)ScaleFactorX-RB")  
 }
 
-record(ai, "$(P)$(R)ImgScaleFactorX-RB"){
+record(ai, "$(P)$(R)ScaleFactorX-RB"){
   field(DESC, "X axis scale for centroid RB")
   field(PREC, "6")
-  field(INP, "$(P)$(R)ImgScaleFactorX-SP")  
+  field(INP, "$(P)$(R)ScaleFactorX-SP")  
 }
 
-record(ao, "$(P)$(R)ImgScaleFactorY-SP"){
+record(ao, "$(P)$(R)ScaleFactorY-SP"){
   field(DESC, "Y axis scale for centroid stats")
   field(PINI, "YES")
   field(PREC, "6")
   field(DRVH, "1000000")
   field(DRVL, "-1000000")
   field(VAL, "1")
-  field(FLNK, "$(P)$(R)ImgScaleFactorY-RB")  
+  field(FLNK, "$(P)$(R)ScaleFactorY-RB")  
 }
 
-record(ai, "$(P)$(R)ImgScaleFactorY-RB"){
+record(ai, "$(P)$(R)ScaleFactorY-RB"){
   field(DESC, "Y axis scale for centroid RB")
   field(PREC, "6")
-  field(INP, "$(P)$(R)ImgScaleFactorY-SP")  
+  field(INP, "$(P)$(R)ScaleFactorY-SP")  
 }
 
-record(ao, "$(P)$(R)ImgCenterOffsetX-SP"){
+record(ao, "$(P)$(R)CenterOffsetX-SP"){
   field(DESC, "X axis offset for centroid stats")
   field(PINI, "YES")
   field(PREC, "0")
   field(DRVH, "1000000")
   field(DRVL, "0")
   field(VAL, "0")
-  field(FLNK, "$(P)$(R)ImgCenterOffsetX-RB")  
+  field(FLNK, "$(P)$(R)CenterOffsetX-RB")  
 }
 
-record(ai, "$(P)$(R)ImgCenterOffsetX-RB"){
+record(ai, "$(P)$(R)CenterOffsetX-RB"){
   field(DESC, "X axis offset for centroid stats RB")
   field(PREC, "0")
-  field(INP, "$(P)$(R)ImgCenterOffsetX-SP")  
+  field(INP, "$(P)$(R)CenterOffsetX-SP")  
 }
 
-record(ao, "$(P)$(R)ImgCenterOffsetY-SP"){
+record(ao, "$(P)$(R)CenterOffsetY-SP"){
   field(DESC, "Y axis offset for centroid stats")
   field(PINI, "YES")
   field(PREC, "0")
   field(DRVH, "1000000")
   field(DRVL, "0")
   field(VAL, "0")
-  field(FLNK, "$(P)$(R)ImgCenterOffsetY-RB")  
+  field(FLNK, "$(P)$(R)CenterOffsetY-RB")  
 }
 
-record(ai, "$(P)$(R)ImgCenterOffsetY-RB"){
+record(ai, "$(P)$(R)CenterOffsetY-RB"){
   field(DESC, "Y axis offset for centroid stats RB")
   field(PREC, "0")
-  field(INP, "$(P)$(R)ImgCenterOffsetY-SP")  
+  field(INP, "$(P)$(R)CenterOffsetY-SP")  
 }
 
-record(ao, "$(P)$(R)ImgThetaOffset-SP"){
+record(ao, "$(P)$(R)ThetaOffset-SP"){
   field(DESC, "Theta offset for centroid stats")
   field(PINI, "YES")
   field(PREC, "6")
   field(DRVH, "90")
   field(DRVL, "-90")
   field(VAL, "0")
-  field(FLNK, "$(P)$(R)ImgThetaOffset-RB")  
+  field(FLNK, "$(P)$(R)ThetaOffset-RB")  
 }
 
-record(ai, "$(P)$(R)ImgThetaOffset-RB"){
+record(ai, "$(P)$(R)ThetaOffset-RB"){
   field(DESC, "Theta offset for centroid stats RB")
   field(PREC, "6")
-  field(INP, "$(P)$(R)ImgThetaOffset-SP")  
+  field(INP, "$(P)$(R)ThetaOffset-SP")  
+}
+
+record(ao, "$(P)$(R)CalPosCenterX-SP"){
+  field(DESC, "Center X offset to nominal beam")
+  field(PINI, "YES")
+  field(PREC, "6")
+  field(DRVH, "1000000")
+  field(DRVL, "-1000000")
+  field(VAL, "0")
+  field(FLNK, "$(P)$(R)CalPosCenterX-RB")  
+}
+
+record(ai, "$(P)$(R)CalPosCenterX-RB"){
+  field(DESC, "Center X offset to nominal beam RB")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)CalPosCenterX-SP")  
+}
+
+record(ao, "$(P)$(R)CalPosCenterY-SP"){
+  field(DESC, "Center Y offset to nominal beam")
+  field(PINI, "YES")
+  field(PREC, "6")
+  field(DRVH, "1000000")
+  field(DRVL, "-1000000")
+  field(VAL, "0")
+  field(FLNK, "$(P)$(R)CalPosCenterY-RB")  
+}
+
+record(ai, "$(P)$(R)CalPosCenterY-RB"){
+  field(DESC, "Center Y offset to nominal beam RB")
+  field(PREC, "6")
+  field(INP, "$(P)$(R)CalPosCenterY-SP")  
 }
 
 ## NDStats (centroid)
@@ -1191,9 +1223,10 @@ record(calc, "$(P)$(R)CenterXNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1CentroidX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
-  field(INPC, "$(P)$(R)ImgCenterOffsetX-RB")
-  field(CALC, "(A-C) * B")
+  field(INPB, "$(P)$(R)ScaleFactorX-RB")
+  field(INPC, "$(P)$(R)CenterOffsetX-RB")
+  field(INPD, "$(P)$(R)CalPosCenterX-RB")
+  field(CALC, "((A-C) * B) + D")
 }
 
 record(calc, "$(P)$(R)CenterYNDStats-Mon"){
@@ -1201,9 +1234,10 @@ record(calc, "$(P)$(R)CenterYNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1CentroidY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
-  field(INPC, "$(P)$(R)ImgCenterOffsetY-RB")
-  field(CALC, "(A-C) * B")
+  field(INPB, "$(P)$(R)ScaleFactorY-RB")
+  field(INPC, "$(P)$(R)CenterOffsetY-RB")
+  field(INPD, "$(P)$(R)CalPosCenterY-RB")
+  field(CALC, "((A-C) * B) + D")
 }
 
 record(calc, "$(P)$(R)SigmaXNDStats-Mon"){
@@ -1211,7 +1245,7 @@ record(calc, "$(P)$(R)SigmaXNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
+  field(INPB, "$(P)$(R)ScaleFactorX-RB")
   field(CALC, "abs(A*B)")
 }
 
@@ -1220,7 +1254,7 @@ record(calc, "$(P)$(R)SigmaYNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
+  field(INPB, "$(P)$(R)ScaleFactorY-RB")
   field(CALC, "abs(A*B)")
 }
 
@@ -1229,7 +1263,7 @@ record(calc, "$(P)$(R)SigmaXYNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaXY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorX-RB") # Use factor for x axis
+  field(INPB, "$(P)$(R)ScaleFactorX-RB") # Use factor for x axis
   field(CALC, "abs(A*B)")
 }
 
@@ -1238,7 +1272,7 @@ record(calc, "$(P)$(R)ThetaNDStats-Mon"){
   field(PREC, "6")
   field(EGU, "degrees")
   field(INPA, "$(P)$(R)Stats1Orientation_RBV CPP")
-  field(INPB, "$(P)$(R)ImgThetaOffset-RB")
+  field(INPB, "$(P)$(R)ThetaOffset-RB")
   field(CALC, "A-B")
 }
 
@@ -1257,9 +1291,10 @@ record(calc, "$(P)$(R)CenterXDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1CentroidX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
-  field(INPC, "$(P)$(R)ImgCenterOffsetX-RB")
-  field(CALC, "(A-C) * B")
+  field(INPB, "$(P)$(R)ScaleFactorX-RB")
+  field(INPC, "$(P)$(R)CenterOffsetX-RB")
+  field(INPD, "$(P)$(R)CalPosCenterX-RB")
+  field(CALC, "((A-C) * B) + D")
 }
 
 record(calc, "$(P)$(R)CenterYDimFei-Mon"){
@@ -1267,9 +1302,10 @@ record(calc, "$(P)$(R)CenterYDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1CentroidY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
-  field(INPC, "$(P)$(R)ImgCenterOffsetY-RB")
-  field(CALC, "(A-C) * B")
+  field(INPB, "$(P)$(R)ScaleFactorY-RB")
+  field(INPC, "$(P)$(R)CenterOffsetY-RB")
+  field(INPD, "$(P)$(R)CalPosCenterY-RB")
+  field(CALC, "((A-C) * B) + D")
 }
 
 record(calc, "$(P)$(R)SigmaXDimFei-Mon"){
@@ -1277,7 +1313,7 @@ record(calc, "$(P)$(R)SigmaXDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1SigmaX_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorX-RB")
+  field(INPB, "$(P)$(R)ScaleFactorX-RB")
   field(CALC, "abs(A*B)")
 }
 
@@ -1286,7 +1322,7 @@ record(calc, "$(P)$(R)SigmaYDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "mm")
   field(INPA, "$(P)$(R)DimFei1SigmaY_RBV CPP")
-  field(INPB, "$(P)$(R)ImgScaleFactorY-RB")
+  field(INPB, "$(P)$(R)ScaleFactorY-RB")
   field(CALC, "abs(A*B)")
 }
 
@@ -1295,7 +1331,7 @@ record(calc, "$(P)$(R)ThetaDimFei-Mon"){
   field(PREC, "6")
   field(EGU, "degrees")
   field(INPA, "$(P)$(R)DimFei1Orientation_RBV CPP")
-  field(INPB, "$(P)$(R)ImgThetaOffset-RB")
+  field(INPB, "$(P)$(R)ThetaOffset-RB")
   field(CALC, "A-B")
 }
 

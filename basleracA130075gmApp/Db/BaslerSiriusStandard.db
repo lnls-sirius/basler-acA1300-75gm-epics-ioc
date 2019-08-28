@@ -365,6 +365,7 @@ record(seq, "$(P)$(R)InitAfterReconnect"){
 # Desc: Camera data array alias.
 
 alias("$(P)$(R)Image1ArrayData", "$(P)$(R)Data-Mon")
+alias("$(P)$(R)Cam1ArrayCounter_RBV", "$(P)$(R)FrameCnt-Mon")
 
 ######################################################################
 # ERROR CODES

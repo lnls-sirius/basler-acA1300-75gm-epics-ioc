@@ -74,3 +74,19 @@ $(P)$(R)LowClip-SP
 $(P)$(R)EnblHighClip-Sel
 # High Clipping Value
 $(P)$(R)HighClip-SP
+# Overlay NDStats Center Marker Size
+$(P)$(R)NDStatsMarkSize-SP
+# Overlay DimFei Center Marker Size
+$(P)$(R)DimFeiMarkSize-SP
+# Overlay Calibration Center Marker Size
+$(P)$(R)CalCenterMarkSize-SP
+# Overlay Real Center Marker Size
+$(P)$(R)RealCenterMarkSize-SP
+# Overlay NDStats Center Marker Color
+$(P)$(R)NDStatsMarkColor-SP
+# Overlay DimFei Center Marker Color
+$(P)$(R)DimFeiMarkColor-SP
+# Overlay Calibration Center Marker Color
+$(P)$(R)CalCenterMarkColor-SP
+# Overlay Real Center Marker Color
+$(P)$(R)RealCenterMarkColor-SP

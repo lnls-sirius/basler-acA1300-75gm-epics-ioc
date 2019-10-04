@@ -1,3 +1,2 @@
 file "Basler_acA1300_75gm_settings.req",                P=$(P), R=$(R)
-file "NDROI_settings.req",                              P=$(P)$(R), R=ROI1
-file "NDStats_settings.req",                            P=$(P)$(R), R=Stats2
+file "plugin_settings.req",                             PREFIX=$(P)$(R)

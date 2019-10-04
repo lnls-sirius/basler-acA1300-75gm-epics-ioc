@@ -40,3 +40,11 @@ dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=Stats2TS, PO
 NDDimFeiConfigure("DIMFEI1", $(QSIZE), 0, "PROC2", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
 dbLoadRecords("$(DIMFEI)/db/NDDimFei.template", "P=$(PREFIX), R=DimFei1, PORT=DIMFEI1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=PROC2")
 
+# Create an overlay plugin with 4 overlays
+NDOverlayConfigure("OVER1", $(QSIZE), 0, "PROC2", 0, 4, 0, 0, 0, 0, $(MAX_THREADS=5))
+dbLoadRecords("$(ADCORE)/db/NDOverlay.template", "P=$(PREFIX), R=Over1, PORT=OVER1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=PROC2")
+dbLoadRecords("$(ADCORE)/db/NDOverlayN.template","P=$(PREFIX), R=Over1A, NAME=CentroidNDStats, SHAPE=0, O=Over1, PORT=OVER1, ADDR=0, TIMEOUT=1")
+dbLoadRecords("$(ADCORE)/db/NDOverlayN.template","P=$(PREFIX), R=Over1B, NAME=CentroidDimFei, SHAPE=0, O=Over1, PORT=OVER1, ADDR=1, TIMEOUT=1")
+dbLoadRecords("$(ADCORE)/db/NDOverlayN.template","P=$(PREFIX), R=Over1C, NAME=CenterCal, SHAPE=0, O=Over1, PORT=OVER1, ADDR=2, TIMEOUT=1")
+dbLoadRecords("$(ADCORE)/db/NDOverlayN.template","P=$(PREFIX), R=Over1D, NAME=CenterReal, SHAPE=0, O=Over1, PORT=OVER1, ADDR=3, TIMEOUT=1")
+

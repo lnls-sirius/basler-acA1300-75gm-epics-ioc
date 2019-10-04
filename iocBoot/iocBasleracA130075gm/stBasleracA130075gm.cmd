@@ -2,6 +2,8 @@
 
 epicsEnvSet("TOP", "../..")
 
+< basler_acA1300_75gm.config
+
 # Set the maximum Channel Access array size
 errlogInit(20000)
 
@@ -37,12 +39,12 @@ dbLoadRecords("$(TOP)/db/Basler_acA1300_75gm.template","P=$(PREFIX),R=Cam1,PORT=
 < stPlugins.cmd
 
 # Create a standard arrays plugin
-NDStdArraysConfigure("Image1", "$(QSIZE)", 0, "PROC2", 0, 0, 0, 0)
+NDStdArraysConfigure("Image1", "$(QSIZE)", 0, "OVER1", 0, 0, 0, 0)
 # Allow for cameras up to 1280x1024x1 for monochromatic
-dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=Image1,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=PROC2,TYPE=Int16,FTVL=USHORT,NELEMENTS=1310720")
+dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=Image1,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=OVER1,TYPE=Int16,FTVL=USHORT,NELEMENTS=1310720")
 
 # Sirius-naming-convention compliant PVs
-dbLoadRecords("$(TOP)/db/BaslerSiriusStandard.db","P=$(P),R=$(R)")
+dbLoadRecords("$(TOP)/db/BaslerSiriusStandard.db","P=$(P),R=$(R),MARK_WIDTH=$(MARK_WIDTH)")
 
 < save_restore.cmd
 

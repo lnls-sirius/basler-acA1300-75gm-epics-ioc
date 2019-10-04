@@ -2,3 +2,8 @@ file "NDROI_settings.req",          P=$(PREFIX),  R=ROI1
 file "NDStats_settings.req",        P=$(PREFIX),  R=Stats1
 file "NDStats_settings.req",        P=$(PREFIX),  R=Stats2
 file "NDTransform_settings.req",    P=$(PREFIX),  R=Transf1
+file "NDOverlay_settings.req",      P=$(PREFIX),  R=Over1
+file "NDOverlayN_settings.req",     P=$(PREFIX),  R=Over1A
+file "NDOverlayN_settings.req",     P=$(PREFIX),  R=Over1B
+file "NDOverlayN_settings.req",     P=$(PREFIX),  R=Over1C
+file "NDOverlayN_settings.req",     P=$(PREFIX),  R=Over1D

@@ -1061,6 +1061,74 @@ record(sseq, "$(P)$(R)InitProcess2"){
   field(LNK2, "$(P)$(R)Proc2ArrayCallbacks PP")
 }
 
+# Overlay initialization
+
+record(sseq, "$(P)$(R)InitOverlay1"){
+  field(DESC, "Initialize Overlay plugin 1")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)Over1EnableCallbacks PP")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)Over1ArrayCallbacks PP")
+}
+
+record(sseq, "$(P)$(R)InitOverlay1A"){ # overlay 1 layer A - ndstats centroid
+  field(DESC, "Initialize Overlay 1 layer A")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(DO1, "$(MARK_WIDTH)")                      # marker x width
+  field(LNK1, "$(P)$(R)Over1AWidthX PP")
+  field(DO2, "$(MARK_WIDTH)")                      # marker y width
+  field(LNK2, "$(P)$(R)Over1AWidthY PP")
+  field(STR3, "Cross")                             # marker shape
+  field(LNK3, "$(P)$(R)Over1AShape PP")
+  field(STR4, "Set")                               # maker draw mode
+  field(LNK4, "$(P)$(R)Over1ADrawMode PP")
+}
+
+record(sseq, "$(P)$(R)InitOverlay1B"){ # overlay 1 layer B - dimfei centroid
+  field(DESC, "Initialize Overlay 1 layer B")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(DO1, "$(MARK_WIDTH)")                      # marker x width
+  field(LNK1, "$(P)$(R)Over1BWidthX PP")
+  field(DO2, "$(MARK_WIDTH)")                      # marker y width
+  field(LNK2, "$(P)$(R)Over1BWidthY PP")
+  field(STR3, "Cross")                             # marker shape
+  field(LNK3, "$(P)$(R)Over1BShape PP")
+  field(STR4, "Set")                               # maker draw mode
+  field(LNK4, "$(P)$(R)Over1ADrawMode PP")
+}
+
+record(sseq, "$(P)$(R)InitOverlay1C"){ # overlay 1 layer C - calibration center
+  field(DESC, "Initialize Overlay 1 layer C")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(DO1, "$(MARK_WIDTH)")                      # marker x width
+  field(LNK1, "$(P)$(R)Over1CWidthX PP")
+  field(DO2, "$(MARK_WIDTH)")                      # marker y width
+  field(LNK2, "$(P)$(R)Over1CWidthY PP")
+  field(STR3, "Cross")                             # marker shape
+  field(LNK3, "$(P)$(R)Over1CShape PP")
+  field(STR4, "Set")                               # maker draw mode
+  field(LNK4, "$(P)$(R)Over1CDrawMode PP")
+}
+
+record(sseq, "$(P)$(R)InitOverlay1D"){ # overlay 1 layer D - real center
+  field(DESC, "Initialize Overlay 1 layer D")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(DO1, "$(MARK_WIDTH)")                      # marker x width
+  field(LNK1, "$(P)$(R)Over1DWidthX PP")
+  field(DO2, "$(MARK_WIDTH)")                      # marker y width
+  field(LNK2, "$(P)$(R)Over1DWidthY PP")
+  field(STR3, "Cross")                             # marker shape
+  field(LNK3, "$(P)$(R)Over1DShape PP")
+  field(STR4, "Set")                               # maker draw mode
+  field(LNK4, "$(P)$(R)Over1DDrawMode PP")
+}
+
 ######################################################################
 # DEVICE INFORMATION PARAMETERS
 #
@@ -1226,6 +1294,22 @@ record(ai, "$(P)$(R)CalPosCenterY-RB"){
   field(DESC, "Center Y offset to nominal beam RB")
   field(PREC, "6")
   field(INP, "$(P)$(R)CalPosCenterY-SP")  
+}
+
+record(calc, "$(P)$(R)RealCenterX-Mon"){
+  field(DESC, "Real vacuum chamber center X")
+  field(INPA, "$(P)$(R)CalPosCenterX-RB CPP") # cal. center x
+  field(INPB, "$(P)$(R)ScaleFactorX-RB CPP")  # scale factor x (pixel -> mm)
+  field(INPC, "$(P)$(R)CenterOffsetX-RB CPP") # offset in pixels of cal. center x
+  field(CALC, "B=0?0:C-(A/B)")
+}
+
+record(calc, "$(P)$(R)RealCenterY-Mon"){
+  field(DESC, "Real vacuum chamber center Y")
+  field(INPA, "$(P)$(R)CalPosCenterY-RB CPP") # cal. center y
+  field(INPB, "$(P)$(R)ScaleFactorY-RB CPP")  # scale factor y (pixel -> mm)
+  field(INPC, "$(P)$(R)CenterOffsetY-RB CPP") # offset in pixels of cal. center y
+  field(CALC, "B=0?0:C-(A/B)")
 }
 
 ## NDStats (centroid)
@@ -1454,3 +1538,270 @@ alias( "$(P)$(R)Proc2EnableHighClip_RBV",          "$(P)$(R)EnblHighClip-Sts") #
 alias( "$(P)$(R)Proc2HighClip",                    "$(P)$(R)HighClip-SP")      # Maximum allowed array value (set)
 alias( "$(P)$(R)Proc2HighClip_RBV",                "$(P)$(R)HighClip-RB")      # Maximum allowed array value (read)
 
+# Overlay A - Centroid Position from NDStats
+
+alias( "$(P)$(R)Over1AUse",                        "$(P)$(R)NDStatsMarkEnbl-Sel") # Enable NDStats centroid marker (set)
+alias( "$(P)$(R)Over1AUse_RBV",                    "$(P)$(R)NDStatsMarkEnbl-Sts") # NDStats centroid marker status (read)
+
+record(longout, "$(P)$(R)NDStatsMarkColor-SP"){     # NDStats centroid marker color SP
+  field(DESC, "NDStats centroid marker color")
+  field(PINI, "YES")
+  field(EGU, "%")
+  field(DRVH, "100")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)NDStatsMarkColorCalc")
+}
+
+record(calcout, "$(P)$(R)NDStatsMarkColorCalc"){
+  field(DESC, "NDStats centroid marker color calc")
+  field(INPA, "$(P)$(R)NDStatsMarkColor-SP")
+  field(INPB, "$(P)$(R)DataType-Sts CPP") # must recalc if bit depth changes
+  # IF (bit_depth = 8 bit) => OUT = A/100 * 255
+  # ELSE => OUT = A/100 * 65535
+  field(CALC, "B=0?A*0.01*255:A*0.01*65535")
+  field(OUT, "$(P)$(R)Over1AGreen PP")
+}
+
+record(calc, "$(P)$(R)NDStatsMarkColor-RB"){        # NDStats centroid marker color RB
+  field(DESC, "NDStats centroid marker color RB")
+  field(EGU, "%")
+  field(INPA, "$(P)$(R)Over1AGreen_RBV CPP")
+  field(INPB, "$(P)$(R)DataType-Sts")
+  # IF (bit_depth = 8 bit) => OUT = A*100 / 255
+  # ELSE => OUT = A*100 / 65535
+  field(CALC, "B=0?A*100/255:A*100/65535")
+}
+
+record(longout, "$(P)$(R)NDStatsMarkSize-SP"){     # NDStats centroid marker size SP
+  field(DESC, "NDStats centroid marker size")
+  field(PINI, "YES")
+  field(EGU, "pixels")
+  field(FLNK, "$(P)$(R)NDStatsMarkSizeSet")
+}
+
+record(dfanout, "$(P)$(R)NDStatsMarkSizeSet"){
+  field(DESC, "NDStats centroid marker size set")
+  field(OMSL, "closed_loop")
+  field(SELM, "All")
+  field(DOL, "$(P)$(R)NDStatsMarkSize-SP")
+  field(OUTA, "$(P)$(R)Over1ASizeX PP")
+  field(OUTB, "$(P)$(R)Over1ASizeY PP")
+}
+
+record(calc, "$(P)$(R)NDStatsMarkSize-RB"){        # NDStats centroid marker size RB
+  field(DESC, "NDStats centroid marker size RB")
+  field(EGU, "pixels")
+  field(INPA, "$(P)$(R)Over1ASizeX_RBV CPP")
+  field(INPB, "$(P)$(R)Over1ASizeY_RBV CPP")
+  field(CALC, "A>B?A:B")
+}
+
+record(seq, "$(P)$(R)NDStatsMarkUpdate"){          # Update NDStats marker position
+  field(DESC, "Update NDStats marker position")
+  field(SELM, "All")
+  field(DOL1, "$(P)$(R)CenterXNDStatsRaw-Mon CPP")
+  field(LNK1, "$(P)$(R)Over1ACenterX PP")
+  field(DOL2, "$(P)$(R)CenterYNDStatsRaw-Mon CPP")
+  field(LNK2, "$(P)$(R)Over1ACenterY PP")
+}
+
+# Overlay B - Centroid Position from DimFei
+
+alias( "$(P)$(R)Over1BUse",                        "$(P)$(R)DimFeiMarkEnbl-Sel") # Enable DimFei centroid marker (set)
+alias( "$(P)$(R)Over1BUse_RBV",                    "$(P)$(R)DimFeiMarkEnbl-Sts") # DimFei centroid marker status (read)
+
+record(longout, "$(P)$(R)DimFeiMarkColor-SP"){     # DimFei centroid marker color SP
+  field(DESC, "DimFei centroid marker color")
+  field(PINI, "YES")
+  field(EGU, "%")
+  field(DRVH, "100")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)DimFeiMarkColorCalc")
+}
+
+record(calcout, "$(P)$(R)DimFeiMarkColorCalc"){
+  field(DESC, "DimFei centroid marker color calc")
+  field(INPA, "$(P)$(R)DimFeiMarkColor-SP")
+  field(INPB, "$(P)$(R)DataType-Sts CPP") # must recalc if bit depth changes
+  # IF (bit_depth = 8 bit) => OUT = A/100 * 255
+  # ELSE => OUT = A/100 * 65535
+  field(CALC, "B=0?A*0.01*255:A*0.01*65535")
+  field(OUT, "$(P)$(R)Over1BGreen PP")
+}
+
+record(calc, "$(P)$(R)DimFeiMarkColor-RB"){        # DimFei centroid marker color RB
+  field(DESC, "DimFei centroid marker color RB")
+  field(EGU, "%")
+  field(INPA, "$(P)$(R)Over1BGreen_RBV CPP")
+  field(INPB, "$(P)$(R)DataType-Sts")
+  # IF (bit_depth = 8 bit) => OUT = A*100 / 255
+  # ELSE => OUT = A*100 / 65535
+  field(CALC, "B=0?A*100/255:A*100/65535")
+}
+
+record(longout, "$(P)$(R)DimFeiMarkSize-SP"){      # DimFei centroid marker size SP
+  field(DESC, "DimFei centroid marker size")
+  field(PINI, "YES")
+  field(EGU, "pixels")
+  field(FLNK, "$(P)$(R)DimFeiMarkSizeSet")
+}
+
+record(dfanout, "$(P)$(R)DimFeiMarkSizeSet"){
+  field(DESC, "DimFei centroid marker size set")
+  field(OMSL, "closed_loop")
+  field(SELM, "All")
+  field(DOL, "$(P)$(R)DimFeiMarkSize-SP")
+  field(OUTA, "$(P)$(R)Over1BSizeX PP")
+  field(OUTB, "$(P)$(R)Over1BSizeY PP")
+}
+
+record(calc, "$(P)$(R)DimFeiMarkSize-RB"){         # DimFei centroid marker size RB
+  field(DESC, "DimFei centroid marker size RB")
+  field(EGU, "pixels")
+  field(INPA, "$(P)$(R)Over1BSizeX_RBV CPP")
+  field(INPB, "$(P)$(R)Over1BSizeY_RBV CPP")
+  field(CALC, "A>B?A:B")
+}
+
+record(seq, "$(P)$(R)DimFeiMarkUpdate"){          # Update DimFei marker position
+  field(DESC, "Update DimFei marker position")
+  field(SELM, "All")
+  field(DOL1, "$(P)$(R)CenterXDimFeiRaw-Mon CPP")
+  field(LNK1, "$(P)$(R)Over1BCenterX PP")
+  field(DOL2, "$(P)$(R)CenterXDimFeiRaw-Mon CPP")
+  field(LNK2, "$(P)$(R)Over1BCenterY PP")
+}
+
+# Overlay C - Calibration Screen Center Marker
+
+alias( "$(P)$(R)Over1CUse",                        "$(P)$(R)CalCenterMarkEnbl-Sel") # Enable calibration screen center marker (set)
+alias( "$(P)$(R)Over1CUse_RBV",                    "$(P)$(R)CalCenterMarkEnbl-Sts") # Cal. screen center marker status (read)
+
+record(longout, "$(P)$(R)CalCenterMarkColor-SP"){  # Cal. screen center marker color SP
+  field(DESC, "Cal. screen center marker color")
+  field(PINI, "YES")
+  field(EGU, "%")
+  field(DRVH, "100")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)CalCenterMarkColorCalc")
+}
+
+record(calcout, "$(P)$(R)CalCenterMarkColorCalc"){
+  field(DESC, "Cal. screen center marker color calc")
+  field(INPA, "$(P)$(R)CalCenterMarkColor-SP")
+  field(INPB, "$(P)$(R)DataType-Sts CPP") # must recalc if bit depth changes
+  # IF (bit_depth = 8 bit) => OUT = A/100 * 255
+  # ELSE => OUT = A/100 * 65535
+  field(CALC, "B=0?A*0.01*255:A*0.01*65535")
+  field(OUT, "$(P)$(R)Over1CGreen PP")
+}
+
+record(calc, "$(P)$(R)CalCenterMarkColor-RB"){     # Cal. screen center marker color RB
+  field(DESC, "Cal. screen center marker color RB")
+  field(EGU, "%")
+  field(INPA, "$(P)$(R)Over1CGreen_RBV CPP")
+  field(INPB, "$(P)$(R)DataType-Sts")
+  # IF (bit_depth = 8 bit) => OUT = A*100 / 255
+  # ELSE => OUT = A*100 / 65535
+  field(CALC, "B=0?A*100/255:A*100/65535")
+}
+
+record(longout, "$(P)$(R)CalCenterMarkSize-SP"){   # Cal. screen center marker size SP
+  field(DESC, "Calibration screen center marker size")
+  field(PINI, "YES")
+  field(EGU, "pixels")
+  field(FLNK, "$(P)$(R)CalCenterMarkSizeSet")
+}
+
+record(dfanout, "$(P)$(R)CalCenterMarkSizeSet"){
+  field(DESC, "Cal. screen center marker size set")
+  field(OMSL, "closed_loop")
+  field(SELM, "All")
+  field(DOL, "$(P)$(R)CalCenterMarkSize-SP")
+  field(OUTA, "$(P)$(R)Over1CSizeX PP")
+  field(OUTB, "$(P)$(R)Over1CSizeY PP")
+}
+
+record(calc, "$(P)$(R)CalCenterMarkSize-RB"){      # Cal. screen center marker size RB
+  field(DESC, "Calibration screen center marker size RB")
+  field(EGU, "pixels")
+  field(INPA, "$(P)$(R)Over1CSizeX_RBV CPP")
+  field(INPB, "$(P)$(R)Over1CSizeY_RBV CPP")
+  field(CALC, "A>B?A:B")
+}
+
+record(seq, "$(P)$(R)CalCenterMarkUpdate"){        # Update calibration center marker position
+  field(DESC, "Update cal. center marker position")
+  field(SELM, "All")
+  field(DOL1, "$(P)$(R)CenterOffsetX-RB CPP")
+  field(LNK1, "$(P)$(R)Over1CCenterX PP")
+  field(DOL2, "$(P)$(R)CenterOffsetY-RB CPP")
+  field(LNK2, "$(P)$(R)Over1CCenterY PP")
+}
+
+# Overlay D - Real Screen Center Marker
+
+alias( "$(P)$(R)Over1DUse",                        "$(P)$(R)RealCenterMarkEnbl-Sel") # Enable real center marker (set)
+alias( "$(P)$(R)Over1DUse_RBV",                    "$(P)$(R)RealCenterMarkEnbl-Sts") # Real center marker status (read)
+
+record(longout, "$(P)$(R)RealCenterMarkColor-SP"){ # Real screen center marker color SP
+  field(DESC, "Real screen center marker color")
+  field(PINI, "YES")
+  field(EGU, "%")
+  field(DRVH, "100")
+  field(DRVL, "0")
+  field(FLNK, "$(P)$(R)RealCenterMarkColorCalc")
+}
+
+record(calcout, "$(P)$(R)RealCenterMarkColorCalc"){
+  field(DESC, "Real screen center marker color calc")
+  field(INPA, "$(P)$(R)RealCenterMarkColor-SP")
+  field(INPB, "$(P)$(R)DataType-Sts CPP") # must recalc if bit depth changes
+  # IF (bit_depth = 8 bit) => OUT = A/100 * 255
+  # ELSE => OUT = A/100 * 65535
+  field(CALC, "B=0?A*0.01*255:A*0.01*65535")
+  field(OUT, "$(P)$(R)Over1DGreen PP")
+}
+
+record(calc, "$(P)$(R)RealCenterMarkColor-RB"){    # Real screen center marker color RB
+  field(DESC, "Real screen center marker color RB")
+  field(EGU, "%")
+  field(INPA, "$(P)$(R)Over1DGreen_RBV CPP")
+  field(INPB, "$(P)$(R)DataType-Sts")
+  # IF (bit_depth = 8 bit) => OUT = A*100 / 255
+  # ELSE => OUT = A*100 / 65535
+  field(CALC, "B=0?A*100/255:A*100/65535")
+}
+
+record(longout, "$(P)$(R)RealCenterMarkSize-SP"){  # Real center marker size SP
+  field(DESC, "Real center marker size")
+  field(PINI, "YES")
+  field(EGU, "pixels")
+  field(FLNK, "$(P)$(R)RealCenterMarkSizeSet")
+}
+
+record(dfanout, "$(P)$(R)RealCenterMarkSizeSet"){
+  field(DESC, "Real center marker size set")
+  field(OMSL, "closed_loop")
+  field(SELM, "All")
+  field(DOL, "$(P)$(R)RealCenterMarkSize-SP")
+  field(OUTA, "$(P)$(R)Over1DSizeX PP")
+  field(OUTB, "$(P)$(R)Over1DSizeY PP")
+}
+
+record(calc, "$(P)$(R)RealCenterMarkSize-RB"){     # Real center marker size RB
+  field(DESC, "Real center marker size RB")
+  field(EGU, "pixels")
+  field(INPA, "$(P)$(R)Over1DSizeX_RBV CPP")
+  field(INPB, "$(P)$(R)Over1DSizeY_RBV CPP")
+  field(CALC, "A>B?A:B")
+}
+
+record(seq, "$(P)$(R)RealCenterMarkUpdate"){       # Update real center marker position
+  field(DESC, "Update real center marker position")
+  field(SELM, "All")
+  field(DOL1, "$(P)$(R)RealCenterX-Mon CPP")
+  field(LNK1, "$(P)$(R)Over1DCenterX PP")
+  field(DOL2, "$(P)$(R)RealCenterY-Mon CPP")
+  field(LNK2, "$(P)$(R)Over1DCenterY PP")
+}

@@ -10,7 +10,7 @@
   <background_color>
     <color name="Gray_4" red="187" green="187" blue="187" />
   </background_color>
-  <boy_version>5.1.0.201711290101</boy_version>
+  <boy_version>5.1.0</boy_version>
   <foreground_color>
     <color name="Gray_14" red="0" green="0" blue="0" />
   </foreground_color>
@@ -705,24 +705,6 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>NDStdArrays.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>Image1</R>
-        </macros>
-        <mode>1</mode>
-        <description>Image #1</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>NDProcess.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>Proc1:</R>
-        </macros>
-        <mode>1</mode>
-        <description>Process #1</description>
-      </action>
-      <action type="OPEN_DISPLAY">
         <path>NDTransform.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
@@ -732,28 +714,28 @@ $(pv_value)</tooltip>
         <description>Transform #1</description>
       </action>
       <action type="OPEN_DISPLAY">
-        <path>NDColorConvert.opi</path>
+        <path>NDProcess.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <R>CC1:</R>
+          <R>Proc1</R>
         </macros>
         <mode>1</mode>
-        <description>Color convert #1</description>
+        <description>Process #1</description>
       </action>
       <action type="OPEN_DISPLAY">
-        <path>NDColorConvert.opi</path>
+        <path>NDProcess.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <R>CC2:</R>
+          <R>Proc2</R>
         </macros>
         <mode>1</mode>
-        <description>Color convert #2</description>
+        <description>Process #1</description>
       </action>
       <action type="OPEN_DISPLAY">
         <path>NDOverlay.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <R>Over1:</R>
+          <R>Over1</R>
         </macros>
         <mode>1</mode>
         <description>Overlay #1</description>
@@ -762,64 +744,23 @@ $(pv_value)</tooltip>
         <path>NDOverlay8.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <R>Over1:</R>
-          <O1>Over1:1:</O1>
-          <O2>Over1:2:</O2>
-          <O3>Over1:3:</O3>
-          <O4>Over1:4:</O4>
-          <O5>Over1:5:</O5>
-          <O6>Over1:6:</O6>
-          <O7>Over1:7:</O7>
-          <O8>Over1:8:</O8>
+          <R>Over1</R>
+          <O1>Over1A</O1>
+          <O2>Over1B</O2>
+          <O3>Over1C</O3>
+          <O4>Over1D</O4>
         </macros>
         <mode>1</mode>
         <description>Overlays 1-8</description>
       </action>
       <action type="OPEN_DISPLAY">
-        <path>NDCircularBuff.opi</path>
+        <path>NDStdArrays.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <R>CB1:</R>
+          <R>Image1</R>
         </macros>
         <mode>1</mode>
-        <description>Circular buffer #1</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>NDROIStat.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>ROIStat1:</R>
-        </macros>
-        <mode>1</mode>
-        <description>ROI Statistics #1</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>NDPluginAttribute.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>Attr1:</R>
-        </macros>
-        <mode>1</mode>
-        <description>Attribute #1</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>scan_more.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <S>scan1</S>
-          <N>1</N>
-        </macros>
-        <mode>1</mode>
-        <description>Scan #1</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>yySseq.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <S>AcquireSequence</S>
-        </macros>
-        <mode>1</mode>
-        <description>Acquire Sequence</description>
+        <description>Image #1</description>
       </action>
     </actions>
     <actions_from_pv>false</actions_from_pv>

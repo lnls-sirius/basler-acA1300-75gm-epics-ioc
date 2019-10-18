@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
+  <actions hook="false" hook_all="false" />
+  <auto_scale_widgets>
+    <auto_scale_widgets>false</auto_scale_widgets>
+    <min_width>-1</min_width>
+    <min_height>-1</min_height>
+  </auto_scale_widgets>
+  <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
+  <background_color>
+    <color red="75" green="101" blue="126" />
+  </background_color>
+  <boy_version>5.1.0</boy_version>
+  <foreground_color>
+    <color red="192" green="192" blue="192" />
+  </foreground_color>
+  <grid_space>6</grid_space>
+  <height>660</height>
+  <macros>
+    <include_parent_macros>true</include_parent_macros>
+  </macros>
+  <name></name>
+  <rules />
+  <scripts />
+  <show_close_button>true</show_close_button>
+  <show_edit_range>true</show_edit_range>
+  <show_grid>true</show_grid>
+  <show_ruler>true</show_ruler>
+  <snap_to_geometry>true</snap_to_geometry>
+  <widget_type>Display</widget_type>
+  <width>780</width>
+  <wuid>459d19e5:16d975e7aae:-4834</wuid>
+  <x>-1</x>
+  <y>-1</y>
+  <widget typeId="org.csstudio.opibuilder.widgets.intensityGraph" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <color_map>
+      <interpolate>true</interpolate>
+      <autoscale>true</autoscale>
+      <map>2</map>
+    </color_map>
+    <crop_bottom>0</crop_bottom>
+    <crop_left>0</crop_left>
+    <crop_right>0</crop_right>
+    <crop_top>0</crop_top>
+    <data_height>1024</data_height>
+    <data_width>1280</data_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Ubuntu" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="255" green="255" blue="255" />
+    </foreground_color>
+    <graph_area_height>538</graph_area_height>
+    <graph_area_width>622</graph_area_width>
+    <height>576</height>
+    <horizon_profile_x_pv_name></horizon_profile_x_pv_name>
+    <horizon_profile_x_pv_value />
+    <horizon_profile_y_pv_name></horizon_profile_y_pv_name>
+    <horizon_profile_y_pv_value />
+    <maximum>255.0</maximum>
+    <minimum>0.0</minimum>
+    <name>Intensity Graph</name>
+    <pixel_info_pv_name></pixel_info_pv_name>
+    <pixel_info_pv_value />
+    <pv_name>$(P)$(R)Data-Mon</pv_name>
+    <pv_value />
+    <rgb_mode>false</rgb_mode>
+    <roi_color>
+      <color red="0" green="255" blue="255" />
+    </roi_color>
+    <roi_count>0</roi_count>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>true</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_ramp>true</show_ramp>
+    <single_line_profiling>false</single_line_profiling>
+    <tooltip>$(pv_name)</tooltip>
+    <vertial_profile_x_pv_value />
+    <vertial_profile_y_pv_value />
+    <vertical_profile_x_pv_name></vertical_profile_x_pv_name>
+    <vertical_profile_y_pv_name></vertical_profile_y_pv_name>
+    <visible>true</visible>
+    <widget_type>Intensity Graph</widget_type>
+    <width>720</width>
+    <wuid>459d19e5:16d975e7aae:-4736</wuid>
+    <x>30</x>
+    <x_axis_axis_color>
+      <color red="255" green="255" blue="255" />
+    </x_axis_axis_color>
+    <x_axis_axis_title>Horizontal Pixels</x_axis_axis_title>
+    <x_axis_major_tick_step_hint>100</x_axis_major_tick_step_hint>
+    <x_axis_maximum>1280.0</x_axis_maximum>
+    <x_axis_minimum>0.0</x_axis_minimum>
+    <x_axis_scale_font>
+      <opifont.name fontName="Ubuntu" height="11" style="0" pixels="false">Default</opifont.name>
+    </x_axis_scale_font>
+    <x_axis_show_minor_ticks>false</x_axis_show_minor_ticks>
+    <x_axis_title_font>
+      <opifont.name fontName="Ubuntu" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </x_axis_title_font>
+    <x_axis_visible>true</x_axis_visible>
+    <y>66</y>
+    <y_axis_axis_color>
+      <color red="255" green="255" blue="255" />
+    </y_axis_axis_color>
+    <y_axis_axis_title>Vertical Pixels</y_axis_axis_title>
+    <y_axis_major_tick_step_hint>100</y_axis_major_tick_step_hint>
+    <y_axis_maximum>0.0</y_axis_maximum>
+    <y_axis_minimum>1024.0</y_axis_minimum>
+    <y_axis_scale_font>
+      <opifont.name fontName="Ubuntu" height="11" style="0" pixels="false">Default</opifont.name>
+    </y_axis_scale_font>
+    <y_axis_show_minor_ticks>false</y_axis_show_minor_ticks>
+    <y_axis_title_font>
+      <opifont.name fontName="Ubuntu" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </y_axis_title_font>
+    <y_axis_visible>true</y_axis_visible>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <fontdata fontName="Ubuntu" height="40" style="0" pixels="false" />
+    </font>
+    <foreground_color>
+      <color red="229" green="229" blue="229" />
+    </foreground_color>
+    <height>51</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Label_45</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>$(P)$(R)</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>720</width>
+    <wrap_words>false</wrap_words>
+    <wuid>459d19e5:16d975e7aae:-4726</wuid>
+    <x>30</x>
+    <y>6</y>
+  </widget>
+</display>

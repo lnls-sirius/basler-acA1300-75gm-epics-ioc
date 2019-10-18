@@ -379,6 +379,108 @@ record(seq, "$(P)$(R)InitAfterReconnect"){
 }
 
 ######################################################################
+# FAST ACQUISITION MODE
+#
+# Desc: Disable plugins to decrease cpu usage and
+#       allow faster sample rates.
+
+# Fast acq mode
+
+record(bo, "$(P)$(R)FastAcq-Sel"){
+  field(DESC, "Enable fast acquisition mode")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(FLNK, "$(P)$(R)FastAcqCalc")
+}
+
+record(calc, "$(P)$(R)FastAcqCalc"){
+  field(DESC, "Select link for fast acq config")
+  field(INPA, "$(P)$(R)FastAcq-Sel")
+  field(CALC, "A+1")
+  field(FLNK, "$(P)$(R)FastAcqConfig")
+}
+
+record(seq, "$(P)$(R)FastAcqConfig"){
+  field(DESC, "Config fast acquisition mode")
+  field(SELL, "$(P)$(R)FastAcqCalc")
+  field(SELM, "Specified")
+  field(DO1, "1")
+  field(LNK1, "$(P)$(R)EnblAllPlugins.PROC PP")
+  field(DO2, "1")
+  field(LNK2, "$(P)$(R)DsblAllPlugins.PROC PP")
+}
+
+# Disable plugins
+
+record(sseq, "$(P)$(R)DsblAllPlugins"){
+  field(DESC, "Disable all plugins")
+  field(SELM, "All")
+  field(STR1, "Disable")
+  field(LNK1, "$(P)$(R)Transf1EnableCallbacks PP")
+  field(STR2, "Disable")
+  field(LNK2, "$(P)$(R)Proc1EnableCallbacks PP")
+  field(STR3, "Disable")
+  field(LNK3, "$(P)$(R)Proc2EnableCallbacks PP")
+  field(STR4, "Disable")
+  field(LNK4, "$(P)$(R)Stats1EnableCallbacks PP")
+  field(STR5, "Disable")
+  field(LNK5, "$(P)$(R)Stats2EnableCallbacks PP")
+  field(STR6, "Disable")
+  field(LNK6, "$(P)$(R)ROI1EnableCallbacks PP")
+  field(STR7, "Disable")
+  field(LNK7, "$(P)$(R)DimFei1EnableCallbacks PP")
+  field(STR8, "Disable")
+  field(LNK8, "$(P)$(R)Over1EnableCallbacks PP")
+  field(FLNK, "$(P)$(R)BypassPlugins")
+}
+
+record(sseq, "$(P)$(R)BypassPlugins"){
+  field(DESC, "Bypass plugin chain")
+  field(SELM, "All")
+  field(STR1, "CAMPORT")  # camera asyn port name
+  field(LNK1, "$(P)$(R)Image1NDArrayPort PP")
+}
+
+record(sseq, "$(P)$(R)EnblAllPlugins"){
+  field(DESC, "Enable all plugins")
+  field(SELM, "All")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)Transf1EnableCallbacks PP")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)Proc1EnableCallbacks PP")
+  field(STR3, "Enable")
+  field(LNK3, "$(P)$(R)Proc2EnableCallbacks PP")
+  field(STR4, "Enable")
+  field(LNK4, "$(P)$(R)Stats1EnableCallbacks PP")
+  field(STR5, "Enable")
+  field(LNK5, "$(P)$(R)Stats2EnableCallbacks PP")
+  # process 'ProfileEnbl-Sel' to restore previous
+  # 'ROI1EnableCallbacks' state
+  field(DO6, "1")
+  field(LNK6, "$(P)$(R)ProfileEnbl-Sel.PROC PP")
+  field(STR7, "Enable")
+  field(LNK7, "$(P)$(R)DimFei1EnableCallbacks PP")
+  field(STR8, "Enable")
+  field(LNK8, "$(P)$(R)Over1EnableCallbacks PP")
+  field(FLNK, "$(P)$(R)RestorePlugins")
+}
+
+record(sseq, "$(P)$(R)RestorePlugins"){
+  field(DESC, "Restore plugin chain")
+  field(SELM, "All")
+  field(STR1, "OVER1")  # overlay plugin asyn port name
+  field(LNK1, "$(P)$(R)Image1NDArrayPort PP")
+  field(DO2, "0")
+  field(LNK2, "$(P)$(R)FastAcq-Sts PP")
+}
+
+record(bi, "$(P)$(R)FastAcq-Sts"){
+  field(DESC, "Fast acquisition mode enable Sts")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+}
+
+######################################################################
 # CAMERA DATA
 #
 # Desc: Camera data array alias.

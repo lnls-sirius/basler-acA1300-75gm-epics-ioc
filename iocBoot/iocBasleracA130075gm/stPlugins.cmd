@@ -16,9 +16,9 @@ NDTransformConfigure("TRANSF1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THR
 dbLoadRecords("$(ADCORE)/db/NDTransform.template", "P=$(PREFIX), R=Transf1, PORT=TRANSF1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
 
 # Create 2 processing plugins
-NDProcessConfigure("PROC1", $(QSIZE), 0, "TRANSF1", 0, 0, 0)
+NDProcessConfigure("PROC1", $(QSIZE), 0, "TRANSF1", 0, 0, 0, 0, 0)
 dbLoadRecords("$(ADCORE)/db/NDProcess.template", "P=$(PREFIX), R=Proc1, PORT=PROC1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=TRANSF1")
-NDProcessConfigure("PROC2", $(QSIZE), 0, "PROC1", 0, 0, 0)
+NDProcessConfigure("PROC2", $(QSIZE), 0, "PROC1", 0, 0, 0, 0, 0)
 dbLoadRecords("$(ADCORE)/db/NDProcess.template", "P=$(PREFIX), R=Proc2, PORT=PROC2, ADDR=0, TIMEOUT=1, NDARRAY_PORT=PROC1")
 
 # Create a ROI plugin
@@ -28,12 +28,12 @@ dbLoadRecords("NDROI.template",       "P=$(PREFIX),R=ROI1,  PORT=ROI1,ADDR=0,TIM
 # Create 2 statistics plugins
 NDStatsConfigure("STATS1", $(QSIZE), 0, "PROC2", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
 dbLoadRecords("NDStats.template",     "P=$(PREFIX),R=Stats1,  PORT=STATS1,ADDR=0,TIMEOUT=1,HIST_SIZE=256,XSIZE=$(XSIZE),YSIZE=$(YSIZE),NCHANS=$(NCHANS),NDARRAY_PORT=PROC2")
-NDTimeSeriesConfigure("STATS1_TS", $(QSIZE), 0, "STATS1", 1, 23)
+NDTimeSeriesConfigure("STATS1_TS", $(QSIZE), 0, "STATS1", 1, 23, 0, 0, 0, 0)
 dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=Stats1TS, PORT=STATS1_TS,ADDR=0,TIMEOUT=1,NDARRAY_PORT=STATS1,NDARRAY_ADDR=1,NCHANS=$(NCHANS),ENABLED=1")
 
 NDStatsConfigure("STATS2", $(QSIZE), 0, "ROI1",    0, 0, 0, 0, 0, $(MAX_THREADS=5))
 dbLoadRecords("NDStats.template",     "P=$(PREFIX),R=Stats2,  PORT=STATS2,ADDR=0,TIMEOUT=1,HIST_SIZE=256,XSIZE=$(XSIZE),YSIZE=$(YSIZE),NCHANS=$(NCHANS),NDARRAY_PORT=ROI1")
-NDTimeSeriesConfigure("STATS2_TS", $(QSIZE), 0, "STATS2", 1, 23)
+NDTimeSeriesConfigure("STATS2_TS", $(QSIZE), 0, "STATS2", 1, 23, 0, 0, 0, 0)
 dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=Stats2TS, PORT=STATS2_TS,ADDR=0,TIMEOUT=1,NDARRAY_PORT=STATS2,NDARRAY_ADDR=1,NCHANS=$(NCHANS),ENABLED=1")
 
 # Create a DimFei plugin

@@ -24,6 +24,8 @@ epicsEnvSet("YSIZE",  "1024")
 epicsEnvSet("NCHANS", "2048")
 # The maximum number of frames buffered in the NDPluginCircularBuff plugin
 epicsEnvSet("CBUFFS", "500")
+# The maximum number of threads for plugins which can run in multiple threads
+epicsEnvSet("MAX_THREADS", "12")
 # The search path for database files
 epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
 

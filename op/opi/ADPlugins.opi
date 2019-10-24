@@ -26,7 +26,7 @@
   <show_edit_range>true</show_edit_range>
   <show_grid>false</show_grid>
   <show_ruler>true</show_ruler>
-  <snap_to_geometry>false</snap_to_geometry>
+  <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
   <width>350</width>
   <wuid>12e5a6d8:14c334c9085:-7eef</wuid>
@@ -296,46 +296,6 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>ROI</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>30</width>
-    <wrap_words>false</wrap_words>
-    <wuid>12e5a6d8:14c334c9085:-7ee9</wuid>
-    <x>230</x>
-    <y>29</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
-    </font>
-    <foreground_color>
-      <color name="Gray_14" red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>0</horizontal_alignment>
-    <name>Label</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
     <text>Other</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
@@ -345,8 +305,8 @@ $(pv_value)</tooltip>
     <width>50</width>
     <wrap_words>false</wrap_words>
     <wuid>12e5a6d8:14c334c9085:-7ee7</wuid>
-    <x>210</x>
-    <y>55</y>
+    <x>213</x>
+    <y>30</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
     <actions hook="false" hook_all="false">
@@ -467,100 +427,6 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>NDROI.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>ROI1</R>
-        </macros>
-        <mode>1</mode>
-        <description>ROI #1</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>NDROI.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>ROI2</R>
-        </macros>
-        <mode>1</mode>
-        <description>ROI #2</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>NDROI.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>ROI3</R>
-        </macros>
-        <mode>1</mode>
-        <description>ROI #3</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>NDROI.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R>ROI4</R>
-        </macros>
-        <mode>1</mode>
-        <description>ROI #4</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path>NDROI4.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <R1>ROI1</R1>
-          <R2>ROI2</R2>
-          <R3>ROI3</R3>
-          <R4>ROI4</R4>
-        </macros>
-        <mode>1</mode>
-        <description>ROI 1-4 combined</description>
-      </action>
-    </actions>
-    <actions_from_pv>false</actions_from_pv>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color name="ioc_write_bg" red="115" green="223" blue="255" />
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>6</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Ubuntu" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color name="Gray_14" red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Menu Button</name>
-    <pv_name></pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <show_down_arrow>false</show_down_arrow>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <transparent>false</transparent>
-    <visible>true</visible>
-    <widget_type>Menu Button</widget_type>
-    <width>64</width>
-    <wuid>12e5a6d8:14c334c9085:-7ee4</wuid>
-    <x>265</x>
-    <y>29</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="OPEN_DISPLAY">
         <path>NDTransform.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
@@ -654,6 +520,24 @@ $(pv_value)</tooltip>
         <mode>1</mode>
         <description>DimFei #1</description>
       </action>
+      <action type="OPEN_DISPLAY">
+        <path>ffmpegStream.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <R>ffmstream1</R>
+        </macros>
+        <mode>1</mode>
+        <description>ffmpegServer #1</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>NDColorConvert.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <R>CC1</R>
+        </macros>
+        <mode>1</mode>
+        <description>Color Convert #1</description>
+      </action>
     </actions>
     <actions_from_pv>false</actions_from_pv>
     <alarm_pulsing>false</alarm_pulsing>
@@ -695,8 +579,8 @@ $(pv_value)</tooltip>
     <widget_type>Menu Button</widget_type>
     <width>64</width>
     <wuid>12e5a6d8:14c334c9085:-7ee3</wuid>
-    <x>265</x>
-    <y>55</y>
+    <x>268</x>
+    <y>30</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
     <actions hook="false" hook_all="false">

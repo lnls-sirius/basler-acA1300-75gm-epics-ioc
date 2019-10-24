@@ -48,3 +48,13 @@ dbLoadRecords("$(ADCORE)/db/NDOverlayN.template","P=$(PREFIX), R=Over1B, NAME=Ce
 dbLoadRecords("$(ADCORE)/db/NDOverlayN.template","P=$(PREFIX), R=Over1C, NAME=CenterCal, SHAPE=0, O=Over1, PORT=OVER1, ADDR=2, TIMEOUT=1")
 dbLoadRecords("$(ADCORE)/db/NDOverlayN.template","P=$(PREFIX), R=Over1D, NAME=CenterReal, SHAPE=0, O=Over1, PORT=OVER1, ADDR=3, TIMEOUT=1")
 
+# Create 1 color conversion plugin
+NDColorConvertConfigure("CC1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THREADS=5))
+dbLoadRecords("NDColorConvert.template", "P=$(PREFIX), R=CC1, PORT=CC1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
+
+# Load ffmpegServer plugin
+ffmpegServerConfigure(8080)
+ffmpegStreamConfigure("FfmStream1", 2, 0, "$(PORT)", 0, -1, 0)
+dbLoadRecords("$(FFMPEGSERVER)/db/ffmpegStream.template", "P=$(PREFIX), R=ffmstream1, PORT=FfmStream1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
+#ffmpegFileConfigure("FfmFile1", 16, 0, "$(PORT)", 0, -1, 0)
+#dbLoadRecords("$(FFMPEGSERVER)/db/ffmpegFile.template", "P=$(PREFIX), R=ffmfile1, PORT=FfmFile1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")

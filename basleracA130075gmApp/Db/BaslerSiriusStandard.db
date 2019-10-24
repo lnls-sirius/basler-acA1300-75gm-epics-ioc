@@ -1907,3 +1907,24 @@ record(seq, "$(P)$(R)RealCenterMarkUpdate"){       # Update real center marker p
   field(DOL2, "$(P)$(R)RealCenterY-Mon CPP")
   field(LNK2, "$(P)$(R)Over1DCenterY PP")
 }
+
+## FFMPEG Server - Stream compressed images
+
+alias( "$(P)$(R)ffmstream1EnableCallbacks",        "$(P)$(R)EnblMPEG-Sel") # Enable MPEG streaming (set)
+alias( "$(P)$(R)ffmstream1EnableCallbacks_RBV",    "$(P)$(R)EnblMPEG-Sts") # Enable MPEG streaming (read)
+
+# Auto settings
+
+record(seq, "$(P)$(R)MPEGAutoSettings"){
+  field(DESC, "Auto set MPEG parameters")
+  field(PINI, "YES")
+  field(SELM, "All")
+  field(DO1, "1")                                  # enable array callbacks
+  field(LNK1, "$(P)$(R)ffmstream1ArrayCallbacks PP")
+  field(DOL2, "$(P)$(R)Cam1DataType_RBV CPP")      # adjust data type
+  field(LNK2, "$(P)$(R)ffmstream1DataType PP")
+  field(DOL3, "$(P)$(R)Cam1Width_RBV CPP")         # adjust data width
+  field(LNK3, "$(P)$(R)ffmstream1MAXW PP")     
+  field(DOL4, "$(P)$(R)Cam1Height_RBV CPP")        # adjust data height
+  field(LNK4, "$(P)$(R)ffmstream1MAXH PP")
+}

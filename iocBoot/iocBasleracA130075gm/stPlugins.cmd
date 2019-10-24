@@ -53,7 +53,7 @@ NDColorConvertConfigure("CC1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0, 0, $(MAX_THRE
 dbLoadRecords("NDColorConvert.template", "P=$(PREFIX), R=CC1, PORT=CC1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
 
 # Load ffmpegServer plugin
-ffmpegServerConfigure(8080)
+ffmpegServerConfigure($(FFMPEG_PORT))
 ffmpegStreamConfigure("FfmStream1", 2, 0, "$(PORT)", 0, -1, 0)
 dbLoadRecords("$(FFMPEGSERVER)/db/ffmpegStream.template", "P=$(PREFIX), R=ffmstream1, PORT=FfmStream1, ADDR=0, TIMEOUT=1, NDARRAY_PORT=$(PORT)")
 #ffmpegFileConfigure("FfmFile1", 16, 0, "$(PORT)", 0, -1, 0)

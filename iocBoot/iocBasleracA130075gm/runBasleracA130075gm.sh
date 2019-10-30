@@ -20,8 +20,12 @@ if [ -z "$SERIAL_NUMBER" ]; then
     exit 7
 fi
 
+if [ -z "$HTTP_PORT" ]; then
+    HTTP_PORT="8080"
+fi
+
 if [ -z "$FFMPEG_PORT" ]; then
-    FFMPEG_PORT="8080"
+    FFMPEG_PORT="ffmstream1"
 fi
 
 if [ -z "$EPICS_CA_MAX_ARRAY_BYTES" ]; then
@@ -37,5 +41,5 @@ fi
 cd "$IOC_BOOT_DIR"
 
 P="$P" R="$R" SERIAL_NUMBER="$SERIAL_NUMBER" \
-NEW_PREFIX="$NEW_PREFIX" FFMPEG_PORT="$FFMPEG_PORT" \
+NEW_PREFIX="$NEW_PREFIX" HTTP_PORT="$HTTP_PORT" FFMPEG_PORT="$FFMPEG_PORT" \
 "$IOC_BIN" "$ST_CMD"

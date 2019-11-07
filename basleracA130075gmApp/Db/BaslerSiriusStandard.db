@@ -1435,7 +1435,8 @@ record(calc, "$(P)$(R)CenterXNDStats-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorX-RB")
   field(INPC, "$(P)$(R)CenterOffsetX-RB")
   field(INPD, "$(P)$(R)CalPosCenterX-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)AOIOffsetX-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)CenterYNDStats-Mon"){
@@ -1446,7 +1447,8 @@ record(calc, "$(P)$(R)CenterYNDStats-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorY-RB")
   field(INPC, "$(P)$(R)CenterOffsetY-RB")
   field(INPD, "$(P)$(R)CalPosCenterY-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)AOIOffsetY-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)SigmaXNDStats-Mon"){
@@ -1503,7 +1505,8 @@ record(calc, "$(P)$(R)CenterXDimFei-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorX-RB")
   field(INPC, "$(P)$(R)CenterOffsetX-RB")
   field(INPD, "$(P)$(R)CalPosCenterX-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)AOIOffsetX-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)CenterYDimFei-Mon"){
@@ -1514,7 +1517,8 @@ record(calc, "$(P)$(R)CenterYDimFei-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorY-RB")
   field(INPC, "$(P)$(R)CenterOffsetY-RB")
   field(INPD, "$(P)$(R)CalPosCenterY-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)AOIOffsetY-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)SigmaXDimFei-Mon"){

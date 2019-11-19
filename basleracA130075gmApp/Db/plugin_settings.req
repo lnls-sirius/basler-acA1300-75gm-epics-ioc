@@ -1,4 +1,5 @@
 file "NDROI_settings.req",          P=$(PREFIX),  R=ROI1
+file "NDROI_settings.req",          P=$(PREFIX),  R=ROI2
 file "NDStats_settings.req",        P=$(PREFIX),  R=Stats1
 file "NDStats_settings.req",        P=$(PREFIX),  R=Stats2
 file "NDTransform_settings.req",    P=$(PREFIX),  R=Transf1

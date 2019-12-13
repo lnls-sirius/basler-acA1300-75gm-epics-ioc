@@ -1,0 +1,1089 @@
+\documentclass[openany]{article}
+\usepackage[a4paper,margin=1in,bottom=1.5in]{geometry} % define margins. Bottom margin is used to lift a little bit the page number.
+\usepackage[english]{babel} % document language is english
+\usepackage{tikz} % for drawing (currently not used).
+\usepackage{graphicx} % for including images
+\usepackage[export]{adjustbox}
+\usepackage{fancyhdr} % used for creating headers and footers. only used in title page in this document.
+\usepackage{tabularx} % creation of more complex tables
+\usepackage{longtable} % tables can span multiple pages
+\usepackage{array} % allow elements of tabular environment to have vertical alignment, e.g., center alignment.
+\usepackage{nameref} % make it possible to reference by name
+\usepackage{hyperref} % allow hiperlinks (links to other document parts and extern links)
+\usepackage{etoc} % used for generation of section local table of contents
+\usepackage{placeins} % defines the \FloatBarrier command
+\usepackage{xcolor} % for modifying box color
+\usepackage{adjustbox} % for modifying box parameters
+\usepackage{textcomp} % for having the degree symbol
+
+% Define graphics path
+\graphicspath{{figs/}}
+
+% Configure the cross reference hyper links color
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+}
+
+\newcolumntype{C}{>{\centering\arraybackslash}X} % new column type for tabularx
+                         % centered (\centering), adjust width in order to fill table width (X type)
+
+% Configure header in 'titlepage'
+\pagestyle{fancy}
+\lhead{\includegraphics[width=4.5cm]{logo_cnpem}}
+\rhead{\includegraphics[width=4cm]{logo_lnls}}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\headheight}{52pt}
+% Clean footer
+\fancyfoot{}
+
+% increase table height factor a little bit (taller cells)
+\renewcommand{\arraystretch}{1.5}
+
+%==== Begin DOCUMENT ====
+\begin{document}
+
+%--- Begin title page ---
+\begin{titlepage}
+
+% Add header to this page
+\thispagestyle{fancy}
+
+% Center elements
+\begin{center}
+
+% title of title page
+\topskip0pt % perfectly centered
+\vspace*{\fill}
+\textbf{\Huge Basler acA1300-75gm EPICS IOC User Guide}\\[20pt]
+\textbf{\Huge Version 1.0}\\[20pt]
+\textbf{\Huge December/2019}
+\vspace*{\fill}
+
+% footer of title page
+\vfill
+\textbf{Beam Diagnostics Group (DIGS)}\\[5pt]
+\textbf{Brazilian Synchrotron Light Laboratory (LNLS)}\\[5pt]
+\textbf{Brazilian Center for Research in Energy and Materials (CNPEM)}
+\end{center}
+
+\end{titlepage}
+%--- End of title page ---
+
+\newpage
+\pagestyle{plain} % restore default page style
+
+%--- About this manual ---
+\paragraph{}{\Large\bfseries About this manual}
+
+\paragraph{} This manual provides an overview of the Basler acA1300-75gm EPICS IOC support. It is assumed that the reader is familiar with the basics of EPICS.
+
+%--- Table of contents ---
+\tableofcontents
+
+\newpage
+%--- Section: Introduction ---
+\section{Introduction}
+
+\paragraph{} The Basler acA1300-75gm EPICS IOC is a software application for control and data acquisition of the acA1300-75gm camera through EPICS Process Variables (PVs). This IOC bundles, configures and simplifies the control of a range of \href{https://github.com/areaDetector/areaDetector}{areaDetector} modules and plugins, which were selected to provide features commonly required by the application, yet trying to keep the number of modules small. The IOC also makes use of an in-house areaDetector-based plugin module, \href{https://github.com/}{NDPluginDimFei}, which does gaussian fitting.
+
+%--- Section: Control and Acquisition Overview ---
+\section{Control and Acquisition Overview}
+
+The following section describes the camera controls alongside images of the CS-Studio OPI user interface, which can be found in \emph{\textless TOP\textgreater\slash op\slash opi\slash basler.opi}. For a quick reference of the available PVs look at \hyperref[sec:process-variables]{Process Variables Description}.
+
+    %--- Section: Camera General Information ---
+    \subsection{Camera General Information}\label{sec:general-info}
+
+        % View of Device General Information group
+%        \begin{figure}[!h]
+%            \caption{Camera General Information at the top of the OPI}
+%            \label{fig:opi-general-info}
+%            \centering
+%            \includegraphics[width=1.0\textwidth]{opi_general_info}
+%        \end{figure}
+%        \FloatBarrier
+
+        \begin{enumerate}
+            \item \textbf{Device ID}: The device serial number.
+                            Corresponding PV: \hyperlink{pv:device-id}{DeviceID-Cte}.
+            \item \textbf{Sensor Width}: The width of the camera sensor in 
+                            pixels. Corresponding PV: 
+                            \hyperlink{pv:sensor-width}{SensorWidth-Cte}.
+            \item \textbf{Sendor Height}: The height of the camera sensor in 
+                            pixels. Corresponding PV: 
+                            \hyperlink{pv:sensor-height}{SensorHeight-Cte}.
+            \item \textbf{Vendor Name}: The camera vendor name. 
+                            Corresponding PV: 
+                            \hyperlink{pv:vendor-name}{DeviceVendorName-Cte}.
+            \item \textbf{Device Version}: The version of the camera model.
+                            Corresponding PV: 
+                            \hyperlink{pv:device-version}{DeviceVersion-Cte}.
+            \item \textbf{Device Model}: The camera model. 
+                            Corresponding PV: 
+                            \hyperlink{pv:device-model}{DeviceModelName-Cte}.
+            \item \textbf{Firmware Version}: The camera firmware version.
+                            Corresponding PV: 
+                            \hyperlink{pv:firmware-version}{DeviceFirmwareVersion-Cte}.
+        \end{enumerate}
+
+    %--- Section: Image Data ---
+    \subsection{Image Data}\label{sec:image-data}
+
+        \begin{enumerate}
+            \item \textbf{Image Data}: The last frame acquired by the camera.
+                            Corresponding PV: \hyperlink{pv:data-mon}{Data-Mon}.
+        \end{enumerate}
+
+    %--- Section: General Controls ---
+    \subsection{General Controls}\label{sec:general-controls}
+
+        \paragraph{} The IOC main PVs can be found in the \emph{General} category in                             the OPI.
+
+        % View of General group
+%        \begin{figure}[!h]
+%            \caption{The General group}
+%            \label{fig:opi-general-controls}
+%            \centering
+%            \includegraphics[width=1.0\textwidth]{opi_general_controls}
+%        \end{figure}
+%        \FloatBarrier
+
+        \paragraph{} The figure \ref{fig:opi-general-controls} shows the 
+                             \emph{General} group, which contain the main camera 
+                             configuration. The parameters available in this group are: 
+
+        \begin{enumerate}
+                    \item \textbf{Enable}: Enables camera acquisition. The camera must be 
+                        disabled in order for changes to the hard ROI (AOI) size to be 
+                        accepted. Changes to the high level ROI (SoftROI) size can be done 
+                        while the camera is enabled. Corresponding PV: 
+                        \hyperlink{pv:enbl}{Enbl-Sel/Sts}.
+            \item \textbf{Acquisition Mode}: Configures the trigger type for 
+                        acquisition start. In automatic mode, frames are continuously 
+                        acquired, without the need of external triggers. In triggered mode,
+                        a frame is acquired for each external trigger received by the 
+                        camera. The triggers are only effective as long as the time interval
+                        between them is greater than the value set for the acquisition 
+                        period. Corresponding PV: \hyperlink{pv:acq-mode}{AcqMode-Sel/Sts}.
+            \item \textbf{Acquisition Period}: This parameter defines the smaller 
+                        time interval, in seconds, between frame acquisitions. In automatic
+                        acquisition mode, the period between acquisitions is equal to the
+                        acquisition period. Corresponding PV: 
+                        \hyperlink{pv:acq-period}{AcqPeriod-SP/RB}.
+            \item \textbf{Acquisition Period Limit}: This is a soft parameter used 
+                        to set a warning associated to a given acquisition period. If the 
+                        acquisition period is smaller than the acquisition period limit, 
+                        than an alarm is raised for the acquisition period PV. Corresponding
+                        PV: \hyperlink{pv:acq-period-lim}{AcqPeriodLowLim-SP/RB}.
+            \item \textbf{Exposure Mode}: Configures whether the exposure period 
+                        should be timed by the camera or be equal to the external trigger 
+                        signal width. For example, if the camera is configured to timed 
+                        exposure mode and the exposure period is configured to 5000 
+                        microseconds, then, when the camera starts the acquisition of a 
+                        frame, e.g., in response to an external trigger, the camera CCD 
+                        sensor is going to be exposed to light for 5000 microseconds. If the
+                        camera is configured to width exposure mode, the camera CCD is 
+                        exposed while the external trigger signal is high, i.e., the 
+                        exposure period has the length of the external trigger. The width 
+                        mode can only be used when triggered acquisition mode is selected. 
+                        Corresponding PV: \hyperlink{pv:exp-mode}{ExposureMode-Sel/Sts}.
+            \item \textbf{Exposure Time}: Configures the exposure period, in 
+                        microseconds. The configured period is only valid when the camera is
+                        configured for timed exposure mode.
+                        Corresponding PV: \hyperlink{pv:exp-time}{ExposureTime-SP/RB}.
+            \item \textbf{Gain}: Configures the camera gain, in dB. Increasing gain 
+                        increases camera sensitivity. Corresponding PV: 
+                        \hyperlink{pv:gain}{Gain-SP/RB}.
+            \item \textbf{Auto Gain}: Command to auto adjust camera gain using the 
+                        last acquired frame. Corresponding PV: 
+                        \hyperlink{pv:auto-gain}{AutoGain-Cmd}.
+            \item \textbf{Black Level}: Configures a lower intensity threshold for 
+                        the camera. Increasing the black level reduces the range of 
+                        intensities that the camera detects. Corresponding PV: 
+                        \hyperlink{pv:black-level}{BlackLevel-SP/RB}.
+            \item \textbf{Debouncer Period}: Configures the external trigger 
+                        debouncer period. An external trigger pulse must have at least the 
+                        debouncer period duration in order to trigger the camera. Increasing
+                        the debouncer period reduces the chance of noise triggering the 
+                        camera. Corresponding PV: 
+                        \hyperlink{pv:debouncer-period}{DebouncerPeriod-SP/RB}.
+            \item \textbf{Data Type}: Configures the image color depth to 8 bits or
+                        12 bits. The data type of the image waveform is, in both cases, 
+                        USHORT. When 8-bits is selected, each image pixel can range from 0 
+                        to 255. When 12-bits is selected, each pixel can range from 0 to 
+                        65535. Although all 16 bits are used to represent the pixel 
+                        intensity in the second configuration, they are in fact scaled to 
+                        cover the entire range, providing still the same resolution as 12 
+                        bits would. \hyperlink{pv:data-type}{DataType-Sel/Sts}.
+             \item \textbf{Transform}: Configures rotation or mirror operations to 
+                        the image. The rotation can only be applied in steps of 90 degrees.
+                        The transformed image is the one used by centroid and profile 
+                        statistics. For instance, the centroid position calculated can be 
+                        changed if the image is rotated. Corresponding PV: 
+                        \hyperlink{pv:transf-type}{TransformType-Sel/Sts}.
+            \item \textbf{Frame Count}: Read-only monitor displaying the number of 
+                        frames acquired since IOC start. Corresponding PV: 
+                        \hyperlink{pv:frame-cnt}{FrameCnt-Mon}.
+        \end{enumerate}
+
+    %--- Section: Reset ---
+    \subsection{Reset}\label{sec:reset}
+
+        \begin{enumerate}
+            \item \textbf{Reset Command}: Resets the camera configuration and IOC 
+                        driver. The connection is ended and automatically restablished. 
+                        Correponding PV: \hyperlink{pv:reset}{Rst-Cmd}.
+        \end{enumerate}
+
+    %--- Section: Error Monitoring ---
+    \subsection{Error Monitoring}\label{sec:err-mon}
+
+        \begin{enumerate}
+            \item \textbf{Last Error}: Read-only monitor of the last error detected
+                        by the camera. Corresponding PV: 
+                        \hyperlink{pv:last-err}{LastErr-Mon}.
+            \item \textbf{Clear Last Error}: Write-only command that erases the last
+                        error detected by the camera. Corresponding PV: 
+                        \hyperlink{pv:clear-last-err}{ClearLastErr-Cmd}.
+            \item \textbf{Connection Status}: TCP connection status. Corresponding 
+                        PV: \hyperlink{pv:connection}{Connection-Mon}.
+        \end{enumerate}
+
+    %--- Section: Temperature ---
+    \subsection{Temperature}\label{sec:temp}
+
+        \begin{enumerate}
+            \item \textbf{Temperature State}: Indicates whether the device temperature is acceptable. Corresponding PV: \hyperlink{pv:temp-state}{TempState-Mon}.
+            \item \textbf{Temperature}: Indicates the device current temperature. Corresponding PV: \hyperlink{pv:temp}{Temp-Mon}.
+        \end{enumerate}
+
+    %--- Section: Soft Region of Interest ---
+    \subsection{Soft Region of Interest}\label{sec:soft-roi}
+
+                The Soft ROI controls the output image size by discarding unnecessary data. It also decouples the image ROI from the rotation and mirror configurations, making it simpler for other plugins to account for ROI changes (see also \hyperref[sec:hard-roi]{Hard ROI}). It is NOT necessary to stop acquisition to make changes to Soft ROI configurations. Changes to the Soft ROI are also automatically accounted by \hyperref[sec:centroid-calc]{Centroid Calculation}.
+
+        Soft ROI parameters:
+        \begin{enumerate}
+            \item \textbf{Soft ROI Offset X}: Defines the ROI offset, in pixels, in the X axis, from left to right. Corresponding PV: \hyperlink{pv:soft-roi-off-x}{SoftROIOffsetX-SP/RB}.
+            \item \textbf{Soft ROI Offset Y}: Defines the ROI offset, in pixels, in the Y axis, from top to bottow. Corresponding PV: \hyperlink{pv:soft-roi-off-y}{SoftROIOffsetY-SP/RB}.
+            \item \textbf{Soft ROI Width}: Defines the ROI width, in pixels. Corresponding PV: \hyperlink{pv:soft-roi-width}{SoftROIWidth-SP/RB}.
+            \item \textbf{Soft ROI Height}: Defines the ROI height, in pixels. Corresponding PV: \hyperlink{pv:soft-roi-height}{SoftROIHeight-SP/RB}.
+            \item \textbf{Soft ROI Auto Center X}: When enabled, the X offset is automatically adjusted to centralize the ROI with respect to the camera whenever the ROI size is changed. Corresponding PV: \hyperlink{pv:soft-roi-auto-center-x}{SoftROIAutoCenterX-Sel/Sts}.
+            \item \textbf{Soft ROI Auto Center Y}: When enabled, the Y offset is automatically adjusted to centralize the ROI with respect to the camera whenever the ROI size is changed. Corresponding PV: \hyperlink{pv:soft-roi-auto-center-y}{SoftROIAutoCenterY-Sel/Sts}.
+        \end{enumerate}
+
+    %--- Section: Hard Region of Interest ---
+    \subsection{Hard Region of Interest}\label{sec:hard-roi}
+
+        The Hard ROI (AOI) controls the size of the image which is sent by the camera to the IOC. This parameter is useful when trying to reduce the network bandwidth consumption, by sending a smaller region of interest. Changes to the Hard ROI require the \hyperref[sec:centroid-calc]{Centroid Calculation} to be recalibrated, in order to agree with the new ROI settings.
+
+        Hard ROI parameters:
+        \begin{enumerate}
+            \item \textbf{Hard ROI Offset X}: Defines the Hard ROI offset in the X axis, in pixels, from left to right. This configuration is not aware of rotation and mirror settings, which are applied by the IOC and not by the camera. Changing the X offset with the image rotated may change the output image Y axis instead, therefore the transformation setting (\emph{TransformType-Sts}) should be checked before making changes to the Hard ROI position. Corresponding PV: \hyperlink{pv:hard-roi-off-x}{AOIOffsetX-SP/RB}.
+            \item \textbf{Hard ROI Offset Y}: Defines the Hard ROI offset in the Y axis, in pixels, from top to bottow. This configuration is not aware of rotation and mirror settings, which are applied by the IOC and not by the camera. Changing the Y offset with the image rotated may change the output image X axis instead, therefore the transformation setting (\emph{TransformType-Sts}) should be checked before making changes to the Hard ROI position. Corresponding PV: \hyperlink{pv:hard-roi-off-y}{AOIOffsetY-SP/RB}.
+            \item \textbf{Hard ROI Width}: Defines the Hard ROI width. This configuration is not aware of the rotation setting, which is applied by the IOC and not by the camera. Changing the ROI width with the image rotated may change the output image height instead, therefore the transformation setting (\emph{TransformType-Sts}) should be checked before making changes to the Hard ROI size. Corresponding PV: \hyperlink{pv:hard-roi-width}{AOIWidth-SP/RB}.
+            \item \textbf{Hard ROI Height}: Defines the Hard ROI height. This configuration is not aware of the rotation setting, which is applied by the IOC and not by the camera. Changing the ROI height with the image rotated may change the output image width instead, therefore the transformation setting (\emph{TransformType-Sts}) should be checked before making changes to the Hard ROI size. Corresponding PV: \hyperlink{pv:hard-roi-height}{AOIHeight-SP/RB}.
+            \item \textbf{Hard ROI Auto Center X}: When auto center X is enabled, the Hard ROI X offset is automatically adjusted to centralize the ROI with respect to the camera whenever the ROI size is changed. This configuration is not aware of the rotation setting, which is applied by the IOC and not by the camera. Make sure to check the transformation setting (\emph{TransformType-Sts}). Corresponding PV: \hyperlink{pv:hard-roi-auto-center-x}{AOIAutoCenterX-Sel/Sts}.
+            \item \textbf{Hard ROI Auto Center Y}: When auto center Y is enabled, the Hard ROI Y offset is automatically adjusted to centralize the ROI with respect to the camera whenever the ROI size is changed. This configuration is not aware of the rotation setting, which is applied by the IOC and not by the camera. Make sure to check the transformation setting (\emph{TransformType-Sts}). Corresponding PV: \hyperlink{pv:hard-roi-auto-center-y}{AOIAutoCenterY-Sel/Sts}.
+        \end{enumerate}
+
+    %--- Section: Centroid Calculation ---
+    \subsection{Centroid Calculation}\label{sec:centroid-calc}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Network and Readout ---
+    \subsection{Network and Readout Settings}\label{sec:network-and-readout}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Background Subtraction ---
+    \subsection{Background Subtraction}\label{sec:background-sub}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Intensity Scaling and Offset ---
+    \subsection{Intensity Scaling and Offset}\label{sec:scaling}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Intensity Clipping ---
+    \subsection{Intensity Clipping}\label{sec:clipping}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Overlay ---
+    \subsection{Overlay}\label{sec:overlay}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Fast Acquisition ---
+    \subsection{Fast Acquisition}\label{sec:fast-acq}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Streaming Compressed Images ---
+    \subsection{Streaming Compressed Images}\label{sec:compressed-img}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+    %--- Section: Profile Information ---
+    \subsection{Profile Information}\label{sec:profile-info}
+
+        \begin{enumerate}
+            \item \textbf{}
+        \end{enumerate}
+
+\newpage
+\section{Process Variables Description}\label{sec:process-variables}
+
+    Each IOC instance should add a prefix to the process variables indicating which device it controls.
+
+    % Process Variables description table
+    \begin{longtable}{| m{3.0cm} m{4.5cm} m{7.0cm} |}
+        \caption{Application Process Variables} \\ \hline
+        \bfseries Name & \bfseries Data Type & \bfseries Description \label{tab:PV-description} \endfirsthead
+        \caption{Application Process Variables} \\ \hline
+        \bfseries Name & \bfseries Data Type & \bfseries Description \endhead \hline
+        % --- row ---
+        PV\_NAME & DATA\_TYPE & \begin{tabular}{@{}m{6cm}@{}}
+                            DESCRIPTION
+            \end{tabular} \hypertarget{pv:reset}{}\\ \hline
+        % --- row ---
+        Rst-Cmd & ENUM: No (0), Yes (1) & \begin{tabular}{@{}m{6cm}@{}}
+                Resets the camera and IOC driver. When set to \emph{Yes}, this PV
+                causes the camera to be reset to factory conditions and the IOC
+                driver to restart communication.
+            \end{tabular} \hypertarget{pv:data-mon}{}\\ \hline
+        % --- row ---
+        Data-Mon & USHORT[1310720] & \begin{tabular}{@{}m{6cm}@{}}
+                Waveform containing the last frame. The actual size of the waveform
+                depends on the ROI cofiguration when the last frame was captured.
+            \end{tabular} \hypertarget{pv:frame-cnt}{}\\ \hline
+        % --- row ---
+        FrameCnt-Mon & Int32 & \begin{tabular}{@{}m{6cm}@{}}
+                Frame count. Number of frames acquired since IOC start. This PV
+                can be used as a heartbeat of the camera acquisition.
+            \end{tabular} \hypertarget{pv:enbl}{}\\ \hline
+        % --- row ---
+        Enbl-Sel & ENUM: OFF (0), ON (1) & \begin{tabular}{@{}m{6cm}@{}}
+                Enable/disable camera acquisition.
+            \end{tabular} \\ \hline
+        % --- row ---
+        Enbl-Sts & ENUM: OFF (0), ON (1) & \begin{tabular}{@{}m{6cm}@{}}
+                Camera acquisition enable status.
+            \end{tabular} \hypertarget{pv:acq-mode}{}\\ \hline
+        % --- row ---
+        AcqMode-Sel & ENUM: AUTO (0), TRIG (1) & \begin{tabular}{@{}m{6cm}@{}}
+                Acquisition mode selection. When set to \emph{AUTO}, the camera
+                starts acquiring frames as soon as it is enabled, with rate defined
+                by (the inverse of) the acquisition period. When set to \emph{TRIG},
+                the camera waits for an external trigger to acquire each frame.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AcqMode-Sts & ENUM: AUTO (0), TRIG (1) & \begin{tabular}{@{}m{6cm}@{}}
+                Status of acquisition mode selection.
+            \end{tabular} \hypertarget{pv:acq-period}{}\\ \hline
+        % --- row ---
+        AcqPeriod-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Acquisition period setpoint, in microseconds. Sets the minimum time period
+                between the acquisition of each frame. When the camera is operating in 
+                \emph{AUTO} acquisition mode, a new frame is acquired every 
+                \emph{acquisition period} microseconds. When the camera is set to
+                \emph{TRIG} acquisition mode, the camera only accepts at most 1
+                trigger every \emph{acquisition period} microseconds.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AcqPeriod-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Acquisition period readback value, in microseconds.
+            \end{tabular} \hypertarget{pv:acq-period-lim}{}\\ \hline
+        % --- row ---
+        AcqPeriodLowLim-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Acquisition period warning low limit. The \emph{AcqPeriod-SP} PV will
+                issue an alarm when its value is set lower than the limit specified by
+                this PV.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AcqPeriodLowLim-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Acquisition period limit readback value, in seconds.
+            \end{tabular} \hypertarget{pv:exp-mode}{}\\ \hline
+        % --- row ---
+        ExposureMode-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Exposure mode type. The camera sensor exposure time can be controlled
+                by the camera internal timer or by the width of the external trigger
+                signal. When \emph{TIMED} exposure is selected, the exposure period can
+                be selected by the \emph{ExposureTime-SP} PV. When the \emph{TRIGWIDTH}
+                mode is selected, the sensor is exposed while the input trigger is high.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ExposureMode-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Shows the selected exposure mode.
+            \end{tabular} \hypertarget{pv:exp-time}{}\\ \hline
+        % --- row ---
+        ExposureTime-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                The time period, in microseconds, by which the sensor should be exposed 
+                after the acquisition starts.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ExposureTime-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Exposure time readback value, in microseconds.
+            \end{tabular} \hypertarget{pv:gain}{}\\ \hline
+        % --- row ---
+        Gain-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                The camera sensor gain, in dB.
+            \end{tabular} \\ \hline
+        % --- row ---
+        Gain-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Gain readback value, in dB.
+            \end{tabular} \hypertarget{pv:auto-gain}{}\\ \hline
+        % --- row ---
+        AutoGain-Cmd &  & \begin{tabular}{@{}m{6cm}@{}}
+                Command to auto adjust the camera gain based on the last acquired frame.
+            \end{tabular} \hypertarget{pv:black-level}{}\\ \hline
+        % --- row ---
+        BlackLevel-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Configures the image minimum intensity level, reducing the
+                range of intensities detected.
+            \end{tabular} \\ \hline
+        % --- row ---
+        BlackLevel-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Black level readback value, in gray level units.
+            \end{tabular} \hypertarget{pv:debouncer-period}{}\\ \hline
+        % --- row ---
+        DebouncerPeriod-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Sets the input trigger debouncer period, in microseconds.
+                When the camera is operating in the triggered mode, the input trigger 
+                width must be greater than the debouncer period to trigger an acquisition.
+                This prevents the camera from spuriously triggering due to noise.
+            \end{tabular} \\ \hline
+        % --- row ---
+        DebouncerPeriod-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Debouncer period readback value, in microseconds.
+            \end{tabular} \hypertarget{pv:data-type}{}\\ \hline
+        % --- row ---
+        DataType-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Configures the image color depth to 8 bits or 12 bits. The data type of
+                the image waveform is, in both cases, \emph{USHORT}. When 8-bits is 
+                selected, each image pixel can range from 0 to 255. When 12-bits is
+                selected, each pixel can range from 0 to 65535. Although all 16 bits
+                are used to represent the pixel intensity in the second configuration,
+                they are in fact scaled to cover the entire range, providing still the
+                same resolution as 12 bits would.  
+            \end{tabular} \\ \hline
+        % --- row ---
+        DataType-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Data type status.
+            \end{tabular} \hypertarget{pv:transf-type}{}\\ \hline
+        % --- row ---
+        TransformType-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Configure a transformation to the image. The transform can apply a rotation
+                to the image in steps of 90\textdegree , a mirror operation, or a 
+                combination of both. The transform \emph{is not} taken into account by
+                the centroid calculation, so after a change to the transform settings it 
+                is necessary to recalibrate the centroid parameters.
+            \end{tabular} \\ \hline
+        % --- row ---
+        TransformType-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Indicates the selected transform type.
+            \end{tabular} \hypertarget{pv:connection}{}\\ \hline
+        % --- row ---
+        Connection-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Connection state monitor. Shows the status of the TCP connection
+                between camera and IOC. After a reset, the status goes to \emph{Off}
+                and returns to \emph{On} when the camera automatically reconnects.
+            \end{tabular} \hypertarget{pv:last-err}{}\\ \hline
+        % --- row ---
+        LastErr-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Last error detected by the camera. Shows the error at the top of the
+                camera error queue. The following error codes are available:
+                \begin{enumerate}
+                    \item 0 - No Error: No errors detected since memory was cleared.
+                    \item 1 - Overtrigger: The camera received an external trigger while 
+                                           it was not in a waiting state.
+                    \item 2 - User set load: An error occurred when attempting to load a 
+                                             user set. Typically, the user set contains an
+                                             invalid value.
+                    \item 3 - Invalid Parameter: Parameter set to out of range or invalid 
+                                                 value. Typically, occurs when setting 
+                                                 parameters via direct register access, 
+                                                 with invalid values.
+                    \item 4 - Over temperature: The camera goes into the over-temperature 
+                                                idle mode when the internal temperature of 
+                                                80\textdegree C \big(+176\textdegree F\big)                                                 is reached, since at this temperature damage
+                                                to camera components may occur.
+                                                The temperature is measured on the core 
+                                                board.
+                    \item 5 - Power failure: Supplied power is not sufficient.
+                    \item 6 - Insufficient trigger width: The received trigger is shorter 
+                                                          than the minimum allowed period 
+                                                          for the \emph{trigger width 
+                                                          exposure mode}.
+                \end{enumerate}
+            \end{tabular} \hypertarget{pv:clear-last-err}{}\\ \hline
+        % --- row ---
+        ClearLastErr-Cmd &  & \begin{tabular}{@{}m{6cm}@{}}
+                Clear the last error detected by the camera, i.e., erases the error code
+                at the top of the error queue.
+            \end{tabular} \hypertarget{pv:temp-state}{}\\ \hline
+        % --- row ---
+        TempState-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Indicates whether the device temperature is acceptable. Whenever the status
+                displayed is not \emph{Ok}, the camera temperature is not adequate and
+                some strategy for cooling it down should be employed. When the camera
+                reaches the \emph{Error} state (80\textdegree C or 176\textdegree F),
+                it goes idle and issue an over-temperature error code. At this temperature,                 damage to camera components may occur.
+            \end{tabular} \hypertarget{pv:temp}{}\\ \hline
+        % --- row ---
+        Temp-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Indicates temperature measured on the camera core board.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ReadoutTime-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ResultFrameRate-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        PayloadSize-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        PacketSize-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        PacketSize-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        InterPacketDelay-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        InterPacketDelay-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        TransmDelay-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        TransmDelay-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        BwAssigned-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        BwReserve-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        BwReserve-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        BwReserveAccum-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        BwReserveAccum-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        FrameMaxJitter-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        MaxThroughput-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CurrentThroughput-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{pv:soft-roi-off-x}{}\\ \hline
+        % --- row ---
+        SoftROIOffsetX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the ROI offset, in pixels, in the X axis, from left to right.
+                It is \emph{NOT} necessary to stop acquisition to make changes to Soft ROI 
+                configurations. Changes to the Soft ROI are also automatically accounted by
+                \hyperref[sec:centroid-calc]{Centroid Calculation}.
+                The Soft ROI controls the output image size by discarding unnecessary data.
+            \end{tabular} \\ \hline
+        % --- row ---
+        SoftROIOffsetX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI Offset X readback value, in pixels.
+            \end{tabular} \hypertarget{pv:soft-roi-off-y}{}\\ \hline
+        % --- row ---
+        SoftROIOffsetY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the ROI offset, in pixels, in the Y axis, from top to bottow.
+                It is \emph{NOT} necessary to stop acquisition to make changes to Soft ROI 
+                configurations. Changes to the Soft ROI are also automatically accounted by
+                \hyperref[sec:centroid-calc]{Centroid Calculation}.
+                The Soft ROI controls the output image size by discarding unnecessary data.
+            \end{tabular} \\ \hline
+        % --- row ---
+        SoftROIOffsetY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI Offset X readback value, in pixels.
+            \end{tabular} \hypertarget{pv:soft-roi-width}{}\\ \hline
+        % --- row ---
+        SoftROIWidth-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the ROI width, in pixels. It is \emph{NOT} necessary to stop
+                acquisition to make changes to Soft ROI configurations. Changes to the
+                Soft ROI are also automatically accounted by 
+                \hyperref[sec:centroid-calc]{Centroid Calculation}.
+                The Soft ROI controls the output image size by discarding unnecessary data.
+            \end{tabular} \\ \hline
+        % --- row ---
+        SoftROIWidth-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI width readback value, in pixels.
+            \end{tabular} \hypertarget{pv:soft-roi-height}{}\\ \hline
+        % --- row ---
+        SoftROIHeight-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the ROI height, in pixels. It is \emph{NOT} necessary to stop
+                acquisition to make changes to Soft ROI configurations. Changes to the
+                Soft ROI are also automatically accounted by 
+                \hyperref[sec:centroid-calc]{Centroid Calculation}.
+                The Soft ROI controls the output image size by discarding unnecessary data.
+            \end{tabular} \\ \hline
+        % --- row ---
+        SoftROIHeight-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI height readback value, in pixels.
+            \end{tabular} \hypertarget{pv:soft-roi-auto-center-x}{}\\ \hline
+        % --- row ---
+        SoftROIAutoCenterX-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI auto center X axis. When this PV is enabled, the Soft ROI X offset 
+                is automatically adjusted to centralize the ROI with respect to the camera
+                whenever the ROI size is changed. It is \emph{NOT} necessary to stop
+                acquisition to make changes to Soft ROI configurations. Changes to the
+                Soft ROI are also automatically accounted by 
+                \hyperref[sec:centroid-calc]{Centroid Calculation}.
+            \end{tabular} \\ \hline
+        % --- row ---
+        SoftROIAutoCenterX-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI auto center X axis status.
+            \end{tabular} \hypertarget{pv:soft-roi-auto-center-y}{}\\ \hline
+        % --- row ---
+        SoftROIAutoCenterY-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI auto center Y axis. When this PV is enabled, the Soft ROI Y offset 
+                is automatically adjusted to centralize the ROI with respect to the camera
+                whenever the ROI size is changed. It is \emph{NOT} necessary to stop
+                acquisition to make changes to Soft ROI configurations. Changes to the
+                Soft ROI are also automatically accounted by 
+                \hyperref[sec:centroid-calc]{Centroid Calculation}.
+            \end{tabular} \\ \hline
+        % --- row ---
+        SoftROIAutoCenterY-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Soft ROI auto center Y axis status.
+            \end{tabular} \hypertarget{pv:hard-roi-off-x}{}\\ \hline
+        % --- row ---
+        AOIOffsetX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the Hard ROI offset in the X axis, in pixels, from left to right
+                (camera reference frame). The Hard ROI (AOI) controls the size of the image
+                which is sent by the camera to the IOC and is useful when trying to reduce
+                the network bandwidth consumption. The AOI is not aware of rotation and
+                mirror settings, so the user should take them into consideration when making
+                AOI changes. \hyperref[sec:centroid-calc]{Centroid calculation} parameters
+                also need to be recalibrated after AOI changes.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AOIOffsetX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI X axis offset readback value.
+            \end{tabular} \hypertarget{pv:hard-roi-off-y}{}\\ \hline
+        % --- row ---
+        AOIOffsetY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the Hard ROI offset in the Y axis, in pixels, from top to bottow
+                (camera reference frame). The Hard ROI (AOI) controls the size of the image
+                which is sent by the camera to the IOC and is useful when trying to reduce
+                the network bandwidth consumption. The AOI is not aware of rotation and
+                mirror settings, so the user should take them into consideration when making
+                AOI changes. \hyperref[sec:centroid-calc]{Centroid calculation} parameters
+                also need to be recalibrated after AOI changes.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AOIOffsetY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI Y axis offset readback value.
+            \end{tabular} \hypertarget{pv:hard-roi-width}{}\\ \hline
+        % --- row ---
+        AOIWidth-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the Hard ROI width, in pixels. The Hard ROI (AOI) controls the size
+                of the image which is sent by the camera to the IOC and is useful when
+                trying to reduce the network bandwidth consumption. The AOI is not aware of
+                rotation and mirror settings, so the user should take them into
+                consideration when making AOI changes. \hyperref[sec:centroid-calc]{Centroid
+                calculation} parameters also need to be recalibrated after AOI changes.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AOIWidth-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI width, in pixels.
+            \end{tabular} \hypertarget{pv:hard-roi-height}{}\\ \hline
+        % --- row ---
+        AOIHeight-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Defines the Hard ROI height, in pixels. The Hard ROI (AOI) controls the size
+                of the image which is sent by the camera to the IOC and is useful when
+                trying to reduce the network bandwidth consumption. The AOI is not aware of
+                rotation and mirror settings, so the user should take them into
+                consideration when making AOI changes. \hyperref[sec:centroid-calc]{Centroid
+                calculation} parameters also need to be recalibrated after AOI changes.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AOIHeight-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI height, in pixels.
+            \end{tabular} \hypertarget{pv:hard-roi-auto-center-x}{}\\ \hline
+        % --- row ---
+        AOIAutoCenterX-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI auto center X axis. When this PV is enabled, the Hard ROI X offset 
+                is automatically adjusted to centralize the ROI with respect to the camera.
+                The AOI is not aware of rotation and mirror settings, so the user should
+                take them into consideration when making AOI changes.
+                \hyperref[sec:centroid-calc]{Centroid calculation} parameters also need to
+                be recalibrated after AOI changes.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AOIAutoCenterX-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI auto center X axis status.
+            \end{tabular} \hypertarget{pv:hard-roi-auto-center-y}{}\\ \hline
+        % --- row ---
+        AOIAutoCenterY-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI auto center Y axis. When this PV is enabled, the Hard ROI Y offset 
+                is automatically adjusted to centralize the ROI with respect to the camera.
+                The AOI is not aware of rotation and mirror settings, so the user should
+                take them into consideration when making AOI changes.
+                \hyperref[sec:centroid-calc]{Centroid calculation} parameters also need to
+                be recalibrated after AOI changes.
+            \end{tabular} \\ \hline
+        % --- row ---
+        AOIAutoCenterY-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Hard ROI auto center Y axis status.
+            \end{tabular} \hypertarget{pv:vendor-name}{}\\ \hline
+        % --- row ---
+        DeviceVendorName-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
+                Camera vendor name.
+            \end{tabular} \hypertarget{pv:device-model}{}\\ \hline
+        % --- row ---
+        DeviceModelName-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
+                Camera model.
+            \end{tabular} \hypertarget{pv:device-version}{}\\ \hline
+        % --- row ---
+        DeviceVersion-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
+                Camera version.
+            \end{tabular} \hypertarget{pv:firmware-version}{}\\ \hline
+        % --- row ---
+        DeviceFirmwareVersion-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
+                Camera firmware version.
+            \end{tabular} \hypertarget{pv:device-id}{}\\ \hline
+        % --- row ---
+        DeviceID-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
+                Device serial number.
+            \end{tabular} \hypertarget{pv:sensor-width}{}\\ \hline
+        % --- row ---
+        SensorWidth-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
+                Sensor width, in pixels.
+            \end{tabular} \hypertarget{pv:sensor-height}{}\\ \hline
+        % --- row ---
+        SensorHeight-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
+                Sensor height, in pixels.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ImgScaleFactorX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        ImgScaleFactorX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ImgScaleFactorY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        ImgScaleFactorY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ImgCenterOffsetX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        ImgCenterOffsetX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ImgCenterOffsetY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        ImgCenterOffsetY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CentroidThresholdNDStats-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        CentroidThresholdNDStats-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterXNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterYNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaXNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaYNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaXYNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ThetaNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterXNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterYNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaXNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaYNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaXYNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterXDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterYDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaXDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaYDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ThetaDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterXDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                The image centroid X position as calculated by the DimFei algorithm
+                after unit convertion and offset subtraction.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CenterYDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                The image centroid Y position as calculated by the DimFei algorithm
+                after unit convertion and offset subtraction.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaXDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                The image sigma X as calculated by the DimFei algorithm after unit
+                convertion.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SigmaYDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+               The sigma Y as calculated by the DimFei algorithm after unit convertion.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileEnbl-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+               Enable profile calculation.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ProfileEnbl-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Status of profile calculation enable.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileROIOffsetX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Profile ROI offset in the X axis.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ProfileROIOffsetX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of the profile ROI offset in the X axis.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileROIOffsetY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Profile ROI offset in the Y axis.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ProfileROIOffsetY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of the ROI offset in the Y axis.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileROIWidth-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Profile ROI size in the X axis.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ProfileROIWidth-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of the ROI size in the X axis.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileROIHeight-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Profile ROI size in the Y axis.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ProfileROIHeight-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of the ROI size in the Y axis.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileCursorX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Position of X cursor for vertical profile computation.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ProfileCursorX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of X cursor for vertical profile computation.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileCursorY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Position of Y cursor for horizontal profile computation.
+            \end{tabular} \\ \hline
+        % --- row ---
+        ProfileCursorY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of Y cursor for horizontal profile computation.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileH-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Horizontal profile at cursor Y.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileV-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Vertical profile at cursor X.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileHAvg-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Average horizontal profile.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ProfileVAvg-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Average vertical profile.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        SaveBG-Cmd &  & \begin{tabular}{@{}m{6cm}@{}}
+                Save last image as background.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        ValidBG-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
+                Valid background. Indicates whether a valid background was successfully
+                acquired.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        EnblBGSubtraction-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable background subtraction.
+            \end{tabular} \\ \hline
+        % --- row ---
+        EnblBGSubtraction-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable background subtraction status.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        EnblOffsetScale-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable offset and scaling of pixels.
+            \end{tabular} \\ \hline
+        % --- row ---
+        EnblOffsetScale-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable offset and scaling status.
+            \end{tabular} \hypertarget{pv:}{}\\ \hline
+        % --- row ---
+        AutoOffsetScale-Cmd &  & \begin{tabular}{@{}m{6cm}@{}}
+                Command to auto adjust pixel value offset and scale based on last
+                acquired frame.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        PixelScale-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Pixel intensity scale multiplier.
+            \end{tabular} \\ \hline
+        % --- row ---
+        PixelScale-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Pixel intensity scale multiplier readback value.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        PixelOffset-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Pixel intensity offset.
+            \end{tabular} \\ \hline
+        % --- row ---
+        PixelOffset-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Pixel intensity offset readback value.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        EnblLowClip-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable low clipping. When low clipping is enabled,
+                pixel values lower than the specified limit are made equal to the
+                limit.
+            \end{tabular} \\ \hline
+        % --- row ---
+        EnblLowClip-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Low clipping enable status.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        LowClip-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Low clip limit value. Pixel values smaller than the low
+                clip limit are made equal to it when low clipping is enabled.
+            \end{tabular} \\ \hline
+        % --- row ---
+        LowClip-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+	        Low clip limit readback value.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        EnblHighClip-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable high clipping. When high clipping is enabled,
+                pixel values greater than the specified limit are made equal to the
+                limit.
+            \end{tabular} \\ \hline
+        % --- row ---
+        EnblHighClip-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                High clipping enable status.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        HighClip-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                High clip limit value. Pixel values greater than the high clip
+                limit are made equal to it when high clipping is enabled.
+            \end{tabular} \\ \hline
+        % --- row ---
+        HighClip-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                High clip limit readback value.
+            \end{tabular} \hypertarget{}{}\\ \hline
+    \end{longtable}
+
+\end{document}
+\grid

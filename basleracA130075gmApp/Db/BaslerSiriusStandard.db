@@ -2083,6 +2083,7 @@ record(calcout, "$(P)$(R)SoftROIOffsetXCalc"){
   field(PINI, "YES")
   field(INPA, "$(P)$(R)ROI1SizeX_RBV CPP")
   field(INPB, "$(P)$(R)AOIWidth-RB CPP") # camera frame width
+  field(INPC, "$(P)$(R)ROI1MinX_RBV CPP") # used below in proc chain
   field(CALC, "B-A")
   field(OUT, "$(P)$(R)ROI1MinX.DRVH")
   field(FLNK, "$(P)$(R)SoftROIOffsetXCalc2")
@@ -2093,13 +2094,13 @@ record(calcout, "$(P)$(R)SoftROIOffsetXCalc2"){
   field(INPA, "$(P)$(R)SoftROIOffsetXCalc.VAL")
   field(CALC, "A=0")
   field(OUT, "$(P)$(R)ROI1MinX.DISA")
+  field(FLNK, "$(P)$(R)SoftROIWidthCalc")
 }
 
 record(calcout, "$(P)$(R)SoftROIWidthCalc"){
   field(DESC, "Set soft ROI width limit")
-  field(PINI, "YES")
-  field(INPA, "$(P)$(R)ROI1MinX_RBV CPP")
-  field(INPB, "$(P)$(R)AOIWidth-RB CPP") # camera frame width
+  field(INPA, "$(P)$(R)ROI1MinX_RBV")
+  field(INPB, "$(P)$(R)AOIWidth-RB") # camera frame width
   field(CALC, "B-A")
   field(OUT, "$(P)$(R)ROI1SizeX.DRVH")
 }
@@ -2109,6 +2110,7 @@ record(calcout, "$(P)$(R)SoftROIOffsetYCalc"){
   field(PINI, "YES")
   field(INPA, "$(P)$(R)ROI1SizeY_RBV CPP")
   field(INPB, "$(P)$(R)AOIHeight-RB CPP") # camera frame height
+  field(INPC, "$(P)$(R)ROI1MinY_RBV CPP") # used below in proc chain
   field(CALC, "B-A")
   field(OUT, "$(P)$(R)ROI1MinY.DRVH")
   field(FLNK, "$(P)$(R)SoftROIOffsetYCalc2")
@@ -2119,13 +2121,13 @@ record(calcout, "$(P)$(R)SoftROIOffsetYCalc2"){
   field(INPA, "$(P)$(R)SoftROIOffsetYCalc.VAL")
   field(CALC, "A=0")
   field(OUT, "$(P)$(R)ROI1MinY.DISA")
+  field(FLNK, "$(P)$(R)SoftROIHeightCalc")
 }
 
 record(calcout, "$(P)$(R)SoftROIHeightCalc"){
   field(DESC, "Set soft ROI height limit")
-  field(PINI, "YES")
-  field(INPA, "$(P)$(R)ROI1MinY_RBV CPP")
-  field(INPB, "$(P)$(R)AOIHeight-RB CPP") # camera frame height
+  field(INPA, "$(P)$(R)ROI1MinY_RBV")
+  field(INPB, "$(P)$(R)AOIHeight-RB") # camera frame height
   field(CALC, "B-A")
   field(OUT, "$(P)$(R)ROI1SizeY.DRVH")
 }

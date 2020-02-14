@@ -21,7 +21,7 @@
   <background_color>
     <color red="75" green="101" blue="126" />
   </background_color>
-  <boy_version>5.1.0.201711290101</boy_version>
+  <boy_version>5.1.0</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -307,9 +307,9 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <graph_area_height>406</graph_area_height>
-    <graph_area_width>487</graph_area_width>
-    <height>459</height>
+    <graph_area_height>427</graph_area_height>
+    <graph_area_width>533</graph_area_width>
+    <height>465</height>
     <horizon_profile_x_pv_name></horizon_profile_x_pv_name>
     <horizon_profile_x_pv_value />
     <horizon_profile_y_pv_name></horizon_profile_y_pv_name>
@@ -388,7 +388,7 @@ $(pv_value)</tooltip>
     <vertical_profile_y_pv_name></vertical_profile_y_pv_name>
     <visible>true</visible>
     <widget_type>Intensity Graph</widget_type>
-    <width>619</width>
+    <width>631</width>
     <wuid>-1bcf5306:15b486b2426:-7f49</wuid>
     <x>13</x>
     <x_axis_axis_color>
@@ -2232,7 +2232,7 @@ $(pv_value)</tooltip>
       <foreground_color>
         <color red="0" green="0" blue="0" />
       </foreground_color>
-      <height>30</height>
+      <height>29</height>
       <items_from_pv>true</items_from_pv>
       <name>Combo</name>
       <pv_name>$(P)$(R)TransformType-Sel</pv_name>
@@ -12481,7 +12481,7 @@ $(pv_value)</tooltip>
     <name>Text Update_46</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>$(P)$(R)ffmstream1MJPG_URL_RBV</pv_name>
+    <pv_name>$(P)$(R)MJPGURL-Cte</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

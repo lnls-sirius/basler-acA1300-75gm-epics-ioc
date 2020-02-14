@@ -1958,6 +1958,7 @@ record(seq, "$(P)$(R)RealCenterMarkUpdate"){       # Update real center marker p
 
 alias( "$(P)$(R)ffmstream1EnableCallbacks",        "$(P)$(R)EnblMPEG-Sel") # Enable MPEG streaming (set)
 alias( "$(P)$(R)ffmstream1EnableCallbacks_RBV",    "$(P)$(R)EnblMPEG-Sts") # Enable MPEG streaming (read)
+alias( "$(P)$(R)ffmstream1MJPG_URL_RBV",           "$(P)$(R)MJPGURL-Cte")  # MPEG stream URL (read)
 
 # Auto settings
 

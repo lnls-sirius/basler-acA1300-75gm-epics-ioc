@@ -292,63 +292,119 @@ The following section describes the camera controls alongside images of the CS-S
     \subsection{Centroid Calculation}\label{sec:centroid-calc}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{NDStats Centroid Center X}: Image centroid X as calculated by the NDStats plugin. NDStats calculates the centroid using image moments, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:center-x-ndstats}{CenterXNDStats-Mon}.
+            \item \textbf{NDStats Centroid Center Y}: Image centroid Y as calculated by the NDStats plugin. NDStats calculates the centroid using image moments, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:center-y-ndstats}{CenterYNDStats-Mon}.
+            \item \textbf{NDStats Centroid Sigma X}: Image centroid sigma X as calculated by the NDStats plugin. NDStats calculates the centroid using image moments, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:sigma-x-ndstats}{SigmaXNDStats-Mon}.
+            \item \textbf{NDStats Centroid Sigma Y}: Image centroid sigma Y as calculated by the NDStats plugin. NDStats calculates the centroid using image moments, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:sigma-y-ndstats}{SigmaYNDStats-Mon}.
+            \item \textbf{NDStats Centroid Theta}: Image centroid angle as calculated by the NDStats plugin. NDStats calculates the centroid using image moments, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:theta-ndstats}{ThetaNDStats-Mon}.
+            \item \textbf{DimFei Centroid Center X}: Image centroid X as calculated by the DimFei plugin. DimFei calculates the centroid using double gaussian fit, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:center-x-dimfei}{CenterXDimFei-Mon}.
+            \item \textbf{DimFei Centroid Center Y}: Image centroid Y as calculated by the DimFei plugin. DimFei calculates the centroid using double gaussian fit, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:center-y-dimfei}{CenterYDimFei-Mon}.
+            \item \textbf{DimFei Centroid Sigma X}: Image centroid sigma X as calculated by the DimFei plugin. DimFei calculates the centroid using double gaussian fit, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:sigma-x-dimfei}{SigmaXDimFei-Mon}.
+            \item \textbf{DimFei Centroid Sigma Y}: Image centroid sigma Y as calculated by the DimFei plugin. DimFei calculates the centroid using double gaussian fit, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:sigma-y-dimfei}{SigmaYDimFei-Mon}.
+            \item \textbf{DimFei Centroid Theta}: Image centroid angle as calculated by the DimFei plugin. DimFei calculates the centroid using double gaussian fit, and does so automatically anytime a new image is received from the camera. Enabling \hyperref[seq:fast-acq]{Fast Acquisition} disables centroid calculation. Corresponding PV: \hyperlink{pv:theta-dimfei}{ThetaDimFei-Mon}.
+            \item \textbf{Centroid Scale X}: Scaling factor at the X axis for centroid statistics. Centroid statistics default unit is pixel. In order to convert the results to another unit a conversion factor is required. Corresponding PV: \hyperlink{pv:scale-factor-x}{ScaleFactorX-SP/RB}.
+            \item \textbf{Centroid Scale Y}: Scaling factor at the Y axis for centroid statistics. Centroid statistics default unit is pixel. In order to convert the results to another unit a conversion factor is required. Corresponding PV: \hyperlink{pv:scale-factor-y}{ScaleFactorY-SP/RB}.
+            \item \textbf{Image Desired Reference Offset X}: Offset in the X axis, in pixels, of the desired reference position with respect to the raw image origin, i.e., the topmost, leftmost image corner. The offset cannot be negative. This value is used to calculate the centroid position with respect to the desired reference, instead of the raw image origin (default). The desired reference position will often be indicated by a \emph{Calibration Screen} positioned at the right position in front of the camera. Corresponding PV: \hyperlink{pv:center-offset-x}{CenterOffsetX-SP/RB}.
+            \item \textbf{Image Desired Reference Offset Y}: Offset in the Y axis, in pixels, of the desired reference position with respect to the raw image origin, i.e., the topmost, leftmost image corner. The offset cannot be negative. This value is used to calculate the centroid position with respect to the desired reference, instead of the raw image origin (default). The desired reference position will often be indicated by a \emph{Calibration Screen} positioned at the right position in front of the camera. Corresponding PV: \hyperlink{pv:center-offset-y}{CenterOffsetY-SP/RB}.
+            \item \textbf{Image Desired Reference Theta Offset}: Angular offset of the desired image reference axes with respect to the raw image axes. This value is used to calculate the centroid rotation with respect to the desired reference, instead of the raw image axes (default). This is useful for compensating unwanted camera rotation. The desired reference angle will often be indicated by a \emph{Calibration Screen} positioned at the right point in front of the camera. Clockwise rotation is expressed with a positive sign (+), while counterclockwise rotation with a negative one (-). Corresponding PV: \hyperlink{pv:theta-offset}{ThetaOffset-SP/RB}.
+            \item \textbf{Image Desired Reference Coordinate X}: Desired reference real-world X coordinate. By default, the desired reference position indicates the origin (0,0) of the coordinate system in which the centroid coordinates are expressed. But the reference position can actually express any position in the desired reference frame. This allows, for instance, for compensation of alignment problems in a \emph{Calibration Screen}. When the misalignment is measurable, the true Screen position can be entered in the coordinates X and Y of the desired reference. Corresponding PV: \hyperlink{pv:cal-pos-center-x}{CalPosCenterX-SP/RB}.
+            \item \textbf{Image Desired Reference Coordinate Y}: Desired reference real-world Y coordinate. By default, the desired reference position indicates the origin (0,0) of the coordinate system in which the centroid coordinates are expressed. But the reference position can actually express any position in the desired reference frame. This allows, for instance, for compensation of alignment problems in a \emph{Calibration Screen}. When the misalignment is measurable, the true Screen position can be entered in the coordinates X and Y of the desired reference. Corresponding PV: \hyperlink{pv:cal-pos-center-y}{CalPosCenterY-SP/RB}.
         \end{enumerate}
 
     %--- Section: Network and Readout ---
     \subsection{Network and Readout Settings}\label{sec:network-and-readout}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{Readout Time} The readout time is the period the camera takes to read the pixel values after the exposure period is finished. The sensor readout time is the sum of each sensor line readout time and therefore depends on the AOI height. Corresponding PV: \hyperlink{pv:readout-time}{ReadoutTime-Mon}.
+            \item \textbf{Resulting Frame Rate} This parameter indicates the maximum allowed frame rate given the camera current settings. Corresponding PV: \hyperlink{pv:result-frame-rate}{ResultFrameRate-Mon}.
+            \item \textbf{Bandwidth Assigned} This parameter indicates the total bandwidth, in bytes per second, that will be used to transmit image data and handle resends and transmission control. This parameter is a result of the packet size and the inter-packet delay settings. Corresponding PV: \hyperlink{pv:bw-assigned}{BwAssigned-Mon}.
+            \item \textbf{Payload Size} Indicates the size, in bytes, of the image data, without including packet headers. Corresponding PV: \hyperlink{pv:payload-size}{PayloadSize-Mon}.
+            \item \textbf{Max Frame Jitter} Indicates the maximum time, in ticks of 8 ns intervals, that a transmission could be delayed due to a burst of resends (maximum number of resends is limited by \emph{Bandwidth Reserve Accumulation}). Corresponding PV: \hyperlink{pv:frame-max-jitter}{FrameMaxJitter-Mon}.
+            \item \textbf{Data Max Throughput} Indicates the maximum amount of data that the camera could generate given no network restrictions or packet resends. If automatic periodic acquisition is been used, the camera will use the frame rate setting to calculate the max throughput. If software or hardware triggering is being used, the max frame rate allowed with the current camera settings will be used to calculate the max throughput. Corresponding PV: \hyperlink{pv:max-throughput}{MaxThroughput-Mon}.
+            \item \textbf{Data Current Throughput} Indicates the bandwidth that the camera will need to transmit the image data given the current area of interest and pixel format, without considering bandwidth reserved for retries and needed for overhead, such as leaders and trailers. Corresponding PV: \hyperlink{pv:current-throughput}{CurrentThroughput-Mon}.
+            \item \textbf{Packet Size} This parameter sets the size of packets used to transmit the data payload. The packet payload is equal to packet size minus 36 bytes from leader and trailer. The packet size should be set to the maximum size that the network adapter and switches can handle. Corresponding PV: \hyperlink{pv:packet-size}{PacketSize-SP/RB}.
+            \item \textbf{Inter-packet Delay} This parameter sets the delay, in ticks of 8 ns, between packets. Corresponding PV: \hyperlink{pv:inter-packet-delay}{InterPacketDelay-SP/RB}.
+            \item \textbf{Transmission Delay} This parameter sets the delay, in ticks of 8 ns, between the time that the camera is ready to transmit a frame and when it actually begins to transmit it. Corresponding PV: \hyperlink{pv:transm-delay}{TransmDelay-SP/RB}.
+            \item \textbf{Bandwidth Reserve} This parameter defines the percentage of the assigned bandwidth to be used for packet resends and transmission of control data between camera and host computer. Corresponding PV: \hyperlink{pv:bw-reserve}{BwReserve-SP/RB}.
+            \item \textbf{Bandwidth Reserve Accumulation} After an unusual problem that interrupts image transmission, such as an EMI burst, the camera can use a larger than normal number of resends to transmit the complete image. This parameter is a multiplier to the \emph{Bandwidth Reserve} that limits the maximum number of resends that can be held in the accumulator pool. Corresponding PV: \hyperlink{pv:bw-reserve-accum}{BwReserveAccum-SP/RB}.
         \end{enumerate}
 
     %--- Section: Background Subtraction ---
     \subsection{Background Subtraction}\label{sec:background-sub}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{Enable Background Subtraction} This PV enables/disables background subtraction, i.e., if there is a valid background saved, it is subtracted from acquired frames. Corresponding PV: \hyperlink{pv:enbl-bg-subtraction}{EnblBGSubtraction-Sel/Sts}.
+            \item \textbf{Save Background} Save background command. After the command is issued, the next acquired frame is saved as background. Corresponding PV: \hyperlink{pv:save-bg}{SaveBG-Cmd}.
+            \item \textbf{Valid Background} Indicates whether there is a valid background saved. Corresponding PV: \hyperlink{pv:valid-bg}{ValidBG-Mon}.
         \end{enumerate}
 
     %--- Section: Intensity Scaling and Offset ---
     \subsection{Intensity Scaling and Offset}\label{sec:scaling}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{Enable Intensity Offset and Scale} Enables offset and scale for the pixel intensity values. These operations cannot improve the image SNR, but can make it easier to see images with too low intensity. Corresponding PV: \hyperlink{pv:enbl-offset-scale}{EnblOffsetScale-Sel/Sts}.
+            \item \textbf{Auto Adjust Intensity Offset and Scale} When pixel intensity offset and scale is enabled, this command auto adjusts offset and scale so that the image intensity range fills the entire available range. Corresponding PV: \hyperlink{pv:auto-offset-scale}{AutoOffsetScale-Cmd}.
+            \item \textbf{Pixel Intensity Scale} This parameter value is multiplier to each image pixel value. Corresponding PV: \hyperlink{pv:pixel-scale}{PixelScale-SP/RB}.
+            \item \textbf{Pixel Intensity Offset} This parameter value is an offset added to each image pixel value. Corresponding PV: \hyperlink{pv:pixel-offset}{PixelOffset-SP/RB}.
         \end{enumerate}
 
     %--- Section: Intensity Clipping ---
     \subsection{Intensity Clipping}\label{sec:clipping}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{Enable High Clip} When High Clip is enabled, pixel values greater than the \emph{High Clip value} are made equal to it. Corresponding PV: \hyperlink{pv:enbl-high-clip}{EnblHighClip-Sel/Sts}.
+            \item \textbf{High Clip Value} This parameter is the High Clip limit value. When High Clip is enabled, values greater than the limit are made equal to it. Corresponding PV: \hyperlink{pv:high-clip}{HighClip-SP/RB}.
+            \item \textbf{Enable Low Clip}  When Low Clip is enabled, pixel values smaller than the \emph{Low Clip Value} are made equal to it. Corresponding PV: \hyperlink{pv:enbl-low-clip}{EnblLowClip-Sel/Sts}.
+            \item \textbf{Low Clip Value} This parameter is the Low Clip limit value. When Low Clip is enabled, values smaller than the limit are made equal to it. Corresponding PV: \hyperlink{pv:low-clip}{LowClip-SP/RB}.
         \end{enumerate}
 
     %--- Section: Overlay ---
     \subsection{Overlay}\label{sec:overlay}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{Enable Marker Overlay for NDStats Centroid} Enables the overlay marker for NDStats centroid. After the marker is enabled, newly acquired frames receive the marker overlay. Corresponding PV: \hyperlink{pv:ndstats-mark-enbl}{NDStatsMarkEnbl-Sel/Sts}.
+            \item \textbf{Size of NDStats Centroid Marker} Sets the size, in pixels, of the NDStats centroid marker. Corresponding PV: \hyperlink{pv:ndstats-mark-size}{NDStatsMarkSize-SP/RB}.
+            \item \textbf{Color of NDStats Centroid Marker} Sets the gray value of the NDStats centroid marker. Corresponding PV: \hyperlink{pv:ndstats-mark-color}{NDStatsMarkColor-SP/RB}.
+            \item \textbf{Enable Marker Overlay for DimFei Centroid} Enables the overlay marker for DimFei centroid. After the marker is enabled, newly acquired frames receive the marker overlay. Corresponding PV: \hyperlink{pv:dimfei-mark-enbl}{DimFeiMarkEnbl-Sel/Sts}.
+            \item \textbf{Size of DimFei Centroid Marker} Sets the size, in pixels, of the DimFei centroid marker. Corresponding PV: \hyperlink{pv:dimfei-mark-size}{DimFeiMarkSize-SP/RB}.
+            \item \textbf{Color of DimFei Centroid Marker} Sets the gray value of the DimFei centroid marker. Corresponding PV: \hyperlink{pv:dimfei-mark-color}{DimFeiMarkColor-SP/RB}.
+            \item \textbf{Enable Marker Overlay for Reference Position} Enables the overlay marker for Reference Position. After the marker is enabled, newly acquired frames receive the marker overlay. Corresponding PV: \hyperlink{pv:cal-center-mark-enbl}{CalCenterMarkEnbl-Sel/Sts}.
+            \item \textbf{Size of Reference Position Marker} Sets the size, in pixels, of the Reference Position marker. Corresponding PV: \hyperlink{pv:cal-center-mark-size}{CalCenterMarkSize-SP/RB}.
+            \item \textbf{Color of Reference Position Marker} Sets the gray value of the Reference Position marker. Corresponding PV: \hyperlink{pv:cal-center-mark-color}{CalCenterMarkColor-SP/RB}.
+            \item \textbf{Enable Marker Overlay for Real Center Position} Enables the overlay marker for Real Center Position. After the marker is enabled, newly acquired frames receive the marker overlay. Corresponding PV: \hyperlink{pv:real-center-mark-enbl}{RealCenterMarkEnbl-Sel/Sts}.
+            \item \textbf{Size of Real Center Position Marker} Sets the size, in pixels, of the Real Center Position marker. Corresponding PV: \hyperlink{pv:real-center-mark-size}{RealCenterMarkSize-SP/RB}.
+            \item \textbf{Color of Real Center Position Marker} Sets the gray value of the Real Center Position marker. Corresponding PV: \hyperlink{pv:real-center-mark-color}{RealCenterMarkColor-SP/RB}.
         \end{enumerate}
 
     %--- Section: Fast Acquisition ---
     \subsection{Fast Acquisition}\label{sec:fast-acq}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{} Corresponding PV: \hyperlink{pv:fast-acq}{FastAcq-Sel/Sts}.
         \end{enumerate}
 
     %--- Section: Streaming Compressed Images ---
     \subsection{Streaming Compressed Images}\label{sec:compressed-img}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{} Corresponding PV: \hyperlink{pv:enbl-mpeg}{EnblMPEG-Sel/Sts}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:color-conv}{ColorConv-Sel/Sts}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:mjpg-url}{MJPGURL-Mon}.
         \end{enumerate}
 
     %--- Section: Profile Information ---
     \subsection{Profile Information}\label{sec:profile-info}
 
         \begin{enumerate}
-            \item \textbf{}
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
+            \item \textbf{} Corresponding PV: \hyperlink{pv:}{}.
         \end{enumerate}
 
 \newpage
@@ -553,19 +609,19 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         Temp-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 Indicates temperature measured on the camera core board.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:readout-time}{}\\ \hline
         % --- row ---
         ReadoutTime-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:result-frame-rate}{}\\ \hline
         % --- row ---
         ResultFrameRate-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:payload-size}{}\\ \hline
         % --- row ---
         PayloadSize-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:packet-size}{}\\ \hline
         % --- row ---
         PacketSize-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
@@ -573,7 +629,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         PacketSize-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:inter-packet-delay}{}\\ \hline
         % --- row ---
         InterPacketDelay-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
@@ -581,7 +637,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         InterPacketDelay-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:transm-delay}{}\\ \hline
         % --- row ---
         TransmDelay-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
@@ -589,11 +645,11 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         TransmDelay-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:bw-assigned}{}\\ \hline
         % --- row ---
         BwAssigned-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:bw-reserve}{}\\ \hline
         % --- row ---
         BwReserve-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
@@ -601,7 +657,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         BwReserve-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:bw-reserve-accum}{}\\ \hline
         % --- row ---
         BwReserveAccum-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
@@ -609,15 +665,15 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         BwReserveAccum-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:frame-max-jitter}{}\\ \hline
         % --- row ---
         FrameMaxJitter-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:max-throughput}{}\\ \hline
         % --- row ---
         MaxThroughput-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:current-throughput}{}\\ \hline
         % --- row ---
         CurrentThroughput-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
@@ -803,37 +859,37 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         SensorHeight-Cte &  & \begin{tabular}{@{}m{6cm}@{}}
                 Sensor height, in pixels.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:scale-factor-x}{}\\ \hline
         % --- row ---
-        ImgScaleFactorX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+        ScaleFactorX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
             \end{tabular} \\ \hline
         % --- row ---
-        ImgScaleFactorX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+        ScaleFactorX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:scale-factor-y}{}\\ \hline
         % --- row ---
-        ImgScaleFactorY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
-                ...
-            \end{tabular} \\ \hline
-        % --- row ---
-        ImgScaleFactorY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
-                ...
-            \end{tabular} \hypertarget{}{}\\ \hline
-        % --- row ---
-        ImgCenterOffsetX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+        ScaleFactorY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
             \end{tabular} \\ \hline
         % --- row ---
-        ImgCenterOffsetX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+        ScaleFactorY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-offset-x}{}\\ \hline
         % --- row ---
-        ImgCenterOffsetY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+        CenterOffsetX-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
             \end{tabular} \\ \hline
         % --- row ---
-        ImgCenterOffsetY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+        CenterOffsetX-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \hypertarget{pv:center-offset-y}{}\\ \hline
+        % --- row ---
+        CenterOffsetY-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                ...
+            \end{tabular} \\ \hline
+        % --- row ---
+        CenterOffsetY-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
             \end{tabular} \hypertarget{}{}\\ \hline
         % --- row ---
@@ -843,86 +899,86 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         CentroidThresholdNDStats-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-x-ndstats-raw}{}\\ \hline
         % --- row ---
         CenterXNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-y-ndstats-raw}{}\\ \hline
         % --- row ---
         CenterYNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-x-ndstats-raw}{}\\ \hline
         % --- row ---
         SigmaXNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-y-ndstats-raw}{}\\ \hline
         % --- row ---
         SigmaYNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-xy-ndstats-raw}{}\\ \hline
         % --- row ---
         SigmaXYNDStatsRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:theta-ndstats}{}\\ \hline
         % --- row ---
         ThetaNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-x-ndstats}{}\\ \hline
         % --- row ---
         CenterXNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-y-ndstats}{}\\ \hline
         % --- row ---
         CenterYNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-x-ndstats}{}\\ \hline
         % --- row ---
         SigmaXNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-y-ndstats}{}\\ \hline
         % --- row ---
         SigmaYNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-xy-ndstats}{}\\ \hline
         % --- row ---
         SigmaXYNDStats-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-x-dimfei-raw}{}\\ \hline
         % --- row ---
         CenterXDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-y-dimfei-raw}{}\\ \hline
         % --- row ---
         CenterYDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-x-dimfei-raw}{}\\ \hline
         % --- row ---
         SigmaXDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-y-dimfei-raw}{}\\ \hline
         % --- row ---
         SigmaYDimFeiRaw-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:theta-dimfei}{}\\ \hline
         % --- row ---
         ThetaDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 ...
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-x-dimfei}{}\\ \hline
         % --- row ---
         CenterXDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 The image centroid X position as calculated by the DimFei algorithm
                 after unit convertion and offset subtraction.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:center-y-dimfei}{}\\ \hline
         % --- row ---
         CenterYDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 The image centroid Y position as calculated by the DimFei algorithm
                 after unit convertion and offset subtraction.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-x-dimfei}{}\\ \hline
         % --- row ---
         SigmaXDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 The image sigma X as calculated by the DimFei algorithm after unit
                 convertion.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:sigma-y-dimfei}{}\\ \hline
         % --- row ---
         SigmaYDimFei-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                The sigma Y as calculated by the DimFei algorithm after unit convertion.
@@ -998,16 +1054,16 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         ProfileVAvg-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 Average vertical profile.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:save-bg}{}\\ \hline
         % --- row ---
         SaveBG-Cmd &  & \begin{tabular}{@{}m{6cm}@{}}
                 Save last image as background.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:valid-bg}{}\\ \hline
         % --- row ---
         ValidBG-Mon &  & \begin{tabular}{@{}m{6cm}@{}}
                 Valid background. Indicates whether a valid background was successfully
                 acquired.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:enbl-bg-subtraction}{}\\ \hline
         % --- row ---
         EnblBGSubtraction-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
                 Enable background subtraction.
@@ -1015,7 +1071,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         EnblBGSubtraction-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
                 Enable background subtraction status.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:enbl-offset-scale}{}\\ \hline
         % --- row ---
         EnblOffsetScale-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
                 Enable offset and scaling of pixels.
@@ -1023,12 +1079,12 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         EnblOffsetScale-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
                 Enable offset and scaling status.
-            \end{tabular} \hypertarget{pv:}{}\\ \hline
+            \end{tabular} \hypertarget{pv:auto-offset-scale}{}\\ \hline
         % --- row ---
         AutoOffsetScale-Cmd &  & \begin{tabular}{@{}m{6cm}@{}}
                 Command to auto adjust pixel value offset and scale based on last
                 acquired frame.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:pixel-scale}{}\\ \hline
         % --- row ---
         PixelScale-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 Pixel intensity scale multiplier.
@@ -1036,7 +1092,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         PixelScale-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 Pixel intensity scale multiplier readback value.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:pixel-offset}{}\\ \hline
         % --- row ---
         PixelOffset-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 Pixel intensity offset.
@@ -1044,7 +1100,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         PixelOffset-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 Pixel intensity offset readback value.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:enbl-low-clip}{}\\ \hline
         % --- row ---
         EnblLowClip-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
                 Enable low clipping. When low clipping is enabled,
@@ -1054,7 +1110,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         EnblLowClip-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
                 Low clipping enable status.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:low-clip}{}\\ \hline
         % --- row ---
         LowClip-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 Low clip limit value. Pixel values smaller than the low
@@ -1063,7 +1119,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         LowClip-RB &  & \begin{tabular}{@{}m{6cm}@{}}
 	        Low clip limit readback value.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:enbl-high-clip}{}\\ \hline
         % --- row ---
         EnblHighClip-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
                 Enable high clipping. When high clipping is enabled,
@@ -1073,7 +1129,7 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         EnblHighClip-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
                 High clipping enable status.
-            \end{tabular} \hypertarget{}{}\\ \hline
+            \end{tabular} \hypertarget{pv:high-clip}{}\\ \hline
         % --- row ---
         HighClip-SP &  & \begin{tabular}{@{}m{6cm}@{}}
                 High clip limit value. Pixel values greater than the high clip
@@ -1082,6 +1138,123 @@ The following section describes the camera controls alongside images of the CS-S
         % --- row ---
         HighClip-RB &  & \begin{tabular}{@{}m{6cm}@{}}
                 High clip limit readback value.
+            \end{tabular} \hypertarget{pv:ndstats-mark-enbl}{}\\ \hline
+        % --- row ---
+        NDStatsMarkEnbl-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable the marker for NDStats centroid on image. After the marker
+                is enabled, newly acquired frames will contain the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        NDStatsMarkEnbl-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Status of NDStats centroid marker enable.
+            \end{tabular} \hypertarget{pv:ndstats-mark-size}{}\\ \hline
+        % --- row ---
+        NDStatsMarkSize-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Size of NDStats centroid marker, in pixels.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        NDStatsMarkSize-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of NDStats centroid marker size, in pixels.
+            \end{tabular} \hypertarget{pv:ndstats-mark-color}{}\\ \hline
+        % --- row ---
+        NDStatsMarkColor-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Gray value of NDStats centroid marker. For false colored images,
+                different gray values translate to different colors, so depending
+                on the operator interface used, this PV can be used to set a given
+                color for the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        NDStatsMarkColor-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of NDStats centroid marker color (gray value).
+            \end{tabular} \hypertarget{pv:dimfei-mark-enbl}{}\\ \hline
+        % --- row ---
+        DimFeiMarkEnbl-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable the marker for DimFei centroid on image. After the marker
+                is enabled, newly acquired frames will show the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        DimFeiMarkEnbl-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Status of DimFei centroid marker enable.
+            \end{tabular} \hypertarget{pv:dimfei-mark-size}{}\\ \hline
+        % --- row ---
+        DimFeiMarkSize-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Size of DimFei centroid marker, in pixels.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        DimFeiMarkSize-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of DimFei centroid marker size, in pixels.
+            \end{tabular} \hypertarget{pv:dimfei-mark-color}{}\\ \hline
+        % --- row ---
+        DimFeiMarkColor-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Gray value of DimFei centroid marker. For false colored images,
+                different gray values translate to different colors, so depending
+                on the operator interface used, this PV can be used to set a given
+                color for the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        DimFeiMarkColor-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of DimFei centroid marker color (gray value).
+            \end{tabular} \hypertarget{pv:cal-center-mark-enbl}{}\\ \hline
+        % --- row ---
+        CalCenterMarkEnbl-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable the marker for the reference position (calibration screen)
+                on the image. After the marker is enabled, newly acquired frames will
+                show the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CalCenterMarkEnbl-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Status of the reference position marker enable.
+            \end{tabular} \hypertarget{pv:cal-center-mark-size}{}\\ \hline
+        % --- row ---
+        CalCenterMarkSize-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Size of the reference position marker, in pixels.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CalCenterMarkSize-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of the reference position marker size, in pixels.
+            \end{tabular} \hypertarget{pv:cal-center-mark-color}{}\\ \hline
+        % --- row ---
+        CalCenterMarkColor-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Gray value of the reference position marker. For false colored images,
+                different gray values translate to different colors, so depending
+                on the operator interface used, this PV can be used to set a given
+                color for the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        CalCenterMarkColor-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of the reference position marker color (gray value).
+            \end{tabular} \hypertarget{pv:real-center-mark-enbl}{}\\ \hline
+        % --- row ---
+        RealCenterMarkEnbl-Sel &  & \begin{tabular}{@{}m{6cm}@{}}
+                Enable the marker for the true zero position, which should be different
+                from the reference position when the reference is set to a coordinate
+                different than (0,0). This is the case, for example, when the calibration
+                screen is not exactly at the zero, but the offset is known and configured
+                in the reference position coordinates. After the marker is enabled, newly
+                acquired frames will show the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        RealCenterMarkEnbl-Sts &  & \begin{tabular}{@{}m{6cm}@{}}
+                Status of the real zero position marker enable.
+            \end{tabular} \hypertarget{pv:real-center-mark-size}{}\\ \hline
+        % --- row ---
+        RealCenterMarkSize-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Size of the real zero position marker, in pixels.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        RealCenterMarkSize-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+		Readback value of the real zero position marker size, in pixels.
+            \end{tabular} \hypertarget{pv:real-center-mark-color}{}\\ \hline
+        % --- row ---
+        RealCenterMarkColor-SP &  & \begin{tabular}{@{}m{6cm}@{}}
+                Gray value of the real zero position marker. For false colored images,
+                different gray values translate to different colors, so depending
+                on the operator interface used, this PV can be used to set a given
+                color for the marker.
+            \end{tabular} \hypertarget{}{}\\ \hline
+        % --- row ---
+        RealCenterMarkColor-RB &  & \begin{tabular}{@{}m{6cm}@{}}
+                Readback value of the real zero position marker color (gray value).
             \end{tabular} \hypertarget{}{}\\ \hline
     \end{longtable}
 

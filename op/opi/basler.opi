@@ -12174,7 +12174,7 @@ $(pv_value)</tooltip>
     <horizontal>true</horizontal>
     <items_from_pv>true</items_from_pv>
     <name>Choice Button_1</name>
-    <pv_name>$(P)$(R)EnblMPEG-Sel</pv_name>
+    <pv_name>$(P)$(R)EnblMJPEG-Sel</pv_name>
     <pv_value />
     <rules>
       <rule name="Color for Fast Acquisition" prop_id="background_color" out_exp="false">
@@ -12237,7 +12237,7 @@ $(pv_value)</tooltip>
     <name>Text Update_44</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>$(P)$(R)EnblMPEG-Sts</pv_name>
+    <pv_name>$(P)$(R)EnblMJPEG-Sts</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

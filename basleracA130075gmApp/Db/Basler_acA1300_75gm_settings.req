@@ -91,6 +91,6 @@ $(P)$(R)CalCenterMarkColor-SP
 # Overlay Real Center Marker Color
 $(P)$(R)RealCenterMarkColor-SP
 # Enable FFMPEG Streaming
-$(P)$(R)EnblMPEG-Sel
+$(P)$(R)EnblMJPEG-Sel
 # Enable/Select Color Conversion (for mjpg stream)
 $(P)$(R)ColorConv-Sel

@@ -1464,7 +1464,7 @@ alias(  "$(P)$(R)Stats1CentroidX_RBV",             "$(P)$(R)CenterXNDStatsRaw-Mo
 alias(  "$(P)$(R)Stats1CentroidY_RBV",             "$(P)$(R)CenterYNDStatsRaw-Mon") # NDStats centroid Y monitor
 alias(  "$(P)$(R)Stats1SigmaX_RBV",                "$(P)$(R)SigmaXNDStatsRaw-Mon")  # NDStats sigma X monitor
 alias(  "$(P)$(R)Stats1SigmaY_RBV",                "$(P)$(R)SigmaYNDStatsRaw-Mon")  # NDStats sigma Y monitor
-alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStatsRaw-Mon") # NDStats sigma XY monitor
+alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStats-Mon") # NDStats sigma XY monitor
 alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStatsRaw-Mon")   # NDStats orientation (theta) monitor
 
 # Scale and offset conversion of NDStats centroid stats
@@ -1508,15 +1508,6 @@ record(calc, "$(P)$(R)SigmaYNDStats-Mon"){
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaY_RBV CPP")
   field(INPB, "$(P)$(R)ScaleFactorY-RB")
-  field(CALC, "abs(A*B)")
-}
-
-record(calc, "$(P)$(R)SigmaXYNDStats-Mon"){
-  field(DESC, "Converted NDStats sigma XY")
-  field(PREC, "6")
-  field(EGU, "mm")
-  field(INPA, "$(P)$(R)Stats1SigmaXY_RBV CPP")
-  field(INPB, "$(P)$(R)ScaleFactorX-RB") # Use factor for x axis
   field(CALC, "abs(A*B)")
 }
 

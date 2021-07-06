@@ -6,6 +6,9 @@ ARAVISGIGE=/opt/epics/aravisGigE
 # include aravisGigE module variables
 -include $(ARAVISGIGE)/configure/RELEASE.local
 
+# ffmpegServer module path
+FFMPEGSERVER=/opt/epics/ffmpegServer
+
 # NDPluginDimFei module path
 DIMFEI=/opt/epics/NDPluginDimFei
 

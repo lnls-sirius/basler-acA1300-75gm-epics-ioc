@@ -426,7 +426,7 @@ record(sseq, "$(P)$(R)DsblAllPlugins"){
   field(STR5, "Disable")
   field(LNK5, "$(P)$(R)Stats2EnableCallbacks PP")
   field(STR6, "Disable")
-  field(LNK6, "$(P)$(R)ROI1EnableCallbacks PP")
+  field(LNK6, "$(P)$(R)ROI2EnableCallbacks PP")
   field(STR7, "Disable")
   field(LNK7, "$(P)$(R)DimFei1EnableCallbacks PP")
   field(STR8, "Disable")
@@ -455,7 +455,7 @@ record(sseq, "$(P)$(R)EnblAllPlugins"){
   field(STR5, "Enable")
   field(LNK5, "$(P)$(R)Stats2EnableCallbacks PP")
   # process 'ProfileEnbl-Sel' to restore previous
-  # 'ROI1EnableCallbacks' state
+  # 'ROI2EnableCallbacks' state
   field(DO6, "1")
   field(LNK6, "$(P)$(R)ProfileEnbl-Sel.PROC PP")
   field(STR7, "Enable")
@@ -1094,22 +1094,22 @@ record(sseq, "$(P)$(R)InitSoftROI"){
   field(SELM, "All")
   field(PINI, "YES")
 #  field(STR1, "Enable")
-#  field(LNK1, "$(P)$(R)ROI1EnableCallbacks PP")          # Soft ROI enable is controlled by a PV
+#  field(LNK1, "$(P)$(R)ROI2EnableCallbacks PP")          # Soft ROI enable is controlled by a PV
 #  field(WAIT1, "Wait")
   field(STR2, "Enable")
-  field(LNK2, "$(P)$(R)ROI1ArrayCallbacks PP")
+  field(LNK2, "$(P)$(R)ROI2ArrayCallbacks PP")
   field(WAIT2, "Wait")
   field(DLY2, "1.0")
   field(STR3, "Disable")
-  field(LNK3, "$(P)$(R)ROI1EnableZ PP")                   # Disable ROI Z axis
+  field(LNK3, "$(P)$(R)ROI2EnableZ PP")                   # Disable ROI Z axis
   field(WAIT3, "Wait")
   field(DLY3, "1.0")
   field(STR4, "Enable")
-  field(LNK4, "$(P)$(R)ROI1EnableX PP")                   # Enable ROI X axis
+  field(LNK4, "$(P)$(R)ROI2EnableX PP")                   # Enable ROI X axis
   field(WAIT4, "Wait")
   field(DLY4, "1.0")
   field(STR5, "Enable")
-  field(LNK5, "$(P)$(R)ROI1EnableY PP")                   # Enable ROI Y axis
+  field(LNK5, "$(P)$(R)ROI2EnableY PP")                   # Enable ROI Y axis
   field(WAIT5, "Wait")
   field(DLY5, "1.0")
 }
@@ -1229,6 +1229,48 @@ record(sseq, "$(P)$(R)InitOverlay1D"){ # overlay 1 layer D - real center
   field(LNK3, "$(P)$(R)Over1DShape PP")
   field(STR4, "Set")                               # maker draw mode
   field(LNK4, "$(P)$(R)Over1DDrawMode PP")
+}
+
+# ROI 1 (Main image ROI) initialization
+
+record(sseq, "$(P)$(R)InitSoftROI1"){
+  field(DESC, "Initialize ROI1 plugin")
+  field(SELM, "All")
+  field(PINI, "YES")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)ROI1EnableX PP")
+  field(STR2, "Enable")
+  field(LNK2, "$(P)$(R)ROI1EnableY PP")
+  field(STR3, "Disable")
+  field(LNK3, "$(P)$(R)ROI1EnableZ PP")
+  field(DO4, "1")
+  field(LNK4, "$(P)$(R)ROI1BinX PP")
+  field(DO5, "1")
+  field(LNK5, "$(P)$(R)ROI1BinY PP")
+  field(STR6, "Automatic")
+  field(LNK6, "$(P)$(R)ROI1DataTypeOut PP")
+  field(STR7, "Enable")
+  field(LNK7, "$(P)$(R)ROI1EnableCallbacks PP")
+  field(STR8, "Enable")
+  field(LNK8, "$(P)$(R)ROI1ArrayCallbacks PP")
+  field(FLNK, "$(P)$(R)InitSoftROI1Seq2")
+}
+
+record(sseq, "$(P)$(R)InitSoftROI1Seq2"){
+  field(DESC, "Initialize ROI1 plugin")
+  field(SELM, "All")
+  field(STR1, "No")
+  field(LNK1, "$(P)$(R)ROI1AutoSizeX PP")
+  field(STR2, "No")
+  field(LNK2, "$(P)$(R)ROI1AutoSizeY PP")
+  field(DO3, "1")
+  field(LNK3, "$(P)$(R)ROI1SizeX.DRVL PP")
+  field(DO4, "1")
+  field(LNK4, "$(P)$(R)ROI1SizeY.DRVL PP")
+  field(DO5, "0")
+  field(LNK5, "$(P)$(R)ROI1MinX.DRVL PP")
+  field(DO6, "0")
+  field(LNK6, "$(P)$(R)ROI1MinY.DRVL PP")
 }
 
 ######################################################################
@@ -1422,7 +1464,7 @@ alias(  "$(P)$(R)Stats1CentroidX_RBV",             "$(P)$(R)CenterXNDStatsRaw-Mo
 alias(  "$(P)$(R)Stats1CentroidY_RBV",             "$(P)$(R)CenterYNDStatsRaw-Mon") # NDStats centroid Y monitor
 alias(  "$(P)$(R)Stats1SigmaX_RBV",                "$(P)$(R)SigmaXNDStatsRaw-Mon")  # NDStats sigma X monitor
 alias(  "$(P)$(R)Stats1SigmaY_RBV",                "$(P)$(R)SigmaYNDStatsRaw-Mon")  # NDStats sigma Y monitor
-alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStatsRaw-Mon") # NDStats sigma XY monitor
+alias(  "$(P)$(R)Stats1SigmaXY_RBV",               "$(P)$(R)SigmaXYNDStats-Mon") # NDStats sigma XY monitor
 alias(  "$(P)$(R)Stats1Orientation_RBV",           "$(P)$(R)ThetaNDStatsRaw-Mon")   # NDStats orientation (theta) monitor
 
 # Scale and offset conversion of NDStats centroid stats
@@ -1435,7 +1477,8 @@ record(calc, "$(P)$(R)CenterXNDStats-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorX-RB")
   field(INPC, "$(P)$(R)CenterOffsetX-RB")
   field(INPD, "$(P)$(R)CalPosCenterX-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)SoftROIOffsetX-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)CenterYNDStats-Mon"){
@@ -1446,7 +1489,8 @@ record(calc, "$(P)$(R)CenterYNDStats-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorY-RB")
   field(INPC, "$(P)$(R)CenterOffsetY-RB")
   field(INPD, "$(P)$(R)CalPosCenterY-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)SoftROIOffsetY-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)SigmaXNDStats-Mon"){
@@ -1464,15 +1508,6 @@ record(calc, "$(P)$(R)SigmaYNDStats-Mon"){
   field(EGU, "mm")
   field(INPA, "$(P)$(R)Stats1SigmaY_RBV CPP")
   field(INPB, "$(P)$(R)ScaleFactorY-RB")
-  field(CALC, "abs(A*B)")
-}
-
-record(calc, "$(P)$(R)SigmaXYNDStats-Mon"){
-  field(DESC, "Converted NDStats sigma XY")
-  field(PREC, "6")
-  field(EGU, "mm")
-  field(INPA, "$(P)$(R)Stats1SigmaXY_RBV CPP")
-  field(INPB, "$(P)$(R)ScaleFactorX-RB") # Use factor for x axis
   field(CALC, "abs(A*B)")
 }
 
@@ -1503,7 +1538,8 @@ record(calc, "$(P)$(R)CenterXDimFei-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorX-RB")
   field(INPC, "$(P)$(R)CenterOffsetX-RB")
   field(INPD, "$(P)$(R)CalPosCenterX-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)SoftROIOffsetX-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)CenterYDimFei-Mon"){
@@ -1514,7 +1550,8 @@ record(calc, "$(P)$(R)CenterYDimFei-Mon"){
   field(INPB, "$(P)$(R)ScaleFactorY-RB")
   field(INPC, "$(P)$(R)CenterOffsetY-RB")
   field(INPD, "$(P)$(R)CalPosCenterY-RB")
-  field(CALC, "((A-C) * B) + D")
+  field(INPE, "$(P)$(R)SoftROIOffsetY-RB")
+  field(CALC, "((A-C+E) * B) + D")
 }
 
 record(calc, "$(P)$(R)SigmaXDimFei-Mon"){
@@ -1551,16 +1588,16 @@ record(calc, "$(P)$(R)ThetaDimFei-Mon"){
 
 ## ROI (used by stats 2)
 
-alias( "$(P)$(R)ROI1EnableCallbacks",              "$(P)$(R)ProfileEnbl-Sel")      # ROI for profile stats enable (set)
-alias( "$(P)$(R)ROI1EnableCallbacks_RBV",          "$(P)$(R)ProfileEnbl-Sts")      # ROI for profile stats enable (read)
-alias( "$(P)$(R)ROI1MinX",                         "$(P)$(R)ProfileROIOffsetX-SP") # ROI offset in the X axis (set)
-alias( "$(P)$(R)ROI1MinX_RBV",                     "$(P)$(R)ProfileROIOffsetX-RB") # ROI offset in the X axis (read)
-alias( "$(P)$(R)ROI1MinY",                         "$(P)$(R)ProfileROIOffsetY-SP") # ROI offset in the Y axis (set)
-alias( "$(P)$(R)ROI1MinY_RBV",                     "$(P)$(R)ProfileROIOffsetY-RB") # ROI offset in the Y axis (read)
-alias( "$(P)$(R)ROI1SizeX",                        "$(P)$(R)ProfileROIWidth-SP")   # ROI size in the X axis (set)
-alias( "$(P)$(R)ROI1SizeX_RBV",                    "$(P)$(R)ProfileROIWidth-RB")   # ROI size in the X axis (read)
-alias( "$(P)$(R)ROI1SizeY",                        "$(P)$(R)ProfileROIHeight-SP")  # ROI size in the Y axis (set)
-alias( "$(P)$(R)ROI1SizeY_RBV",                    "$(P)$(R)ProfileROIHeight-RB")  # ROI size in the Y axis (read) 
+alias( "$(P)$(R)ROI2EnableCallbacks",              "$(P)$(R)ProfileEnbl-Sel")      # ROI for profile stats enable (set)
+alias( "$(P)$(R)ROI2EnableCallbacks_RBV",          "$(P)$(R)ProfileEnbl-Sts")      # ROI for profile stats enable (read)
+alias( "$(P)$(R)ROI2MinX",                         "$(P)$(R)ProfileROIOffsetX-SP") # ROI offset in the X axis (set)
+alias( "$(P)$(R)ROI2MinX_RBV",                     "$(P)$(R)ProfileROIOffsetX-RB") # ROI offset in the X axis (read)
+alias( "$(P)$(R)ROI2MinY",                         "$(P)$(R)ProfileROIOffsetY-SP") # ROI offset in the Y axis (set)
+alias( "$(P)$(R)ROI2MinY_RBV",                     "$(P)$(R)ProfileROIOffsetY-RB") # ROI offset in the Y axis (read)
+alias( "$(P)$(R)ROI2SizeX",                        "$(P)$(R)ProfileROIWidth-SP")   # ROI size in the X axis (set)
+alias( "$(P)$(R)ROI2SizeX_RBV",                    "$(P)$(R)ProfileROIWidth-RB")   # ROI size in the X axis (read)
+alias( "$(P)$(R)ROI2SizeY",                        "$(P)$(R)ProfileROIHeight-SP")  # ROI size in the Y axis (set)
+alias( "$(P)$(R)ROI2SizeY_RBV",                    "$(P)$(R)ProfileROIHeight-RB")  # ROI size in the Y axis (read) 
 
 ## Profile stats for ROI (NDStats2)
 
@@ -1906,4 +1943,240 @@ record(seq, "$(P)$(R)RealCenterMarkUpdate"){       # Update real center marker p
   field(LNK1, "$(P)$(R)Over1DCenterX PP")
   field(DOL2, "$(P)$(R)RealCenterY-Mon CPP")
   field(LNK2, "$(P)$(R)Over1DCenterY PP")
+}
+
+## FFMPEG Server - Stream compressed images
+
+alias( "$(P)$(R)ffmstream1EnableCallbacks",        "$(P)$(R)EnblMJPEG-Sel") # Enable MPEG streaming (set)
+alias( "$(P)$(R)ffmstream1EnableCallbacks_RBV",    "$(P)$(R)EnblMJPEG-Sts") # Enable MPEG streaming (read)
+alias( "$(P)$(R)ffmstream1MJPG_URL_RBV",           "$(P)$(R)MJPGURL-Cte")  # MPEG stream URL (read)
+
+# Auto settings
+
+record(seq, "$(P)$(R)MPEGAutoSettings"){
+  field(DESC, "Auto set MPEG parameters")
+  field(PINI, "YES")
+  field(SELM, "All")
+  field(DO1, "1")                                  # enable array callbacks
+  field(LNK1, "$(P)$(R)ffmstream1ArrayCallbacks PP")
+  field(DOL2, "$(P)$(R)Cam1DataType_RBV CPP")      # adjust data type
+  field(LNK2, "$(P)$(R)ffmstream1DataType PP")
+  field(DOL3, "$(P)$(R)Cam1Width_RBV CPP")         # adjust data width
+  field(LNK3, "$(P)$(R)ffmstream1MAXW PP")     
+  field(DOL4, "$(P)$(R)Cam1Height_RBV CPP")        # adjust data height
+  field(LNK4, "$(P)$(R)ffmstream1MAXH PP")
+}
+
+## Color Conversion - Color convert image before streaming
+
+# Auto settings
+
+record(seq, "$(P)$(R)CC1AutoSettings"){
+  field(DESC, "Auto set CC1 parameters")
+  field(PINI, "YES")
+  field(SELM, "All")
+  field(DO1, "1")                                  # enable array callbacks
+  field(LNK1, "$(P)$(R)CC1ArrayCallbacks PP")
+  field(DOL2, "$(P)$(R)Cam1DataType_RBV CPP")      # adjust data type
+  field(LNK2, "$(P)$(R)CC1DataType PP")
+}
+
+# Configurable Settings
+
+record(mbbo, "$(P)$(R)ColorConv-Sel"){
+  field(DESC, "Color convertion for mjpg stream")
+  field(ZRVL, "0")
+  field(ZRST, "Mono")
+  field(ONVL, "1")
+  field(ONST, "Rainbow")
+  field(TWVL, "2")
+  field(TWST, "Iron")
+  field(OUT, "$(P)$(R)ColorConvCalc.A PP")
+}
+
+record(calc, "$(P)$(R)ColorConvCalc"){
+  field(DESC, "Color convertion calc")
+  field(INPA, "0")
+  field(CALC, "A=0?1:2")
+  field(FLNK, "$(P)$(R)ColorConvSeq1")
+}
+
+record(seq, "$(P)$(R)ColorConvSeq1"){
+  field(DESC, "Color convertion seq 1")
+  field(SELM, "Specified")
+  field(SELL, "$(P)$(R)ColorConvCalc")
+  field(DO1, "1")
+  field(LNK1, "$(P)$(R)ColorConvSeq2.PROC PP")
+  field(DO2, "1")
+  field(LNK2, "$(P)$(R)ColorConvSeq3.PROC PP")
+}
+
+record(sseq, "$(P)$(R)ColorConvSeq2"){
+  field(DESC, "Color convertion seq 2")
+  field(SELM, "All")
+  field(STR1, "Disable")
+  field(LNK1, "$(P)$(R)CC1EnableCallbacks PP")
+  field(STR2, "CAMPORT")
+  field(LNK2, "$(P)$(R)ffmstream1NDArrayPort PP")
+  field(STR3, "Mono")
+  field(LNK3, "$(P)$(R)ffmstream1ColorMode PP")
+  field(STR4, "Off")
+  field(LNK4, "$(P)$(R)ffmstream1FALSE_COL PP")
+  field(DOL5, "$(P)$(R)ColorConv-Sel")
+  field(LNK5, "$(P)$(R)ColorConv-Sts PP")
+}
+
+record(sseq, "$(P)$(R)ColorConvSeq3"){
+  field(DESC, "Color convertion seq 3")
+  field(SELM, "All")
+  field(STR1, "Enable")
+  field(LNK1, "$(P)$(R)CC1EnableCallbacks PP")
+  field(STR2, "Mono")
+  field(LNK2, "$(P)$(R)CC1ColorMode PP")
+  field(STR3, "RGB1")
+  field(LNK3, "$(P)$(R)CC1ColorModeOut PP")
+  field(DOL4, "$(P)$(R)ColorConv-Sel")
+  field(LNK4, "$(P)$(R)CC1FalseColor PP")
+  field(STR5, "CC1")
+  field(LNK5, "$(P)$(R)ffmstream1NDArrayPort PP")
+  field(STR6, "RGB1")
+  field(LNK6, "$(P)$(R)ffmstream1ColorMode PP")
+  field(STR7, "On")
+  field(LNK7, "$(P)$(R)ffmstream1FALSE_COL PP")
+  field(DOL8, "$(P)$(R)ColorConv-Sel")
+  field(LNK8, "$(P)$(R)ColorConv-Sts PP")
+}
+
+record(mbbi, "$(P)$(R)ColorConv-Sts"){
+  field(DESC, "Color convertion for mjpg stream Sts")
+  field(ZRVL, "0")
+  field(ZRST, "Mono")
+  field(ONVL, "1")
+  field(ONST, "Rainbow")
+  field(TWVL, "2")
+  field(TWST, "Iron")
+}
+
+## Soft ROI applied to main image
+
+alias( "$(P)$(R)ROI1MinX",         "$(P)$(R)SoftROIOffsetX-SP") # SoftROI offset x (set)
+alias( "$(P)$(R)ROI1MinX_RBV",     "$(P)$(R)SoftROIOffsetX-RB") # SoftROI offset x (read)
+alias( "$(P)$(R)ROI1MinY",         "$(P)$(R)SoftROIOffsetY-SP") # SoftROI offset y (set)
+alias( "$(P)$(R)ROI1MinY_RBV",     "$(P)$(R)SoftROIOffsetY-RB") # SoftROI offset y (read)
+alias( "$(P)$(R)ROI1SizeX",        "$(P)$(R)SoftROIWidth-SP")  # SoftROI width (set)
+alias( "$(P)$(R)ROI1SizeX_RBV",    "$(P)$(R)SoftROIWidth-RB")  # SoftROI width (read)
+alias( "$(P)$(R)ROI1SizeY",        "$(P)$(R)SoftROIHeight-SP") # SoftROI height (set)
+alias( "$(P)$(R)ROI1SizeY_RBV",    "$(P)$(R)SoftROIHeight-RB") # SoftROI height (read)
+
+# protect limits
+
+record(calcout, "$(P)$(R)SoftROIOffsetXCalc"){
+  field(DESC, "Set soft ROI offset x limit")
+  field(PINI, "YES")
+  field(INPA, "$(P)$(R)ROI1SizeX_RBV CPP")
+  field(INPB, "$(P)$(R)AOIWidth-RB CPP") # camera frame width
+  field(INPC, "$(P)$(R)ROI1MinX_RBV CPP") # used below in proc chain
+  field(CALC, "B-A")
+  field(OUT, "$(P)$(R)ROI1MinX.DRVH")
+  field(FLNK, "$(P)$(R)SoftROIOffsetXCalc2")
+}
+
+record(calcout, "$(P)$(R)SoftROIOffsetXCalc2"){
+  field(DESC, "Disable offset x when ROI size is max")
+  field(INPA, "$(P)$(R)SoftROIOffsetXCalc.VAL")
+  field(CALC, "A=0")
+  field(OUT, "$(P)$(R)ROI1MinX.DISA")
+  field(FLNK, "$(P)$(R)SoftROIWidthCalc")
+}
+
+record(calcout, "$(P)$(R)SoftROIWidthCalc"){
+  field(DESC, "Set soft ROI width limit")
+  field(INPA, "$(P)$(R)ROI1MinX_RBV")
+  field(INPB, "$(P)$(R)AOIWidth-RB") # camera frame width
+  field(CALC, "B-A")
+  field(OUT, "$(P)$(R)ROI1SizeX.DRVH")
+}
+
+record(calcout, "$(P)$(R)SoftROIOffsetYCalc"){
+  field(DESC, "Set soft ROI offset y limit")
+  field(PINI, "YES")
+  field(INPA, "$(P)$(R)ROI1SizeY_RBV CPP")
+  field(INPB, "$(P)$(R)AOIHeight-RB CPP") # camera frame height
+  field(INPC, "$(P)$(R)ROI1MinY_RBV CPP") # used below in proc chain
+  field(CALC, "B-A")
+  field(OUT, "$(P)$(R)ROI1MinY.DRVH")
+  field(FLNK, "$(P)$(R)SoftROIOffsetYCalc2")
+}
+
+record(calcout, "$(P)$(R)SoftROIOffsetYCalc2"){
+  field(DESC, "Disable offset y when ROI size is max")
+  field(INPA, "$(P)$(R)SoftROIOffsetYCalc.VAL")
+  field(CALC, "A=0")
+  field(OUT, "$(P)$(R)ROI1MinY.DISA")
+  field(FLNK, "$(P)$(R)SoftROIHeightCalc")
+}
+
+record(calcout, "$(P)$(R)SoftROIHeightCalc"){
+  field(DESC, "Set soft ROI height limit")
+  field(INPA, "$(P)$(R)ROI1MinY_RBV")
+  field(INPB, "$(P)$(R)AOIHeight-RB") # camera frame height
+  field(CALC, "B-A")
+  field(OUT, "$(P)$(R)ROI1SizeY.DRVH")
+}
+
+# Auto center ROI
+record(bo, "$(P)$(R)SoftROIAutoCenterX-Sel"){
+  field(DESC, "Auto center soft ROI along X")
+  field(PINI, "YES")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(FLNK, "$(P)$(R)SoftROIAutoCenterX-Sts")
+}
+
+record(bi, "$(P)$(R)SoftROIAutoCenterX-Sts"){
+  field(DESC, "Auto center soft ROI along X Sts")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(INP, "$(P)$(R)SoftROIAutoCenterX-Sel")
+  field(FLNK, "$(P)$(R)SoftROIAutoCenterXCalc")
+}
+
+record(calcout, "$(P)$(R)SoftROIAutoCenterXCalc"){
+  field(DESC, "Validate auto center x cmd")
+  field(INPA, "$(P)$(R)SoftROIAutoCenterX-Sts")
+  field(INPB, "$(P)$(R)AOIWidth-RB")
+  field(INPC, "$(P)$(R)ROI1SizeX_RBV CPP")
+  field(CALC, "A")
+  field(OCAL, "(B-C)*0.5")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use OCAL")
+  field(OUT, "$(P)$(R)ROI1MinX PP")
+}
+
+record(bo, "$(P)$(R)SoftROIAutoCenterY-Sel"){
+  field(DESC, "Auto center soft ROI along Y")
+  field(PINI, "YES")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(FLNK, "$(P)$(R)SoftROIAutoCenterY-Sts")
+}
+
+record(bi, "$(P)$(R)SoftROIAutoCenterY-Sts"){
+  field(DESC, "Auto center soft ROI along Y Sts")
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+  field(INP, "$(P)$(R)SoftROIAutoCenterY-Sel")
+  field(FLNK, "$(P)$(R)SoftROIAutoCenterYCalc")
+}
+
+record(calcout, "$(P)$(R)SoftROIAutoCenterYCalc"){
+  field(DESC, "Validate auto center y cmd")
+  field(INPA, "$(P)$(R)SoftROIAutoCenterY-Sts")
+  field(INPB, "$(P)$(R)AOIHeight-RB")
+  field(INPC, "$(P)$(R)ROI1SizeY_RBV CPP")
+  field(CALC, "A")
+  field(OCAL, "(B-C)*0.5")
+  field(OOPT, "When Non-zero")
+  field(DOPT, "Use OCAL")
+  field(OUT, "$(P)$(R)ROI1MinY PP")
 }
